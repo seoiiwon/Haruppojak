@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Write Diary</title>
-    <link rel="stylesheet" href="../../static/css/DiaryPage/wrtieDiary.css" />
+    <link rel="stylesheet" href="../../static/css/DiaryPage/writeDiary.css" />
     <script>
       // 현재 날짜를 가져와서 표시
       window.onload = function () {
@@ -42,32 +42,34 @@
   </head>
   <body>
     <div class="container">
-      <div class="header">
-        <img
-          src="path/to/weather-image.jpg"
-          alt="Weather Image"
-          class="weather-image"
-        />
-        <div id="current-date" class="date"></div>
-        <div class="header-text">오늘은 화창한 뽀짝데이였어요!</div>
-      </div>
-      <button onclick="showSampleModal()" class="todo-button">
-        오늘의 To Do 불러오기
-      </button>
-      <div class="modal" id="modal">
-        <div class="modal-content">
-          <span class="close-button" onclick="closeModal()">&times;</span>
-          <p>샘플 모달 내용</p>
+      <div class="content">
+        <div class="header">
+          <img
+            src="path/to/weather-image.jpg"
+            alt="Weather Image"
+            class="weather-image"
+          />
+          <div id="current-date" class="date"></div>
+          <div class="header-text">오늘은 화창한 뽀짝데이였어요!</div>
         </div>
-      </div>
-      <textarea
-        class="diary-textfield"
-        placeholder="오늘의 뽀짝을 기록해 보아요"
-      ></textarea>
-      <div class="footer">
-        <a href="#" onclick="goToReply()"
-          >오늘의 뽀짝을 기록하셨나요?<br />뽀짝이가 답장을 써줄 거예요!</a
-        >
+        <button onclick="showSampleModal()" class="todo-button">
+          오늘의 To Do 불러오기
+        </button>
+        <div class="modal" id="modal">
+          <div class="modal-content">
+            <span class="close-button" onclick="closeModal()">&times;</span>
+            <p>샘플 모달 내용</p>
+          </div>
+        </div>
+        <textarea
+          class="diary-textfield"
+          placeholder="오늘의 뽀짝을 기록해 보아요"
+        ></textarea>
+        <div class="footer">
+          <a href="#" onclick="goToReply()"
+            >오늘의 뽀짝을 기록하셨나요?<br />뽀짝이가 답장을 써줄 거예요!</a
+          >
+        </div>
       </div>
     </div>
   </body>

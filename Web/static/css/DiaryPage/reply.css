@@ -7,38 +7,45 @@
 
 body {
   font-family: 'Pretendard-Regular', sans-serif;
-  background-color: #2F4858;
+  background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
   margin: 0;
-  position: relative;
 }
 
 .container {
   display: flex;
-  position: relative;
-  width: 375px;
-  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  max-width: 800px;
   background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.content {
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
 .frame-image {
   position: absolute;
-  top: 60px;
-  left: 21px;
+  top: 50%;
+  left: 50%;
   width: 335px;
   height: auto;
+  transform: translate(-50%, -50%);
 }
 
 .title {
   position: absolute;
-  top: 108px;
-  left: 64px;
+  top: calc(50% - 130px); /* Frame 이미지의 중앙에서 위로 130px */
+  left: calc(50% + 90px); /* Frame 이미지의 중앙에서 오른쪽으로 90px */
   font-size: 24px;
   font-weight: bold;
   color: #333;
@@ -46,16 +53,16 @@ body {
 
 .date {
   position: absolute;
-  top: 136px;
-  left: 64px;
+  top: calc(50% - 100px); /* Frame 이미지의 중앙에서 위로 100px */
+  left: calc(50% + 90px); /* Frame 이미지의 중앙에서 오른쪽으로 90px */
   font-size: 14px;
   color: #333;
 }
 
 .reply-text {
   position: absolute;
-  top: 182px; 
-  left: 51px;
+  top: 50%;
+  left: 50%;
   width: 251px;
   height: 400px;
   padding: 10px;
@@ -64,4 +71,5 @@ body {
   font-size: 14px;
   color: #333;
   background-color: #fefefe;
+  transform: translate(-50%, -50%);
 }
