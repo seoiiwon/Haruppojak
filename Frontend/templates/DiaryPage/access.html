@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Diary Login Screen</title>
+    <link rel="stylesheet" href="../../static/css/DiaryPage/access.css" />
+    <script>
+      // 페이지 로드 후 2초 뒤에 writeDiary.html로 이동
+      window.onload = function () {
+        setTimeout(function () {
+          window.location.href = 'wrtieDiary.html';
+        }, 1500);
+      };
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="text" id="text1">뽀짝리스트를 모두 완료하셨나요?</div>
+      <div class="spacer-small"></div>
+      <div class="text bold">
+        그렇다면 오늘의 한 걸음을<br />뽀짝데이로 기록할 시간이에요!
+      </div>
+      <div class="spacer-large"></div>
+      <div class="text">304일째 뽀짝데이를 기록 중이에요!</div>
+    </div>
+  </body>
+</html>

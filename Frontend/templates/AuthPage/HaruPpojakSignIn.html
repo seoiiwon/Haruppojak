@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/AuthPage/HaruPpojakSignIn.css">
+    <script src="/static/js/AuthPage/HaruPpojakSignIn.js" defer></script>
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <div class="HPIntroBox">
+            <h1 class="HPIntroTitleBox">
+                <div class="HPIcon">ㅇ</div>
+                <div class="HPTitle">하루뽀짝</div>
+            </h1>
+        </div>
+        <form method="post" action="" class="HPSignIn">
+            <input type="text" placeholder="아이디" class="SignInID">
+            <input type="password" placeholder="비밀번호" class="SignInPW">
+            <input type="submit" value="로그인" class="SignInBtn">
+        </form>
+        <div class="SignOptionBtn">
+            <span class="SignUp" onclick="goToSignUpPage()">회원가입</span>
+            &nbsp;|&nbsp;
+            <span class="FindID">아이디 찾기</span>
+            &nbsp;|&nbsp;
+            <span class="FindPW">비밀번호 찾기</span>
+        </div>
+    </div>
+</body>
+</html>

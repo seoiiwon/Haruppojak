@@ -1,0 +1,77 @@
+@font-face {
+    font-weight: 400;
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+}
+
+body {
+    font-family: 'Pretendard-Regular';
+    font-weight: bold;
+    background-color: #2F4858;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.IntroComment {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80vw;
+    color: white;
+}
+.IntroComment div {
+    margin-bottom: 1vh;
+}
+.MiracleEveningTxt {
+    color: #fff23a;
+}
+
+
+
+.TodoBox {
+    width: 60vw;
+    height: 30vh;
+    position: absolute;
+    top: 52%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding-bottom: 1vh;
+}
+.TodoBox div {
+    border-bottom: 1px dotted white;
+    padding-bottom: 1vh;
+    margin-bottom: 3vh;
+    
+}
+.TodoBox div input {
+    width: 50vw;
+    height: 3vh;
+}
+
+.AddTodo {
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.8rem;
+    font-weight: lighter;
+    color: white;
+}
+
+.AddComplete {
+    width: 20vw;
+    height: 3vh;
+    position: absolute;
+    top: 77%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    background-color: #2F4858;
+    border: 0.5px solid white;
+    border-radius: 10px;
+}
