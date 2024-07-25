@@ -2,7 +2,6 @@ from fastapi import APIRouter, Depends, Request, status, HTTPException, Form
 from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
-from config.database import get_db
 import os
 
 router = APIRouter()
@@ -27,7 +26,7 @@ async def getSignUpPage(request : Request):
 async def getIntroPage(request : Request):
     return templates.TemplateResponse("HaruPpojakIntroPage.html", {"request" : request})
 
-@router.get("/HaruPpojak/Cam", response_class=HTMLResponse)
+@router.get("/HP/Cam", response_class=HTMLResponse)
 async def getUserCam(request : Request):
     return templates.TemplateResponse("HaruPpojakCamera.html", {"request" : request})
 
