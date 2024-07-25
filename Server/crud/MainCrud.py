@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from datetime import datetime
-from models import TodoListModel
-from schemas import TodoListSchema
+from Server.models import TodoListModel
+from Server.schemas import TodoListSchema
 
 
 def get_todos(db: Session):  # 투두리스트 조회
