@@ -1,3 +1,3 @@
 function goToSignUpPage() {
-    window.location.href = 'HaruPpojakSignUp.html';
+    window.location.href = '/auth/signup';
 }
