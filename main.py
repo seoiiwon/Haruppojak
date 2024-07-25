@@ -1,11 +1,11 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.cors import CORSMiddleware
-from api import AuthRouter, CalendarRouter, MainRouter,DiaryRouter, ProfileRouter
+from Server.api.AuthRouter import auth_router
 
 app = FastAPI()
 
-# app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/static", StaticFiles(directory="Web/static"), name="static")
 
 app.add_middleware(
     CORSMiddleware,
@@ -15,5 +15,4 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(router.router)
-
+app.include_router(auth_router)
