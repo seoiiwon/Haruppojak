@@ -52,3 +52,8 @@ document.addEventListener('DOMContentLoaded', function() {
         return true;
     }
 });
+
+
+function goToSignInPage() {
+    window.location.href = '/';
+}

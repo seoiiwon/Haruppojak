@@ -1,0 +1,35 @@
+@font-face {
+    font-weight: 400;
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+}
+
+body {
+    font-family: 'Pretendard-Regular';
+    font-weight: bold;
+    background-color: #2F4858;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+/* #userCam {
+    transform: scaleX(-1);
+    width: 400px;
+    height: 600px;
+} */
+
+#userCam {
+    transform: scaleX(-1); /* 좌우 반전 */
+    width: 400px;
+    height: 600px;
+}
+.result {
+    margin-top: 20px;
+}
+.result img {
+    width: 400px;
+    height: 600px;
+}

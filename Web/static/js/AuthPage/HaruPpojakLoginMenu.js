@@ -1,5 +1,5 @@
 function goToSignInPage() {
-    window.location.href = 'HaruPpojakSignIn.html';
+    window.location.href = '/auth/signin';
 }
 
 window.onload = function() {
