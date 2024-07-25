@@ -1,28 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Reply</title>
-    <link rel="stylesheet" href="../../static/css/DiaryPage/reply.css">
+    <link rel="stylesheet" href="../../static/css/DiaryPage/reply.css" />
     <script>
-        // 현재 날짜를 가져와서 표시
-        window.onload = function() {
-            var today = new Date();
-            var dayNames = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
-            var date = today.getFullYear() + '년 ' + (today.getMonth() + 1) + '월 ' + today.getDate() + '일 ' + dayNames[today.getDay()];
-            document.getElementById('current-date').innerText = date;
-        };
+      // 현재 날짜를 가져와서 표시
+      window.onload = function () {
+        var today = new Date();
+        var dayNames = [
+          '일요일',
+          '월요일',
+          '화요일',
+          '수요일',
+          '목요일',
+          '금요일',
+          '토요일',
+        ];
+        var date =
+          today.getFullYear() +
+          '년 ' +
+          (today.getMonth() + 1) +
+          '월 ' +
+          today.getDate() +
+          '일 ' +
+          dayNames[today.getDay()];
+        document.getElementById('current-date').innerText = date;
+      };
     </script>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <img src="../../static/img/DiaryPage/Frame.png" alt="Frame Image" class="frame-image">
+      <div class="content">
+        <img
+          src="../../static/img/DiaryPage/Frame.png"
+          alt="Frame Image"
+          class="frame-image"
+        />
         <div class="title">뽀짝이의 답장</div>
         <div class="date" id="current-date"></div>
         <div class="reply-text">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque imperdiet, urna at ullamcorper condimentum, justo arcu facilisis velit, ut facilisis libero libero vel nisi. Duis nec dolor nec quam ullamcorper bibendum. Ut bibendum, orci non vehicula volutpat, odio nisl dignissim lorem, nec malesuada nisl urna ut nunc. Aliquam erat volutpat. Ut tempor orci a nisi commodo, in malesuada turpis euismod. Suspendisse potenti. Phasellus et libero nec ligula placerat luctus.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
+          imperdiet, urna at ullamcorper condimentum, justo arcu facilisis
+          velit, ut facilisis libero libero vel nisi. Duis nec dolor nec quam
+          ullamcorper bibendum. Ut bibendum, orci non vehicula volutpat, odio
+          nisl dignissim lorem, nec malesuada nisl urna ut nunc. Aliquam erat
+          volutpat. Ut tempor orci a nisi commodo, in malesuada turpis euismod.
+          Suspendisse potenti. Phasellus et libero nec ligula placerat luctus.
         </div>
+      </div>
     </div>
-</body>
+  </body>
 </html>
