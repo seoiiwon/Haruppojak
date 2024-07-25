@@ -37,4 +37,4 @@ uvicorn main:app --reload
 ### 🧑🏻‍💻 팀원
 | 이미지 | 이미지 | 이미지 | 이미지 | 이미지 |
 |:--:|:--:|:--:|:--:|:--:|
-| 서지원 (FE, BE) <br> seoiiwon <br> wldnjstj99@gmail.com | 김수인 (FE) <br> its-me-meow <br> haruppojak@gmail.com | 이가흔 (FE) <br> comgear1217 <br> haruppojak@gmail.com | 이우찬 (BE) <br> Gromit-IT <br> haruppojak@gmail.com | 이채현 (BE) <br> codwix <br> haruppojak@gmail.com |
+| 서지원 (FE, BE) <br> seoiiwon | 김수인 (FE) <br> its-me-meow | 이가흔 (FE) <br> comgear1217 | 이우찬 (BE) <br> Gromit-IT | 이채현 (BE) <br> codwix |
