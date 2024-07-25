@@ -32,12 +32,11 @@ body {
 }
 
 
-
 .TodoBox {
     width: 60vw;
     height: 30vh;
     position: absolute;
-    top: 52%;
+    top: 55%;
     left: 50%;
     transform: translate(-50%, -50%);
     padding-bottom: 1vh;
