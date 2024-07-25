@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/css/AuthPage/HaruPpojakSignUp.css">
-    <script src="/static/js/AuthPage/HaruPpojakSignUp.js" defer></script>
+    <link rel="stylesheet" href="{{ url_for('static', path='css/AuthPage/HaruPpojakSignUp.css') }}"/>
+    <script src="{{ url_for('static', path='js/AuthPage/HaruPpojakSignUp.js') }}" defer></script>
     <title>Document</title>
 </head>
 <body>
@@ -25,7 +25,7 @@
             <input type="text" id="Name" placeholder="이름을 입력해주세요.">
             <input type="text" id="Email" placeholder="이메일을 입력해주세요.">
             <input type="text" id="Birth" placeholder="생년월일 6자리를 입력해주세요.">
-            <input type="submit" class="SignUpComplete" value="가입하기">
+            <input type="submit" class="SignUpComplete" value="가입하기" onclick="goToSignInPage()">
         </div>
     </form>
 </body>
