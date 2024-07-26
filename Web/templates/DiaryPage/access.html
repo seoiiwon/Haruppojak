@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -25,6 +25,85 @@
         <div class="spacer-large"></div>
         <div class="text">305일째 뽀짝데이를 기록 중이에요!</div>
       </div>
+    </div>
+  </body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Write Diary</title>
+    <link rel="stylesheet" href="../../static/css/DiaryPage/writeDiary.css" />
+    <link rel="stylesheet" href="../../static/css/DiaryPage/tabber.css" />
+    <script src="../../static/js/tabber.js" defer></script>
+    <script>
+      // 현재 날짜를 가져와서 표시
+      window.onload = function () {
+        var today = new Date();
+        var date =
+          today.getFullYear() +
+          '년 ' +
+          (today.getMonth() + 1) +
+          '월 ' +
+          today.getDate() +
+          '일';
+        document.getElementById('current-date').innerText = date;
+      };
+
+      // 모달을 여는 함수
+      function openModal() {
+        document.getElementById('modal').style.display = 'block';
+      }
+
+      // 모달을 닫는 함수
+      function closeModal() {
+        document.getElementById('modal').style.display = 'none';
+      }
+
+      // '오늘의 To Do 불러오기' 클릭 시 모달을 열기
+      function showSampleModal() {
+        openModal();
+      }
+
+      // '뽀짝이가 답장을 써줄 거예요!' 클릭 시 'reply.html'로 이동
+      function goToReply() {
+        window.location.href = 'reply.html';
+      }
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="content">
+        <div class="header">
+          <img
+            src="../../static/img/DiaryPage/sun.max.png"
+            alt="Weather Image"
+            class="weather-image"
+          />
+          <div id="current-date" class="date"></div>
+          <div class="header-text">오늘은 화창한 뽀짝데이였어요!</div>
+        </div>
+        <button onclick="showSampleModal()" class="todo-button">
+          오늘의 To Do 불러오기
+        </button>
+        <div class="modal" id="modal">
+          <div class="modal-content">
+            <span class="close-button" onclick="closeModal()">&times;</span>
+            <p>샘플 모달 내용</p>
+          </div>
+        </div>
+        <textarea
+          class="diary-textfield"
+          placeholder="오늘의 뽀짝을 기록해 보아요"
+        ></textarea>
+        <div class="footer">
+          <a href="#" onclick="goToReply()"
+            >오늘의 뽀짝을 기록하셨나요?<br />뽀짝이가 답장을 써줄 거예요!</a
+          >
+        </div>
+      </div>
+      <div id="tabbar-placeholder"></div>
     </div>
   </body>
 </html>

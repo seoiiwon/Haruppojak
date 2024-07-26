@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Write Diary</title>
     <link rel="stylesheet" href="../../static/css/DiaryPage/writeDiary.css" />
+    <link rel="stylesheet" href="../../static/css/tabbar.css" />
     <script>
       // 현재 날짜를 가져와서 표시
       window.onload = function () {
@@ -45,7 +46,7 @@
       <div class="content">
         <div class="header">
           <img
-            src="path/to/weather-image.jpg"
+            src="../../static/img/DiaryPage/sun.max.png"
             alt="Weather Image"
             class="weather-image"
           />
@@ -69,7 +70,29 @@
           <a href="#" onclick="goToReply()"
             >오늘의 뽀짝을 기록하셨나요?<br />뽀짝이가 답장을 써줄 거예요!</a
           >
+          <!-- 탭바 시작 -->
+          <div class="tabbar">
+            <div class="tab">
+              <img src="../../static/img/tabbar/홈-off.png" alt="Home" />
+            </div>
+            <div class="tab">
+              <img
+                src="../../static/img/tabbar/캘린더-off.png"
+                alt="Calendar"
+              />
+            </div>
+            <div class="tab">
+              <img src="../../static/img/tabbar/일기-off.png" alt="Diary" />
+            </div>
+            <div class="tab">
+              <img
+                src="../../static/img/tabbar/마이페이지-off.png"
+                alt="MyPage"
+              />
+            </div>
+          </div>
         </div>
+        <!-- 탭바 끝 -->
       </div>
     </div>
   </body>
