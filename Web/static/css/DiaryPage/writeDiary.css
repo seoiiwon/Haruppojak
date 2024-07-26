@@ -29,6 +29,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
 }
 
 .content {
@@ -36,43 +37,56 @@ body {
   padding: 20px;
   box-sizing: border-box;
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .header {
-  margin-bottom: 20px;
+  display: flex;
+  width: calc(100% - 80px);
+  flex-direction: row;
+  margin-bottom: 38px;
 }
 
 .weather-image {
-  width: 100px;
-  height: 100px;
+  width: 45px;
+  height: 45px;
+  margin-right: 20px;
+  margin-top: 6px;
+}
+
+.date-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
 }
 
 .date {
   font-size: 16px;
-  margin-top: 10px;
+  margin-top: 5px;
 }
 
 .header-text {
-  font-size: 18px;
+  font-size: 16px;
   margin-top: 10px;
   font-weight: bold;
 }
 
 .todo-button {
   display: block;
-  width: 100%;
+  width: calc(100% - 80px);
   padding: 10px;
-  background-color: #4caf50;
-  color: white;
+  color: black; /* 3번 수정 사항 */
+  background-color: transparent;
   border: none;
-  border-radius: 5px;
   font-size: 16px;
   cursor: pointer;
-  margin-bottom: 20px;
-}
-
-.todo-button:hover {
-  background-color: #45a049;
+  margin-bottom: 40px; /* 6번 수정 사항 */
+  text-align: left;
 }
 
 .modal {
@@ -113,19 +127,65 @@ body {
 }
 
 .diary-textfield {
-  width: calc(100% - 100px);
+  width: calc(100% - 40px);
   height: 456px;
   padding: 10px;
-  border: 3px dashed #ccc;
+  border: 3px dashed #2f4858;
   border-radius: 5px;
   font-size: 16px;
-  margin-bottom: 20px;
+  margin-bottom: 36px;
   box-sizing: border-box;
 }
 
+.diary-textfield::placeholder {
+  color: #e5e5e5;
+  position: relative;
+  top: 8px;
+  left: 8px;
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #2f4858;
+}
+
 .footer a {
-  color: #4caf50;
+  color: #2f4858;
   text-decoration: none;
   font-size: 14px;
   text-decoration: underline;
+  text-decoration-color: #97a3ab;
+}
+
+.tabbar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  max-width: 800px;
+  height: 60px;
+  background-color: #f8f9fa;
+  border-top: 1px solid #ddd;
+  position: fixed;
+  bottom: 0;
+  z-index: 1000;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+}
+
+.tab {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #333;
+}
+
+.tab img {
+  width: 48px;
+  height: 40px;
+  margin-bottom: 5px;
 }
