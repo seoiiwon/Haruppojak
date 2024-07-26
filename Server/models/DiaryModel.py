@@ -11,8 +11,8 @@ class UserDiary(Base):
 
     Date = Column(DateTime, nullable=False)
     Diarycontent = Column(Text,nullable=False)
-    Response = Column(Text,nullable=False)
-    Diarytodo = Column(String, nullable=True)
+    # Response = Column(Text,nullable=False)
+    # Diarytodo = Column(String, nullable=True)
     
     # Diaryuserid = Column(Integer, ForeignKey('userinfo.id'))
     # Diaryuser =  relationship("UserInfo", back_populates="Diary")

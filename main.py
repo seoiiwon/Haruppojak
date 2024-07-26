@@ -2,7 +2,6 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.cors import CORSMiddleware
 from Server.api.AuthRouter import auth_router
-
 from Server.api.DiaryRouter import DiaryRouter
 from Server.api.MainRouter import Main_router
 
