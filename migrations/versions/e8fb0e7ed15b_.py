@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: bcf670db976e
+Revision ID: e8fb0e7ed15b
 Revises: 
-Create Date: 2024-07-24 19:40:26.543184
+Create Date: 2024-07-26 17:50:48.932105
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = 'bcf670db976e'
+revision: str = 'e8fb0e7ed15b'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -40,14 +40,21 @@ def upgrade() -> None:
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('userID', sa.String(), nullable=False),
     sa.Column('userPassword', sa.String(), nullable=False),
-    sa.Column('userName', sa.String(), nullable=False),
-    sa.Column('userBirth', sa.Date(), nullable=False),
-    sa.Column('userEmail', sa.String(), nullable=False),
+    sa.Column('userName', sa.String(length=25), nullable=False),
+    sa.Column('userBirth', sa.Integer(), nullable=False),
+    sa.Column('userEmail', sa.String(length=255), nullable=False),
     sa.Column('userGender', sa.Integer(), nullable=False),
     sa.Column('userPpojakCoin', sa.Integer(), nullable=False),
     sa.Column('userProfileName', sa.String(), nullable=False),
     sa.Column('userProfileComment', sa.String(), nullable=True),
-    sa.PrimaryKeyConstraint('id')
+    sa.Column('created_at', sa.DateTime(), nullable=True),
+    sa.Column('role', sa.Enum('ADMIN', 'EDITOR', 'READER', name='userrole'), nullable=True),
+    sa.Column('follower', sa.Integer(), nullable=True),
+    sa.Column('following', sa.Integer(), nullable=True),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('userEmail'),
+    sa.UniqueConstraint('userID'),
+    sa.UniqueConstraint('userName')
     )
     # ### end Alembic commands ###
 

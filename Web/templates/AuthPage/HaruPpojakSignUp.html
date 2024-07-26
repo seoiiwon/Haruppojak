@@ -14,18 +14,22 @@
             <div class="HPTitle">하루뽀짝</div>
         </h1>
     </div>
-    <form action="post" class="SignUpForm">
+    <form id="SignUpForm" class="SignUpForm">
         <div class="FirstForm active">
             <input type="text" id="ID" placeholder="아이디를 입력해주세요.">
             <input type="password" id="PW" placeholder="비밀번호를 입력해주세요.">
             <input type="password" id="PWCheck" placeholder="비밀번호를 다시 입력해주세요.">
             <input type="button" class="NextBtn" value="다음">
         </div>
-        <div class="SecondForm">
+        <div class="SecondForm hidden">
             <input type="text" id="Name" placeholder="이름을 입력해주세요.">
-            <input type="text" id="Email" placeholder="이메일을 입력해주세요.">
+            <input type="email" id="Email" placeholder="이메일을 입력해주세요.">
             <input type="text" id="Birth" placeholder="생년월일 6자리를 입력해주세요.">
-            <input type="submit" class="SignUpComplete" value="가입하기" onclick="goToSignInPage()">
+            <div>
+                <input type="radio" id="Male" name="Gender" value="0"> <label for="Male">남성</label>
+                <input type="radio" id="Female" name="Gender" value="1"> <label for="Female">여성</label>
+            </div>
+            <input type="submit" class="SignUpComplete" value="가입하기">
         </div>
     </form>
 </body>
