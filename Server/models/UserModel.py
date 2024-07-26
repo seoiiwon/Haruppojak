@@ -22,13 +22,13 @@ class UserInfo(Base):
     userEmail = Column(String(255), nullable=False, unique=True)
     userGender = Column(Integer, nullable=False)
 
-    userPpojakCoin = Column(Integer, nullable=False, default=0) # 디폴트 0
-    userProfileName = Column(String, nullable=False) # ID 값으로 통일 시키는게 좋을듯
-    userProfileComment = Column(String, nullable=True, default="") # 디폴트 ""
+    userPpojakCoin = Column(Integer, nullable=False, default=0)
+    userProfileName = Column(String, nullable=False)
+    userProfileComment = Column(String, nullable=True, default="")
 
     created_at = Column(DateTime, default=datetime.now)
 
     role = Column(Enum(UserRole), default=UserRole.READER)
 
-    # Follower, Following column 추가
-    # Follower, Following column 추가
+    follower = Column(Integer, default=0)
+    following = Column(Integer, default=0)

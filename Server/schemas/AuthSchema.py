@@ -1,0 +1,55 @@
+from pydantic import BaseModel, EmailStr, Field, field_validator
+from datetime import datetime
+from typing import Optional
+from enum import Enum
+
+class UserRole(str, Enum):
+    ADMIN = "admin"
+    EDITOR = "editor"
+    READER = "reader"
+
+class UserInfoSchema(BaseModel):
+    userID: str
+    userPassword: str
+    userName: str
+    userBirth: int
+    userEmail: EmailStr
+    userGender: int
+    userPpojakCoin: Optional[int] = Field(0)
+    userProfileName: str
+    userProfileComment: Optional[str] = Field("")
+    created_at: Optional[datetime] = Field(default_factory=datetime.now)
+    role: Optional[UserRole] = Field(UserRole.READER)
+    follower: Optional[int] = Field(0)
+    following: Optional[int] = Field(0)
+
+
+    @field_validator('userBirth')
+    def validate_birth_year(cls, value):
+        monthDict = {"31month": [1, 3, 5, 7, 8, 10, 12], "30month": [4, 6, 9, 11], "28month": [2]}
+        year = value // 10000
+        month = (value % 10000) // 100
+        day = value % 100
+
+        if year <= datetime.now().year % 100:
+            year += 2000
+        else:
+            year += 1900
+
+        if year % 4 == 0 and (year % 100 != 0 or year % 400 == 0):
+            leap = True
+        else:
+            leap = False
+
+        if month < 1 or month > 12:
+            raise ValueError('Invalid month')
+
+        if (month in monthDict["31month"] and 1 <= day <= 31) or \
+           (month in monthDict["30month"] and 1 <= day <= 30) or \
+           (month == 2 and ((leap and 1 <= day <= 29) or (not leap and 1 <= day <= 28))):
+            return value
+        else:
+            raise ValueError('Invalid birth')
+
+    class Config:
+        orm_mode = True
