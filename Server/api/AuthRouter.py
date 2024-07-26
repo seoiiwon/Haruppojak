@@ -1,10 +1,10 @@
-from fastapi import APIRouter, Depends, Request, status, HTTPException, Form
+from fastapi import APIRouter, Depends, Request, status, HTTPException, Form, security
 from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from Server.config.database import get_db
 from Server.schemas.AuthSchema import UserInfoSchema
-from Server.crud.AuthCrud import signup
+from Server.crud.AuthCrud import signup, getUser
 from Server.models.UserModel import UserInfo
 import os
 
@@ -35,23 +35,16 @@ async def getIntroPage(request : Request):
 async def getUserCam(request : Request):
     return templates.TemplateResponse(name="HaruPpojakCamera.html", request=request)
 
+
+# post api
+
 @router.post("/auth/signup", status_code=status.HTTP_204_NO_CONTENT)
-async def postUserSignUp(newUserInfo : UserInfoSchema, db : Session=Depends(get_db)):
+async def postUserSignUp(newUserInfo: UserInfoSchema, db: Session = Depends(get_db)):
     userData = db.query(UserInfo).filter(UserInfo.userID == newUserInfo.userID).first()
     if userData:
-        raise HTTPException(status_code=400, detail="이미 존재하는 사용자입니다.")
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="이미 존재하는 사용자입니다.")
     signup(db=db, user=newUserInfo)
-    return userData
+    return {"detail": "회원가입 완료"}
     
-
-
-# @app.post("/signup", response_model=UserInfoSchema)
-# def create_user(user: UserInfoSchema, db: Session = Depends(get_db)):
-#     db_user = db.query(UserInfo).filter(UserInfo.userID == user.userID).first()
-#     if db_user:
-#         raise HTTPException(status_code=400, detail="UserID already registered")
-
-#     return db_user
-
 
 auth_router = router
