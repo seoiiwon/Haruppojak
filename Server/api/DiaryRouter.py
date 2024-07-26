@@ -13,12 +13,20 @@ template_dir = os.path.join(os.path.dirname(__file__), "../../Web/templates/Diar
 templates = Jinja2Templates(directory=template_dir)
 
 
+@router.get("/diary/access", response_class=HTMLResponse)
+async def writediaryhtml(request : Request):
+    return templates.TemplateResponse("access.html", {"request" : request})
+
 @router.get("/diary/write", response_class=HTMLResponse)
-async def getSignInPage(request : Request):
+async def writediaryhtml(request : Request):
     return templates.TemplateResponse("writeDiary.html", {"request" : request})
 
 @router.post("/diary/write", status_code=status.HTTP_204_NO_CONTENT)
-async def creatediarys(creatediarys : CreateDiarySchema, db : Session=Depends(get_db)):
-    return CreateDiary(db=db, diary=creatediarys)
+async def writediarys(writediarys : CreateDiarySchema, db : Session=Depends(get_db)):
+    return CreateDiary(db=db, diary=writediarys)
+
+@router.get("/diary/reply", response_class=HTMLResponse)
+async def diaryreplyhtml(request : Request):
+    return templates.TemplateResponse("reply.html", {"request" : request})
 
 DiaryRouter = router
