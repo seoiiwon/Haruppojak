@@ -9,7 +9,7 @@ openai.api_key = OPENAI_API_KEY
 
 model = "gpt-3.5-turbo"
 
-query = "내가 좋아하는 사람이 생겼다. 너무 예뻐서 다가가기 어렵다..."
+query = "살려줘.. 너무 피곤해"
 
 messages =[{
     "role" : "system",
