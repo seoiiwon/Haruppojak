@@ -4,7 +4,7 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from Server.config.database import get_db
 from Server.schemas.AuthSchema import UserInfoSchema
-from Server.crud.AuthCrud import signup, getUser
+from Server.crud.AuthCrud import signup, getUser, verifyPW
 from Server.models.UserModel import UserInfo
 import os
 
@@ -46,5 +46,17 @@ async def postUserSignUp(newUserInfo: UserInfoSchema, db: Session = Depends(get_
     signup(db=db, user=newUserInfo)
     return {"detail": "회원가입 완료"}
     
+@router.post("/auth/signin")
+async def postUserSignIn(loginForm : security.OAuth2PasswordRequestForm = Depends(), db : Session = Depends(get_db)):
+    user = getUser(db, loginForm.username)
+    if not user:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="회원가입이 필요합니다.")
+    
+    res = verifyPW(loginForm.password, user.userPassword)
+    if not res:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="아이디나 비밀번호를 확인해주세요.")
+    
+    return HTTPException(status_code=status.HTTP_200_OK, detail="로그인 성공!")
 
-auth_router = router
+
+authRouter = router

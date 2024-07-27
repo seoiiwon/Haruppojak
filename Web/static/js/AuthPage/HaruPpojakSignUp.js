@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const firstForm = document.querySelector('.FirstForm');
     const secondForm = document.querySelector('.SecondForm');
     const nextButton = document.querySelector('.NextBtn');
-    // const submitButton = document.querySelector('.SignUpComplete');
     const signUpForm = document.getElementById('SignUpForm');
 
     // show second form when next button clicked

@@ -26,7 +26,7 @@ def signup(db : Session, user : AuthSchema.UserInfoSchema):
     return user
 
 def getUser(db : Session, ID : str):
-    return db.query(UserModel.UserInfo).filter(UserModel.UserInfo.userID == ID).first
+    return db.query(UserModel.UserInfo).filter(UserModel.UserInfo.userID == ID).first()
 
 def verifyPW(plainPW, hashedPW):
     return passwordContext.verify(plainPW, hashedPW)
