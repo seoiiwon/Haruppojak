@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page</title>
+    <link rel="stylesheet" href="../../static/css/MainPage/mainPage.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <!-- 로고, 날짜표시 -->
+            <img src="logo.png" alt="하루뽀짝" class="logo">
+            <div class="date" id="dateContainer">
+                <span id="past2"></span>
+                <span id="past1"></span>
+                <span id="today"></span>
+                <span id="future1"></span>
+                <span id="future2"></span>
+            </div>
+        </header>
+        <main>
+            <section class="todoList">
+                <!-- 섹션 1 : 투두 리스트 -->
+                <ul>
+                    <li>
+                        <input type="checkbox">
+                        <input type="text" placeholder="오늘의 투두를 입력해주세요." class="todoContent">
+                        <hr>
+                    </li>
+                    <li>
+                        <input type="checkbox">
+                        <input type="text" placeholder="오늘의 투두를 입력해주세요." class="todoContent">
+                        <hr>
+                    </li>
+                    <li>
+                        <input type="checkbox">
+                        <input type="text" placeholder="오늘의 투두를 입력해주세요." class="todoContent">
+                        <hr>
+                    </li>
+                    <li>
+                        <input type="checkbox" onclick="addItem()">
+                        <input type="text" placeholder="뽀짝을 추가해주세요!" id="newItem" class="todoContent">
+                        <hr>
+                    </li>
+                </ul>
+            </section>
+            <section class="recommendation">
+                <!-- 섹션 2 : 나이대 추천 뽀짝 -->
+                <div>
+                    <span id="age"></span>대 추천 뽀짝!
+                </div> <!--이 부분에 나이 받는거 넣기-->
+                <ul>
+                    <li>
+                        <input type="checkbox">
+                        <input type="text" placeholder="오늘의 투두를 입력해주세요." class="todoContent">
+                    </li>
+                    <li>
+                        <input type="checkbox">
+                        <input type="text" placeholder="오늘의 투두를 입력해주세요." class="todoContent">
+                    </li>
+                </ul>
+            </section>
+            <section class="challenges">
+                <!-- 섹션 3 : 뽀짝챌 -->
+                <div class="description">
+                    현재 참여중인 뽀짝챌
+                </div>
+                <div class="challengeList">
+                    <div class="challengeBox">
+                        <div>
+                            <img src="">
+                        </div>
+                        <div>밀리의 서재</div>
+                    </div>
+                    <div class="challengeBox">
+                        <div>
+                            <img src="">
+                        </div>
+                        <div>1일 1커밋</div>
+                    </div>
+                    <div class="challengeBox">
+                        <div>
+                            <img src="">
+                        </div>
+                        <div>냠냠</div>
+                    </div>
+                    <div class="challengeBox">
+                        <div>
+                            <img src="">
+                        </div>
+                        <div>냠냠</div>
+                    </div>
+                    <div class="challengeBox">
+                        <div>
+                            <img src="">
+                        </div>
+                        <div>냠냠</div>
+                    </div>
+                </div>
+                <div class="dots"></div>
+            </section>
+        </main>
+        <footer>
+            <nav class="footerNav">
+                <ul>
+                    <li>
+                        <div>
+                            <a href="mainPage.html">
+                                <img src="/static/img/homeIcon.png" alt="홈">
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <a href="../CalendarPage/calendar.html">
+                                <img src="/static/img/calendarIcon.png" alt="성취도">
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <a href="../DiaryPage/writeDiary.html">
+                                <img src="/static/img/diaryIcon.png" alt="일기">
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <a href="../ProfilePage/index.html">
+                                <img src="/static/img/mypageIcon.png" alt="마이페이지">
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </footer>
+    </div>
+    <script src="../../static/js/MainPage/mainPage.js"></script>
+</body>
+
+</html>
