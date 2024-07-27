@@ -5,6 +5,9 @@ from Server.schemas.DiarySchema import *
 
 def CreateDiary(db: Session, diary: CreateDiarySchema):
     dbdiary = UserDiary(content = diary.content,
-                      date = datetime.now())
+                      date = datetime.now(),
+                      response=diary.response,
+                      todo=diary.todo
+                      )
     db.add(dbdiary)
     db.commit()

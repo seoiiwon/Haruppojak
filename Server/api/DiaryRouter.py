@@ -23,7 +23,7 @@ async def writediaryhtml(request : Request):
 
 @router.post("/diary/write", status_code=status.HTTP_204_NO_CONTENT)
 async def writediarys(writediarys : CreateDiarySchema, db : Session=Depends(get_db)):
-    return CreateDiary(db=db, diary=writediarys)
+    CreateDiary(db=db, diary=writediarys)
 
 @router.get("/diary/reply", response_class=HTMLResponse)
 async def diaryreplyhtml(request : Request):
