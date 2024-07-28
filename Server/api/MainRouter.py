@@ -39,16 +39,16 @@ async def update_new_todo(
 
 
 # todo 삭제하기
-@router.delete("/todo/delete/{todo_id}", response_model=TodoListSchema.TodoList)
-async def delete_existing_todo(
-    todo_id: int, db: Session = Depends(get_db)
-):
-    return delete_todo(db=db, todo_id=todo_id)
+# @router.delete("/todo/delete/{todo_id}", response_model=TodoListSchema.TodoList)
+# async def delete_existing_todo(
+#     todo_id: int, db: Session = Depends(get_db)
+# ):
+#     return delete_todo(db=db, todo_id=todo_id)
 
 
-@router.check("/todo/check/{todo_id}", response_model=TodoListSchema.TodoCheck)
-async def check_existing_todo(
-    todo_id: int, todo: TodoListSchema.TodoCheck, db: Session = Depends(get_db)
-):
-    return check_todo(db=db, todo_id=todo_id, todo_check=todo)
-Main_router = router
+# @router.check("/todo/check/{todo_id}", response_model=TodoListSchema.TodoCheck)
+# async def check_existing_todo(
+#     todo_id: int, todo: TodoListSchema.TodoCheck, db: Session = Depends(get_db)
+# ):
+#     return check_todo(db=db, todo_id=todo_id, todo_check=todo)
+# Main_router = router

@@ -15,13 +15,14 @@
                 <div class="HPTitle">하루뽀짝</div>
             </h1>
         </div>
-        <form method="post" action="" class="HPSignIn">
-            <input type="text" placeholder="아이디" class="SignInID">
-            <input type="password" placeholder="비밀번호" class="SignInPW">
-            <input type="submit" value="로그인" class="SignInBtn">
+        <form method="post" action="" id="SignInForm" class="HPSignIn">
+            <input type="text" placeholder="아이디" id="UserID" class="SignInID">
+            <input type="password" placeholder="비밀번호" id="UserPW" class="SignInPW">
+            <input type="submit" value="로그인" id="SignInBtn" class="SignInBtn">
         </form>
         <div class="SignOptionBtn">
-            <span class="SignUp" onclick="goToSignUpPage()">회원가입</span>
+            <span class="SignUp" onclick="goToSignUpPage()">회원가입</span> 
+            <!-- goToSignUpPage가 안 된다.. -->
             &nbsp;|&nbsp;
             <span class="FindID">아이디 찾기</span>
             &nbsp;|&nbsp;

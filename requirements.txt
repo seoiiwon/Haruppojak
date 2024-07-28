@@ -3,3 +3,9 @@ uvicorn[standard]
 jinja2
 sqlalchemy
 alembic
+passlib
+bcrypt
+pyjwt
+python-jose
+python-dotenv
+openai
