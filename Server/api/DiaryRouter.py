@@ -13,7 +13,7 @@ template_dir = os.path.join(os.path.dirname(__file__), "../../Web/templates/Diar
 templates = Jinja2Templates(directory=template_dir)
 
 
-@router.get("/diary/access", response_class=HTMLResponse)
+@router.get("/diary", response_class=HTMLResponse)
 async def writediaryhtml(request : Request):
     return templates.TemplateResponse("access.html", {"request" : request})
 
@@ -26,10 +26,15 @@ async def creatediarys(creatediarys : DiarySchema.CreateDiarySchema, db : Sessio
     DiaryCrud.CreateDiary(db=db, diary=creatediarys)
     
 async def writediarys(writediarys : CreateDiarySchema, db : Session=Depends(get_db)):
-    return CreateDiary(db=db, diary=writediarys)
+    CreateDiary(db=db, diary=writediarys)
 
 @router.get("/diary/reply", response_class=HTMLResponse)
 async def diaryreplyhtml(request : Request):
     return templates.TemplateResponse("reply.html", {"request" : request})
 
+# @router.get("diary/detail/{id}", response_class=HTMLResponse)
+# async def diarydetailhtml(request:Request,id:int,db:Session=Depends(get_db)):
+#     diary=getdiarydetail(db,id=id)
+
+#수정
 DiaryRouter = router

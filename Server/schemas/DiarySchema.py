@@ -4,6 +4,8 @@ from typing import Optional
 
 class CreateDiarySchema(BaseModel):
     content : str
+    response : str
+    todo : str
 
     @field_validator("content")
     def empty_vaildation(cls, valid) :

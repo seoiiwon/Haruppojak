@@ -1,4 +1,4 @@
-from Server.config.database import Base
+from config.database import Base
 from .DiaryModel import UserDiary
 from .TodoListModel import TodoList
 from .UserModel import UserInfo
