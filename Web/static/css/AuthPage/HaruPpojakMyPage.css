@@ -1,0 +1,141 @@
+@font-face {
+    font-weight: 400;
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+}
+
+/* 이 부분부터 */
+body{
+    font-family: 'Pretendard-Regular';
+    font-weight: bold;
+    background-color: #2F4858;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+
+/* 컨테이너 스타일 */
+.container {
+    height: 100%;
+    width: 100%;
+    max-width: 800px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+}
+
+/* 미디어 쿼리: 화면이 800px 이하일 때 */
+@media (max-width: 820px) {
+    .container {
+        width: 100%;
+    }
+}
+
+.HaruPpojakLogo{
+    position: relative;
+    top: 4%;
+    left : 10%;
+    color: #2F4858;
+    font-weight: bolder;
+}
+
+.UserProfile {
+    width: 80%;
+    position: relative;
+    top: 5%;
+    left : 10%;
+    display: flex;
+}
+.UserImg {
+    width: 10vh;
+    height: 10vh;
+    display: inline;
+    margin-right: auto;
+    border:1px solid #2F4858;
+    border-radius: 50%;
+}
+
+.UserInfo {
+    margin-right: 0;
+    color: #2F4858;
+}
+
+.UserNameComment{
+    position: relative;
+    top: 7%;
+    left : 10%;
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #2F4858;
+    width: 80%;
+}
+
+
+.ProfileOpBtn {
+    display: flex;
+    position: relative;
+    width: 80%;
+    top: 7%;
+    left : 10%;
+    margin: 0;
+    margin-top: 2vh;
+}
+
+.SetBtn {
+    margin-left: 0;
+    margin-right: auto;
+}
+
+.ShareBtn {
+    margin-left: auto;
+    margin-right: 0;
+}
+
+.ProfileOpBtn > input {
+    width: 45%;
+    background-color: #2F4858;
+    height: 3vh;
+    border-radius: 20px;
+    color: white;
+}
+
+
+
+
+.UserHighlight {
+    display: flex;
+    position: relative;
+    top: 7%;
+    left : 10%;
+    width: 80%;
+    height: 15vh;
+    left: 10%;
+    padding-top: 5%;
+    
+}
+
+.Thumbnail {
+    border: 1px solid #2F4858;
+    width: 8vh;
+    height: 8vh;
+    border-radius: 50%;
+}
+
+.PSTitle {
+    color: #2F4858;
+    text-align: center;
+}
+
+.UserFeed {
+    border: 1px solid #2F4858;
+    width: 80%;
+    height: 35vh;
+    display: flex;
+    position: relative;
+    top: 7%;
+    left : 10%;
+}
+

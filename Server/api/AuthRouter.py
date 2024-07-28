@@ -44,7 +44,7 @@ async def getUserCam(request : Request):
 
 @router.get("/haru/mypage", response_class=HTMLResponse)
 async def read_mypage(request: Request, currentUser: UserInfoSchema = Depends(getCurrentUser)):
-    return templates.TemplateResponse(name="MyPage.html", context={"request": request, "currentUser": getUserInfo(currentUser)})
+    return templates.TemplateResponse(name="HaruPpojakMyPage.html", context={"request": request, "currentUser": getUserInfo(currentUser)})
 
 
 # post api
