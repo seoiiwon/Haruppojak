@@ -50,6 +50,7 @@ def verityAccessToken(token: str, credentialsException):
         raise credentialsException
     return tokenData
 
+# 사용자 가지고 오는 함수
 def getCurrentUser(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
     credentialsException = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
