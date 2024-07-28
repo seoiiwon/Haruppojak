@@ -33,4 +33,5 @@ async def diaryreplyhtml(request : Request):
 # async def diarydetailhtml(request:Request,id:int,db:Session=Depends(get_db)):
 #     diary=getdiarydetail(db,id=id)
 
+#수정
 DiaryRouter = router
