@@ -22,8 +22,8 @@ async def writediaryhtml(request : Request):
     return templates.TemplateResponse("writeDiary.html", {"request" : request})
 
 @router.post("/diary/write", status_code=status.HTTP_204_NO_CONTENT)
-async def creatediarys(creatediarys : DiarySchema.CreateDiarySchema, db : Session=Depends(get_db)):
-    DiaryCrud.CreateDiary(db=db, diary=creatediarys)
+async def creatediarys(creatediarys : CreateDiarySchema, db : Session=Depends(get_db)):
+    CreateDiary(db=db, diary=creatediarys)
     
 async def writediarys(writediarys : CreateDiarySchema, db : Session=Depends(get_db)):
     CreateDiary(db=db, diary=writediarys)
