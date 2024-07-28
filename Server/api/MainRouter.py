@@ -45,6 +45,8 @@ async def delete_existing_todo(
 ):
     return delete_todo(db=db, todo_id=todo_id)
 
+# todo 체크
+
 
 @router.check("/todo/check/{todo_id}", response_model=TodoListSchema.TodoCheck)
 async def check_existing_todo(
