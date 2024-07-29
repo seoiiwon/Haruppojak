@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="">
+    <script src="" defer></script> -->
+    <title>Challenge List</title>
+</head>
+<body>
+    <ul>
+        <div>hello</div>
+        {% for challenge in challengeList %}
+        <li class="ChallengeList">
+            <h2>{{ challenge.challengeTitle }}</h2>
+            <p>{{ challenge.challengeComment }}</p>
+            <p>Reward: {{ challenge.challengeReward }}</p>
+            <p>Created At: {{ challenge.created_at }}</p>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
