@@ -13,15 +13,31 @@ def getChallengeListAll(db : Session):
     challengeList = db.query(ChallengeModel.Challenge).order_by(ChallengeModel.Challenge.created_at.desc()).all()
     return challengeList
 
-def saveImgFile(imgFile : UploadFile) -> str:
-    STATIC_DIR = "Server/img/challengeImg/"
-    Path(STATIC_DIR).mkdir(parents=True, exist_ok=True)
+def saveImgFile(imgFile: UploadFile) -> str:
+    STATIC_DIR = Path(__file__).resolve().parent.parent.parent / "Web" / "static" / "img" / "ChallengeImg"
+    STATIC_DIR.mkdir(parents=True, exist_ok=True)
+    
+    if imgFile is None:
+        raise ValueError("No file provided.")
+    
+    imgFile.file.seek(0, os.SEEK_END)  # Move the cursor to the end of the file
+    file_size = imgFile.file.tell()  # Get the cursor position, which is the file size
+    imgFile.file.seek(0)  # Reset the cursor to the beginning of the file
+
+    if file_size == 0:
+        raise ValueError(f"File {imgFile.filename} is empty.")
+    
     uploadTime = datetime.now().strftime("%Y%m%d%H%M%S")
     fileName = f"{uploadTime}_{imgFile.filename}"
-    fileDir = os.path.join(STATIC_DIR, fileName)
+    fileDir = STATIC_DIR / fileName  # Use Path object for file directory
+    
     with open(fileDir, "wb") as fileObject:
         shutil.copyfileobj(imgFile.file, fileObject)
-    return fileDir
+    
+    return str(fileDir.relative_to(STATIC_DIR))  # Return relative path as string
+
+
+
 
 def postNewChallenge(db : Session, 
                      challenge : ChallengeSchema.ChallengeCreate,

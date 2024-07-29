@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, Request, status, HTTPException, Form, security, UploadFile, File
 from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse, Response
 from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
 from Server.config.database import get_db
 from Server.schemas import ChallengeSchema
@@ -11,6 +12,7 @@ from Server.models.UserModel import UserInfo
 import os
 from datetime import timedelta
 from dotenv import load_dotenv
+from pathlib import Path
 
 load_dotenv()
 
@@ -18,8 +20,12 @@ ACCESS_TOKEN_EXPIRE_MINUTES = float(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
 
 router = APIRouter()
 
-template_dir = os.path.join(os.path.dirname(__file__), "../../Web/templates/ChallengePage")
+
+base_path = Path(__file__).resolve().parent.parent.parent
+
+template_dir = base_path / "Web" / "templates" / "ChallengePage"
 templates = Jinja2Templates(directory=template_dir)
+
 
 @router.get("/challenge/all", response_class=HTMLResponse)
 async def getChallengeList(request : Request, db : Session=Depends(get_db)):

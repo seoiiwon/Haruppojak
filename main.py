@@ -5,10 +5,12 @@ from Server.api.AuthRouter import authRouter
 from Server.api.DiaryRouter import DiaryRouter
 from Server.api.ChallengeRouter import ChallengeRouter
 # from Server.api.MainRouter import Main_router
+from pathlib import Path
 
 app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="Web/static"), name="static")
+
 
 app.add_middleware(
     CORSMiddleware,
