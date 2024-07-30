@@ -15,4 +15,14 @@ diary_data = CreateDiarySchema(
 
 CreateDiary(db, diary_data)
 
+db = SessionLocal()
+
+diary_to_delete = db.query(UserDiary).filter(UserDiary.id == 5).first()
+
+if diary_to_delete:
+    deleteDiary(db, diary_to_delete)
+else:
+    print("삭제할 일기 항목이 없습니다.")
+
+# 세션 종료
 db.close()
