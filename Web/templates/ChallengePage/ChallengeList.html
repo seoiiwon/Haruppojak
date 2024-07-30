@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="{{ url_for('static', path='js/ChallengePage/ChallengeList.js') }}" defer></script>
     <title>Challenge List</title>
 </head>
 <body>
@@ -15,6 +16,7 @@
             <p>Created At: {{ challenge.created_at }}</p>
             <p>{{ challenge.challengeThumbnail1 }}</p>
             <img src="{{ url_for('static', path='img/ChallengeImg/' ~ challenge.challengeThumbnail1) }}" alt="Challenge Thumbnail">
+            <input type="button" value="참여하기" class="joinChallengeBtn" challengeID="{{ challenge.id }}">
         </li>
         {% endfor %}
     </ul>

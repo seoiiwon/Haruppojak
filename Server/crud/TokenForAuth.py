@@ -17,6 +17,9 @@ ALGORITHM = os.getenv("ALGORITHM")
 ACCESS_TOKEN_EXPIRE_MINUTES = float(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
 
 class OAuth2PasswordBearerWithCookie(security.OAuth2PasswordBearer):
+    def __init__(self, tokenUrl : str):
+        self.tokenUrl = tokenUrl
+        
     async def __call__(self, request: Request) -> str:
         authorization: str = request.cookies.get("access_token")
         if not authorization:

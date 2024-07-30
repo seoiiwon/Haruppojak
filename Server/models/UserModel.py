@@ -3,6 +3,9 @@ from sqlalchemy.orm import relationship
 from Server.config.database import Base
 from datetime import datetime, timezone
 from enum import Enum as PythonEnum
+# 아래는 모델 등록을 위한 import 이후 사용하진 않음
+from .ChallengeModel import Challenge
+from .ProofShotModel import ProofShot
 
 class UserRole(str, PythonEnum):
     ADMIN = "admin"
@@ -29,6 +32,7 @@ class UserInfo(Base):
     following = Column(Integer, default=0)
 
     challenges = relationship('UserChallenge', back_populates='user')
+    proofShots = relationship('UserProofShot', back_populates='user')
 
 
 class UserChallenge(Base):
@@ -40,3 +44,12 @@ class UserChallenge(Base):
     
     user = relationship("UserInfo", back_populates="challenges")
     challenge = relationship("Challenge", back_populates="participants")
+
+class UserProofShot(Base):
+    __tablename__ = "userProofShot"
+    
+    user_id = Column(Integer, ForeignKey('userinfo.id'), primary_key=True)
+    photo_id = Column(String, ForeignKey('proofShot.id'), primary_key=True)
+
+    user = relationship("UserInfo", back_populates="proofShots")
+    proofShot = relationship("ProofShot", back_populates="owners")

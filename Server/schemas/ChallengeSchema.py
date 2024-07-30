@@ -2,7 +2,8 @@ from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime
 
-class ChallengeBase(BaseModel):
+class ChallengeSchema(BaseModel):
+    id : int
     challengeOwner: str
     challengeTitle: str
     challengeComment: str
@@ -11,13 +12,16 @@ class ChallengeBase(BaseModel):
     challengeThumbnail2: Optional[str] = None
     challengeThumbnail3: Optional[str] = None
 
-class ChallengeCreate(ChallengeBase):
+class ChallengeCreateSchema(ChallengeSchema):
     pass
 
-class ChallengeRead(ChallengeBase):
+class ChallengeReadSchema(ChallengeSchema):
     id: int
     challenger: int
     created_at: datetime
 
     class Config:
         from_attributes = True
+
+class ChallengeJoinRequest(BaseModel):
+    challenge_id: int

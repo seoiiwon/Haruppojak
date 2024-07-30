@@ -2,7 +2,7 @@ from pydantic import BaseModel, EmailStr, Field, field_validator
 from datetime import datetime
 from typing import Optional
 from enum import Enum
-from fastapi import HTTPException, status, APIRouter, Depends
+from fastapi import HTTPException, status
 
 class UserRole(str, Enum):
     ADMIN = "admin"
@@ -10,6 +10,7 @@ class UserRole(str, Enum):
     READER = "reader"
 
 class UserInfoSchema(BaseModel):
+    id : int
     userID: str
     userPassword: str
     userName: str

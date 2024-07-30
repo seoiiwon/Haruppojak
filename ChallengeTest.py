@@ -1,6 +1,6 @@
 from Server.config.database import SessionLocal
 from Server.models.ChallengeModel import Challenge
-from Server.schemas.ChallengeSchema import ChallengeCreate
+from Server.schemas.ChallengeSchema import ChallengeCreateSchema
 from Server.crud.ChallengeCrud import saveImgFile, postNewChallenge
 from fastapi import UploadFile
 from io import BytesIO
@@ -38,7 +38,7 @@ imgFileLocation1 = saveImgFile(test_img1) if test_img1 else None
 imgFileLocation2 = saveImgFile(test_img2) if test_img2 else None
 imgFileLocation3 = saveImgFile(test_img3) if test_img3 else None
 
-newChallenge = ChallengeCreate(
+newChallenge = ChallengeCreateSchema(
     challengeOwner = "@likelion univ",
     challengeTitle = "멋쟁이사자처럼 12기 해커톤",
     challengeComment = "당신을 멋쟁이사자처럼 12기 해커톤에 초대합니다.",

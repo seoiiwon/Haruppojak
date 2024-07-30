@@ -1,9 +1,7 @@
 from sqlalchemy import *
 from sqlalchemy.orm import relationship
 from Server.config.database import Base
-from datetime import datetime, timezone
-from .UserModel import UserChallenge
-# from enum import Enum as PythonEnum
+from datetime import datetime
 
 class Challenge(Base):
     __tablename__ = "challenge"
