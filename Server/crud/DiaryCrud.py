@@ -13,6 +13,8 @@ def CreateDiary(db: Session, diary: CreateDiarySchema):
     db.add(dbdiary)
     db.commit()
 
-def deleteDiary(db: Session, diary: UserDiary):
+def DeleteDiary(db: Session, diary: UserDiary):
     db.delete(diary)
     db.commit()
+
+# def Diaryreply()
