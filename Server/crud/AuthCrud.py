@@ -3,9 +3,6 @@ from datetime import datetime
 from Server.models import UserModel
 from Server.schemas import AuthSchema
 from passlib.context import CryptContext
-from fastapi import security, Depends, HTTPException
-from jose import JWTError, jwt
-
 
 passwordContext = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
