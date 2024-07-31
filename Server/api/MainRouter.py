@@ -12,6 +12,7 @@ import os
 
 router = APIRouter()
 
+
 template_dir = os.path.join(os.path.dirname(
     __file__), "../../Web/templates/MainPage")
 templates = Jinja2Templates(directory=template_dir)
@@ -53,4 +54,5 @@ async def check_existing_todo(
     todo_id: int, todo: TodoListSchema.TodoCheck, db: Session = Depends(get_db)
 ):
     return check_todo(db=db, todo_id=todo_id, todo_check=todo)
+
 Mainrouter = router

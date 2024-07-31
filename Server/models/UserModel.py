@@ -7,6 +7,7 @@ from enum import Enum as PythonEnum
 from .ChallengeModel import Challenge
 from .ProofShotModel import ProofShot
 
+
 class UserRole(str, PythonEnum):
     ADMIN = "admin"
     EDITOR = "editor"
@@ -37,19 +38,21 @@ class UserInfo(Base):
 
 class UserChallenge(Base):
     __tablename__ = "userChallenge"
-    
+
     user_id = Column(Integer, ForeignKey('userinfo.id'), primary_key=True)
-    challenge_id = Column(Integer, ForeignKey('challenge.id'), primary_key=True)
+    challenge_id = Column(Integer, ForeignKey(
+        'challenge.id'), primary_key=True)
     joined_at = Column(DateTime, default=datetime.now(tz=timezone.utc))
-    
+
     user = relationship("UserInfo", back_populates="challenges")
     challenge = relationship("Challenge", back_populates="participants")
 
+
 class UserProofShot(Base):
     __tablename__ = "userProofShot"
-    
+
     user_id = Column(Integer, ForeignKey('userinfo.id'), primary_key=True)
     photo_id = Column(String, ForeignKey('proofShot.id'), primary_key=True)
 
     user = relationship("UserInfo", back_populates="proofShots")
-    proofShot = relationship("ProofShot", back_populates="owners")
+    proofShot = relationship("ProofShot", back_populates="participants")
