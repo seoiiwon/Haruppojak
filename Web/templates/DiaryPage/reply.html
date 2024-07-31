@@ -28,6 +28,21 @@
           dayNames[today.getDay()];
         document.getElementById('current-date').innerText = date;
       };
+
+      // '돌아가기' 클릭 시 이전 페이지로 이동
+      function goBack() {
+        window.history.back();
+      }
+
+      // '뽀짝일기 달력' 클릭 시 diaryCalendar.html 페이지로 이동
+      function goToCalendar() {
+        window.location.href = 'diaryCalendar.html';
+      }
+
+      // '뽀짝 종료' 클릭 시 closeApp.html 페이지로 이동
+      function closeApp() {
+        window.location.href = 'closeApp.html';
+      }
     </script>
   </head>
   <body>
@@ -48,6 +63,21 @@
           nisl dignissim lorem, nec malesuada nisl urna ut nunc. Aliquam erat
           volutpat. Ut tempor orci a nisi commodo, in malesuada turpis euismod.
           Suspendisse potenti. Phasellus et libero nec ligula placerat luctus.
+        </div>
+        <div class="footer">
+          <a href="#" onclick="goBack()" class="footer-link" id="go-back"
+            >돌아가기</a
+          >
+          <a
+            href="#"
+            onclick="goToCalendar()"
+            class="footer-link"
+            id="go-calendar"
+            >뽀짝일기 달력</a
+          >
+          <a href="#" onclick="closeApp()" class="footer-link" id="close-app"
+            >뽀짝 종료</a
+          >
         </div>
       </div>
     </div>

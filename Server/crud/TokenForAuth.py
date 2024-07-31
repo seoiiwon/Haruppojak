@@ -17,6 +17,9 @@ ALGORITHM = os.getenv("ALGORITHM")
 ACCESS_TOKEN_EXPIRE_MINUTES = float(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
 
 class OAuth2PasswordBearerWithCookie(security.OAuth2PasswordBearer):
+    def __init__(self, tokenUrl : str):
+        self.tokenUrl = tokenUrl
+        
     async def __call__(self, request: Request) -> str:
         authorization: str = request.cookies.get("access_token")
         if not authorization:
@@ -50,6 +53,7 @@ def verityAccessToken(token: str, credentialsException):
         raise credentialsException
     return tokenData
 
+# 사용자 가지고 오는 함수
 def getCurrentUser(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
     credentialsException = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,

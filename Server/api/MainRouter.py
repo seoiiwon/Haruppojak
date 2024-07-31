@@ -4,6 +4,7 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from Server.config.database import get_db
 
+from Server.crud import MainCrud
 from Server.models.TodoListModel import *
 from Server.schemas.TodoListSchema import *
 from Server.crud.MainCrud import *
@@ -39,7 +40,7 @@ async def update_new_todo(
 
 
 # todo 삭제하기
-@router.delete("/todo/delete/{todo_id}", response_model=TodoListSchema.TodoList)
+@router.delete("/todo/delete/{todo_id}", response_model=None)
 async def delete_existing_todo(
     todo_id: int, db: Session = Depends(get_db)
 ):
