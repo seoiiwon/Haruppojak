@@ -40,13 +40,13 @@ function capture() {
   canvas.width = 400;
   canvas.height = 600;
   const ctx = canvas.getContext('2d');
-  ctx.scale(-1, 1); // 좌우 반전
+  ctx.scale(-1, 1);
   ctx.drawImage(video, -canvas.width, 0, canvas.width, canvas.height);
   
   const img = document.createElement('img');
   img.src = canvas.toDataURL('image/png');
   const resultDiv = document.querySelector('.result');
-  resultDiv.innerHTML = ''; // 이전 이미지 제거
+  resultDiv.innerHTML = ''; 
   resultDiv.appendChild(img);
 }
 
