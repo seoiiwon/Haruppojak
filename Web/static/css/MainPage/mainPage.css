@@ -56,7 +56,7 @@ header {
   margin: 1rem;
   display: inline-flex;
   align-items: center;
-  color: rgb(153, 153, 153);
+  color: #bbb;
   font-size: 20px;
 }
 
@@ -65,10 +65,13 @@ header {
   color: white;
   font-weight: bold;
   font-size: 22px;
+  width: 30px;
+  height: 30px;
   padding: 0.75rem;
   border-radius: 100%;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  vertical-align: middle;
 }
 
 /* 메인 */
@@ -142,7 +145,8 @@ hr {
   display: none;
 }
 
-.challengeBox {
+.challengeBox,
+.challengeBoxMore {
   background-color: #e0e0e0;
   padding: 1rem;
   border-radius: 25%;
@@ -153,6 +157,7 @@ hr {
   flex: 0 0 auto;
 }
 
+/*
 .dots {
   text-align: center;
   margin-top: 10px;
@@ -169,6 +174,25 @@ hr {
 
 .dots .active {
   background-color: #2f4858;
+}
+*/
+
+.dots {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  margin: 0 5px;
+  background-color: #ccc;
+  border-radius: 50%;
+}
+
+.dot.active {
+  background-color: #333;
 }
 
 /* 푸터 */
