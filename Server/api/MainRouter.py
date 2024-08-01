@@ -18,10 +18,20 @@ template_dir = os.path.join(os.path.dirname(
 templates = Jinja2Templates(directory=template_dir)
 
 
+template_dir_auth = os.path.join(os.path.dirname(
+    __file__), "../../Web/templates/AuthPage")
+templates_auth = Jinja2Templates(directory=template_dir_auth)
+
+
 @router.get("/todo/all", response_class=HTMLResponse)  # todo 리스트 보기
 async def read_todos(request: Request, db: Session = Depends(get_db)):
-    todos = get_todos(db)
-    return templates.TemplateResponse("mainPage.html", {"request": request, "todos": todos})
+
+    token = request.cookies.get("access_token")
+    if token:
+        todos = get_todos(db)
+        return templates.TemplateResponse(name="mainPage.html", context={"request": request, "todos": todos})
+    else:
+        return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
 
 
 # todo 만들기
