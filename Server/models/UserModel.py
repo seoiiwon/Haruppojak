@@ -52,4 +52,4 @@ class UserProofShot(Base):
     photo_id = Column(String, ForeignKey('proofShot.id'), primary_key=True)
 
     user = relationship("UserInfo", back_populates="proofShots")
-    proofShot = relationship("ProofShot", back_populates="owners")
+    proofShot = relationship("ProofShot", back_populates="participants")

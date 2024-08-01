@@ -38,12 +38,12 @@ async def update_new_todo(
     return update_todo(db=db, todo_id=todo_id, todo_update=todo)
 
 
-# todo 삭제하기
-@router.delete("/todo/delete/{todo_id}", response_model=TodoListSchema.TodoList)
-async def delete_existing_todo(
-    todo_id: int, db: Session = Depends(get_db)
-):
-    return delete_todo(db=db, todo_id=todo_id)
+# # todo 삭제하기
+# @router.delete("/todo/delete/{todo_id}", response_model=TodoListSchema.TodoList)
+# async def delete_existing_todo(
+#     todo_id: int, db: Session = Depends(get_db)
+# ):
+#     return delete_todo(db=db, todo_id=todo_id)
 
 
 # todo 체크
