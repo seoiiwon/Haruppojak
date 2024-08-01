@@ -65,13 +65,12 @@ async def getMypage(request: Request, currentUser: UserInfoSchema = Depends(getC
 
 # POST
 
-@router.post("/auth/signup", status_code=status.HTTP_204_NO_CONTENT) # 사용자 등록 요청
+@router.post("/auth/signup", status_code=status.HTTP_204_NO_CONTENT)
 async def postUserSignUp(newUserInfo: UserInfoSchema, db: Session = Depends(get_db)):
     userData = db.query(UserInfo).filter(UserInfo.userID == newUserInfo.userID).first()
     if userData:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="이미 존재하는 사용자입니다.")
     signup(db=db, user=newUserInfo)
-    return {"detail": "회원가입 완료"}
 
 @router.post("/auth/signin") # 로그인 요청
 async def postUserSignIn(response: Response, loginForm: security.OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
@@ -99,5 +98,3 @@ async def postUserPhoto():
 #     accessToken = request.cookies.get("accessToken")
 #     response.delete_cookie(key="accessToken")
 #     return HTTPException(status_code=status.HTTP_200_OK, detail="야호! 로그아웃 성공!")
-
-

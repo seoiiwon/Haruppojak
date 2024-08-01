@@ -46,8 +46,18 @@ function capture() {
   const img = document.createElement('img');
   img.src = canvas.toDataURL('image/png');
   const resultDiv = document.querySelector('.result');
-  resultDiv.innerHTML = ''; 
+  resultDiv.innerHTML = '';
   resultDiv.appendChild(img);
+  
+  // videoSpace 숨기기
+  const videoSpace = document.querySelector('.videoSpace');
+  videoSpace.style.display = 'none';
+  
+  // resultDiv 보이기
+  resultDiv.style.display = 'block';
+
+  // 캠 종료
+  stop();
 }
 
 window.onload = loadAndPlay;

@@ -18,11 +18,11 @@
         <form method="post" action="" id="SignInForm" class="HPSignIn">
             <input type="text" placeholder="아이디" id="UserID" class="SignInID">
             <input type="password" placeholder="비밀번호" id="UserPW" class="SignInPW">
-            <input type="submit" value="로그인" id="SignInBtn" class="SignInBtn">
+            <input type="submit" value="로그인" id="SignInBtn" class="SignInBtn"> 
+            <!-- input 채워지면 로그인 바 색 변경 추가하기 -->
         </form>
         <div class="SignOptionBtn">
-            <span class="SignUp" onclick="goToSignUpPage()">회원가입</span> 
-            <!-- goToSignUpPage가 안 된다.. -->
+            <span class="SignUp" id="SignUpBtn">회원가입</span>
             &nbsp;|&nbsp;
             <span class="FindID">아이디 찾기</span>
             &nbsp;|&nbsp;

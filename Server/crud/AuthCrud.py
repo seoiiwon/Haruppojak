@@ -6,24 +6,25 @@ from passlib.context import CryptContext
 
 passwordContext = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-def signup(db : Session, user : AuthSchema.UserInfoSchema):
-    user = UserModel.UserInfo(userID = user.userID,
-                              userPassword = passwordContext.hash(user.userPassword),
-                              userName = user.userName,
-                              userBirth = user.userBirth,
-                              userEmail = user.userEmail,
-                              userGender = user.userGender,
-                              userPpojakCoin = user.userPpojakCoin,
-                              userProfileName = user.userID,
-                              userProfileComment = user.userProfileComment,
-                              created_at = datetime.now(),
-                              role = user.role,
-                              follower = user.follower,
-                              following = user.following)
-    db.add(user)
+def signup(db: Session, user: AuthSchema.UserInfoSchema):
+    user_model = UserModel.UserInfo(
+        userID=user.userID,
+        userPassword=passwordContext.hash(user.userPassword),
+        userName=user.userName,
+        userBirth=user.userBirth,
+        userEmail=user.userEmail,
+        userGender=int(user.userGender),
+        userPpojakCoin=user.userPpojakCoin,
+        userProfileName=user.userProfileName,
+        userProfileComment=user.userProfileComment,
+        created_at=user.created_at,
+        role=user.role,
+        follower=user.follower,
+        following=user.following
+    )
+    db.add(user_model)
     db.commit()
-    db.refresh(user)
-    return user
+
 
 def getUser(db : Session, ID : str):
     return db.query(UserModel.UserInfo).filter(UserModel.UserInfo.userID == ID).first()

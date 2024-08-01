@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const nextButton = document.querySelector('.NextBtn');
     const signUpForm = document.getElementById('SignUpForm');
 
-    // show second form when next button clicked
     nextButton.addEventListener('click', function() {
         if (isFirstFormValid()) {
             firstForm.style.opacity = '0';
@@ -19,38 +18,34 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // fetch part when submit button clicked
     signUpForm.addEventListener('submit', async function(event) {
         event.preventDefault();
         if (!isSecondFormValid()) {
             alert('모든 필드를 입력해주세요.');
             return;
         }
-
-        // user info
+    
         let userData = {
             userID: document.getElementById('ID').value.trim(),
             userPassword: document.getElementById('PW').value.trim(),
             userName: document.getElementById('Name').value.trim(),
             userEmail: document.getElementById('Email').value.trim(),
-            userBirth: parseInt(document.getElementById('Birth').value.trim()),
-            userGender: document.querySelector('input[name="Gender"]:checked').value,
-            userProfileName: document.getElementById('Name').value.trim()
+            userBirth: parseInt(document.getElementById('Birth').value.trim(), 10),
+            userGender: parseInt(document.querySelector('input[name="Gender"]:checked').value, 10),
+            userProfileName: document.getElementById('Name').value.trim(),
         };
-        // signup url
-        let url = '/auth/signup'
-
-        console.log(userData);
-
+    
+        let url = '/auth/signup';
+    
+        // console.log(JSON.stringify(userData, null, 2));
+    
         try {
-            // fetch
             const response = await fetch(url, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(userData)
             });
-
-            // signup statues
+    
             if (response.status === 204) {
                 alert('회원가입이 완료되었습니다.');
                 goToSignInPage();
@@ -59,14 +54,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 alert(result.detail || '회원가입에 실패했습니다.');
             }
         } 
-        // refuse
         catch (error) {
             console.error('Error:', error);
             alert('회원가입 중 오류가 발생했습니다.');
         }
     });
+    
 
-    // Frist Form valid test
     function isFirstFormValid() {
         const id = document.getElementById('ID').value.trim();
         const pw = document.getElementById('PW').value.trim();
@@ -83,7 +77,6 @@ document.addEventListener('DOMContentLoaded', function() {
         return true;
     }
 
-    // Second Form valid test
     function isSecondFormValid() {
         const name = document.getElementById('Name').value.trim();
         const email = document.getElementById('Email').value.trim();
@@ -96,7 +89,6 @@ document.addEventListener('DOMContentLoaded', function() {
         return true;
     }
 
-    // move to signin page after signup
     function goToSignInPage() {
         window.location.href = '/';
     }
