@@ -89,7 +89,7 @@ async def postUserSignIn(response: Response, loginForm: security.OAuth2PasswordR
     return {"access_token": accessToken, "token_type": "bearer"}
 
 @router.post("/auth/photo", status_code=status.HTTP_204_NO_CONTENT)
-async def postUserPhoto():
+async def postUserPhoto(db : Session=Depends(get_db), ):
     pass
 
 # 로그아웃 부분 수정해서 활용하도록 하죠...

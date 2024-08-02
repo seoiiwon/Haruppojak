@@ -6,11 +6,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     nextButton.addEventListener('click', function() {
         if (isFirstFormValid()) {
+            // 첫 번째 폼의 opacity를 0으로 설정하여 서서히 사라지도록 합니다.
             firstForm.style.opacity = '0';
+            // 1초 후 첫 번째 폼을 display: none으로 변경하여 공간을 차지하지 않도록 합니다.
             setTimeout(() => {
-                firstForm.classList.add('hidden');
-                secondForm.classList.remove('hidden');
-                secondForm.style.left = '50%';
+                firstForm.style.display = 'none';
+                // 두 번째 폼을 display: flex로 설정하여 보이도록 합니다.
+                secondForm.style.display = 'flex';
+                secondForm.style.opacity = '0';
+                // 초기 opacity를 0으로 설정한 후 0.1초 후에 서서히 나타나도록 설정합니다.
                 setTimeout(() => {
                     secondForm.style.opacity = '1';
                 }, 100);
@@ -36,8 +40,6 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     
         let url = '/auth/signup';
-    
-        // console.log(JSON.stringify(userData, null, 2));
     
         try {
             const response = await fetch(url, {
