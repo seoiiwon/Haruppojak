@@ -32,19 +32,11 @@ async def writediaryhtml(request : Request):
     else:
         return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
 
-@router.post("/diary/write", status_code=status.HTTP_204_NO_CONTENT)
+@router.post("/diary/write", status_code=status.HTTP_204_NO_CONTENT) # 다이어리 작성
 async def writediarys(diaryreply : CreateDiarySchema, db : Session=Depends(get_db)):
     reply = Diaryreply(diaryreply)
     CreateDiary(db=db, diaryreply=diaryreply,reply=reply)
 
-# @router.get("/diary/reply", response_class=HTMLResponse) # 다이어리 답장 페이지
-# async def diaryreplyhtml(request : Request):
-#     token = request.cookies.get("access_token")
-#     if token:
-#         return templates_diary.TemplateResponse(name="reply.html", request=request)
-#     else:
-#         return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
-    
 @router.get("/diary/calendar", response_class=HTMLResponse) # 다이어리 캘린더
 async def diaryclosehtml(request : Request):
     token = request.cookies.get("access_token")
@@ -61,6 +53,15 @@ async def diaryclosehtml(request : Request):
     else:
         return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
     
+
+# @router.get("/diary/reply", response_class=HTMLResponse) # 다이어리 답장 페이지
+# async def diaryreplyhtml(request : Request):
+#     token = request.cookies.get("access_token")
+#     if token:
+#         return templates_diary.TemplateResponse(name="reply.html", request=request)
+#     else:
+#         return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
+    
 # @router.get("/diary/reply", status_code=status.HTTP_204_NO_CONTENT) # 다이어리 답장
 # async def diary_reply(diaryreply: CreateDiarySchema, request: Request):
 #     return templates_diary.TemplateResponse(name="reply.html", context={"request": request, "content": diaryreply.content, "reply": diaryreply.response})
@@ -70,7 +71,7 @@ async def diary_reply(diaryreply : CreateDiarySchema, request: Request ):
     reply = Diaryreply(diaryreply)
     return templates_diary.TemplateResponse(name="reply.html",context={"request": request, "content": diaryreply.content, "reply": diaryreply.response})
     
-# @router.get("diary/detail/{id}", response_class=HTMLResponse)
+# @router.get("diary/detail/{id}", response_class=HTMLResponse) # 일기 다시보기
 # async def diarydetailhtml(request:Request,id:int,db:Session=Depends(get_db)):
 #     diary=getdiarydetail(db,id=id)
 

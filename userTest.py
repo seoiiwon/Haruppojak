@@ -7,20 +7,16 @@ from Server.crud.DiaryCrud import *
 
 db = SessionLocal()
 
-# Initialize diary data
 diary_data = CreateDiarySchema(
     content="오늘은 일기장을 새로 샀어",
     todo="운동하기",
-    response=""  # Placeholder for the reply
+    response="" 
 )
 
-# Get a reply for the diary entry
 reply = Diaryreply(diary_data)
 
-# Set the reply in diary_data's response field
 diary_data.response = reply
 
-# Save the diary entry to the database
 CreateDiary(db, diary_data, reply)
 
 # db = SessionLocal()
