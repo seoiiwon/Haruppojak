@@ -31,10 +31,6 @@ class UserInfo(Base):
     role = Column(Enum(UserRole), default=UserRole.READER)
     follower = Column(Integer, default=0)
     following = Column(Integer, default=0)
-    # 이우찬 수정 부분
-    age_group = Column(String, nullable=False)
-
-    todos = relationship("TodoList", back_populates="user")
     challenges = relationship('UserChallenge', back_populates='user')
     proofShots = relationship('UserProofShot', back_populates='user')
 

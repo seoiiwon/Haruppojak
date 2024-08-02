@@ -21,9 +21,8 @@ def signup(db: Session, user: AuthSchema.UserInfoSchema):
         created_at=user.created_at,
         role=user.role,
         follower=user.follower,
-        following=user.following,
-        # 이우찬 수정부분
-        age_group=user.age_group
+        following=user.following
+
     )
     db.add(user_model)
     db.commit()
@@ -52,18 +51,3 @@ def getUserInfo(user: AuthSchema.UserInfoSchema):
         "following": user.following
     }
     return userInfo
-
-# 이우찬 수정부분
-
-
-def calculate_age_group(birth_year: int) -> str:
-    today = date.today()
-    age = today.year - birth_year
-    if age < 20:
-        return '10대'
-    elif age < 30:
-        return '20대'
-    elif age < 40:
-        return '30대'
-    else:
-        return '40대 이상'

@@ -12,7 +12,3 @@ class TodoList(Base):
     date = Column(DateTime, nullable=False)
     todo = Column(String, nullable=False)
     check = Column(Boolean, nullable=False, default=False)
-
-    user_id = Column(Integer, ForeignKey("userinfo.id"), nullable=False)
-
-    user = relationship("UserInfo", back_populates="todos")
