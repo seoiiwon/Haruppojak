@@ -12,7 +12,7 @@ router = APIRouter()
 ChallengeRouter = router
 
 base_path = Path(__file__).resolve().parent.parent.parent
-template_dir = base_path / "Web" / "templates" / "ChallengePage"
+template_dir = base_path / "Web" / "templates" / "MainPage"
 templates = Jinja2Templates(directory=template_dir)
 
 # GET
@@ -20,7 +20,7 @@ templates = Jinja2Templates(directory=template_dir)
 @router.get("/challenge/all", response_class=HTMLResponse) # 전체 챌린지 페이지
 async def getChallengeList(request : Request, db : Session=Depends(get_db)):
     challengeListAll = getChallengeListAll(db) 
-    return templates.TemplateResponse(name="ChallengeList.html", context={"request" : request, "challengeList" : challengeListAll})
+    return templates.TemplateResponse(name="challengePage.html", context={"request" : request, "challengeList" : challengeListAll})
 
 
 # POST 
