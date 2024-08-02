@@ -26,7 +26,7 @@ template_dir_auth = os.path.join(os.path.dirname(
 templates_auth = Jinja2Templates(directory=template_dir_auth)
 
 
-@router.get("/todo/all", response_class=HTMLResponse)  # todo 리스트 보기
+@router.get("/main", response_class=HTMLResponse)  # todo 리스트 보기
 async def read_todos(request: Request, db: Session = Depends(get_db)):
 
     token = request.cookies.get("access_token")
@@ -71,10 +71,10 @@ async def check_existing_todo(
 # 추천 todo리스트
 
 
-@router.get("/todo/top/{age_group}", response_model=List[TopTodo])
-async def get_top_todos(age_group: str, db: Session = Depends(get_db)):
-    top_todos = get_recommended_todo(db, age_group)
-    return top_todos
+@router.get("/todo/recommendations", response_model=TopTodoRecommendations)
+async def get_recommended_todos(db: Session = Depends(get_db)):
+    top_recommendations = get_recommended_todo(db)
+    return {"recommendations": [item[0] for item in top_recommendations]}
 
 
 Mainrouter = router

@@ -13,6 +13,6 @@ class TodoList(Base):
     todo = Column(String, nullable=False)
     check = Column(Boolean, nullable=False, default=False)
 
-    # 추천 todo리스트
-    user_id = Column(Integer, nuallable=False)
-    age_group = Column(String, nullable=False)
+    user_id = Column(Integer, ForeignKey("userinfo.id"), nullable=False)
+
+    user = relationship("UserInfo", back_populates="todos")

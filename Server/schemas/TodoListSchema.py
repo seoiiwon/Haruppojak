@@ -19,6 +19,5 @@ class TodoCheck(BaseModel):
     todocheck: bool
 
 
-class TopTodo(BaseModel):
-    todo: str
-    todo_count: int
+class TopTodoRecommendations(BaseModel):
+    recommendations: List[str]
