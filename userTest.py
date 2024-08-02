@@ -8,21 +8,26 @@ from Server.crud.DiaryCrud import *
 db = SessionLocal()
 
 diary_data = CreateDiarySchema(
-    content="김뽀짝의 일기장",
-    response="뽀짝아 안녕",
-    todo="운동하기"
+    content="오늘은 일기장을 새로 샀어",
+    todo="운동하기",
+    response="" 
 )
 
-CreateDiary(db, diary_data)
+reply = Diaryreply(diary_data)
 
-db = SessionLocal()
+diary_data.response = reply
 
-diary_to_delete = db.query(UserDiary).filter(UserDiary.id == 5).first()
+CreateDiary(db, diary_data, reply)
 
-if diary_to_delete:
-    deleteDiary(db, diary_to_delete)
-else:
-    print("삭제할 일기 항목이 없습니다.")
+# db = SessionLocal()
+
+# diary_to_delete = db.query(UserDiary).filter(UserDiary.id == 1).first()
+
+# if diary_to_delete:
+#     DeleteDiary(db, diary_to_delete)
+# else:
+#     print("삭제할 일기 항목이 없습니다.")
 
 # 세션 종료
 db.close()
+
