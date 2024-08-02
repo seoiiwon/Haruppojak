@@ -17,6 +17,8 @@ template_dir = os.path.join(os.path.dirname(
     __file__), "../../Web/templates/MainPage")
 templates = Jinja2Templates(directory=template_dir)
 
+template_dir_auth = os.path.join(os.path.dirname(__file__), "../../Web/templates/AuthPage")
+templates_auth = Jinja2Templates(directory=template_dir_auth)
 
 template_dir_auth = os.path.join(os.path.dirname(
     __file__), "../../Web/templates/AuthPage")
