@@ -1,3 +1,4 @@
+from sqlalchemy import desc, func
 from sqlalchemy.orm import Session
 from datetime import datetime
 from Server.models import TodoListModel
@@ -46,3 +47,20 @@ def check_todo(db: Session, todo_id: int, todo_check: TodoListSchema.TodoCheck):
         db.commit()
         db.refresh(db_todo)
     return db_todo
+
+# 추천 todo리스트
+
+
+def get_recommended_todo(db: Session, age_group: str):
+    result = db.query(
+        TodoListModel.TodoList.todo,
+        func.count(TodoListModel.TodoList.todo).label('todo_count')
+    ).filter(
+        TodoListModel.TodoList.age_group == age_group
+    ).group_by(
+        TodoListModel.TodoList.todo
+    ).order_by(
+        desc('todo_count')
+    ).limit(3).all()
+
+    return result

@@ -17,7 +17,8 @@ template_dir = os.path.join(os.path.dirname(
     __file__), "../../Web/templates/MainPage")
 templates = Jinja2Templates(directory=template_dir)
 
-template_dir_auth = os.path.join(os.path.dirname(__file__), "../../Web/templates/AuthPage")
+template_dir_auth = os.path.join(os.path.dirname(
+    __file__), "../../Web/templates/AuthPage")
 templates_auth = Jinja2Templates(directory=template_dir_auth)
 
 template_dir_auth = os.path.join(os.path.dirname(
@@ -66,5 +67,14 @@ async def check_existing_todo(
     todo_id: int, todo: TodoListSchema.TodoCheck, db: Session = Depends(get_db)
 ):
     return check_todo(db=db, todo_id=todo_id, todo_check=todo)
+
+# 추천 todo리스트
+
+
+@router.get("/todo/top/{age_group}", response_model=List[TopTodo])
+async def get_top_todos(age_group: str, db: Session = Depends(get_db)):
+    top_todos = get_recommended_todo(db, age_group)
+    return top_todos
+
 
 Mainrouter = router
