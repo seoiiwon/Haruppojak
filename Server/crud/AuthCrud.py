@@ -1,10 +1,11 @@
 from sqlalchemy.orm import Session
-from datetime import datetime
+from datetime import date, datetime
 from Server.models import UserModel
 from Server.schemas import AuthSchema
 from passlib.context import CryptContext
 
 passwordContext = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
 
 def signup(db: Session, user: AuthSchema.UserInfoSchema):
     user_model = UserModel.UserInfo(
@@ -21,18 +22,21 @@ def signup(db: Session, user: AuthSchema.UserInfoSchema):
         role=user.role,
         follower=user.follower,
         following=user.following
+
     )
     db.add(user_model)
     db.commit()
 
 
-def getUser(db : Session, ID : str):
+def getUser(db: Session, ID: str):
     return db.query(UserModel.UserInfo).filter(UserModel.UserInfo.userID == ID).first()
+
 
 def verifyPW(plainPW, hashedPW):
     return passwordContext.verify(plainPW, hashedPW)
 
-def getUserInfo(user : AuthSchema.UserInfoSchema):
+
+def getUserInfo(user: AuthSchema.UserInfoSchema):
     userInfo = {
         "userID": user.userID,
         "userName": user.userName,

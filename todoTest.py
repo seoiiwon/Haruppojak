@@ -5,9 +5,9 @@ from datetime import datetime
 
 db = SessionLocal()
 
-#  todo_create = TodoCreate(
-#     todowrite = "테스트",
-#     tododate = datetime.now()
+# todo_create = TodoCreate(
+#     todowrite="테스트 중",
+#     tododate=datetime.now()
 # )
 
 # todo_update = TodoUpdate(
@@ -18,10 +18,10 @@ db = SessionLocal()
 # )
 
 todo_check = TodoCheck(
-    id=4,
+    id=2,
     todocheck=True
 )
 # create_todo(db=db, todo=todo_create)
 # update_todo(db=db, todo_id=todo_update.id, todo_update=todo_update)
 # delete_todo(db=db, todo_id=3)
-check_todo(db=db, todo_id=4, todo_check=todo_check)
+check_todo(db=db, todo_id=2, todo_check=todo_check)

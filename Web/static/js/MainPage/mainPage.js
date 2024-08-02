@@ -163,7 +163,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Todo 표시
 function fetchTodos() {
-  fetch("/todo/all", {
+  fetch("/main", {
     method: "GET",
   })
     .then((response) => response.json())
