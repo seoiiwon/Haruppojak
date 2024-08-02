@@ -8,19 +8,23 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="HPIntroBox">
-        <h1 class="HPIntroTitleBox">
-            <div class="HPIcon">ㅇ</div>
-            <div class="HPTitle">하루뽀짝</div>
-        </h1>
-        <div class="HPIntroComment">
-            <div>매일 조금씩 뽀짝뽀짝</div>
-            <div>굿모닝을 위한 당신의 <span class="MiracleEveningTxt">미라클이브닝</span> 도우미</div>
+    <div class="container">
+        <div class="HPIntroBox">
+            <h1 class="HPIntroTitleBox">
+                <div class="HPIcon"><img class="ppojakLogo" src="{{ url_for('static', path='img/haruppojak_logo.png') }}" alt="haruppojak"></div>
+                <div class="HPTitle">하루뽀짝</div>
+            </h1>
+            <div class="HPIntroComment">
+                <div>매일 조금씩 뽀짝뽀짝</div>
+                <div>굿모닝을 위한 당신의 <span class="MiracleEveningTxt">미라클이브닝</span> 도우미</div>
+            </div>
         </div>
-    </div>
-    <div class="LoginBars">
-        <img src="{{ url_for('static', path='img/AuthPage/kakao_login_medium_wide.png') }}" alt="카카오 로그인">
-        <div class="LocalLoginBar" onclick="goToSignInPage()">로그인</div>
+        <div class="LoginBars">
+            <div>
+                <img class="kakaoBar" src="{{ url_for('static', path='img/AuthPage/kakao_login_medium_wide.png') }}" alt="카카오 로그인">
+            </div>
+            <div class="LocalLoginBar" onclick="goToSignInPage()">로그인</div> 
+        </div>
     </div>
 </body>
 </html>

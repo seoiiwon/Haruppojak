@@ -11,7 +11,7 @@ class UserRole(str, PythonEnum):
     ADMIN = "admin"
     EDITOR = "editor"
     READER = "reader"
-
+    
 
 class UserInfo(Base):
     __tablename__ = "userinfo"
@@ -52,4 +52,4 @@ class UserProofShot(Base):
     photo_id = Column(String, ForeignKey('proofShot.id'), primary_key=True)
 
     user = relationship("UserInfo", back_populates="proofShots")
-    proofShot = relationship("ProofShot", back_populates="owners")
+    proofShot = relationship("ProofShot", back_populates="participants") # 이 부분때문에 모델 수정 요망

@@ -5,19 +5,12 @@
 # from datetime import datetime
 
 from Server.config.database import SessionLocal
-from Server.crud.MainCrud import create_todo
-from Server.schemas.TodoListSchema import TodoCreate
-from datetime import datetime
+from Server.crud.MainCrud import get_todos
 
 db = SessionLocal()
 
-todo_create = TodoCreate(
-    todowrite="테스트 다시",
-    tododate=datetime.now()
-)
-
-create_todo(db=db, todo=todo_create)
-
+print(get_todos(db))
+db.close()
 
 
 

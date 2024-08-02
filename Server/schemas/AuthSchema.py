@@ -10,7 +10,7 @@ class UserRole(str, Enum):
     READER = "reader"
 
 class UserInfoSchema(BaseModel):
-    id : int
+    id : Optional[int] = None
     userID: str
     userPassword: str
     userName: str
@@ -20,7 +20,7 @@ class UserInfoSchema(BaseModel):
     userPpojakCoin: Optional[int] = Field(0)
     userProfileName: str
     userProfileComment: Optional[str] = Field("")
-    created_at: Optional[datetime] = Field(default_factory=datetime.now)
+    created_at: Optional[datetime] = None 
     role: Optional[UserRole] = Field(UserRole.READER)
     follower: Optional[int] = Field(0)
     following: Optional[int] = Field(0)
@@ -36,13 +36,13 @@ class UserInfoSchema(BaseModel):
         if value is None:
             raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="필수 항목을 입력하세요.")
         return value
-    
+
     @field_validator('userPassword')
     def checkPassword(cls, value):
         if len(value) < 8 or not any(str(char).isdigit() for char in value) or not any(str(char).isalpha() for char in value):
             raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="문자와 숫자를 포함한 8자리 이상의 비밀번호를 입력해주세요.")
         return value
-    
+
     @field_validator('userBirth')
     def validate_birth_year(cls, value):
         monthDict = {"31month": [1, 3, 5, 7, 8, 10, 12], "30month": [4, 6, 9, 11], "28month": [2]}
