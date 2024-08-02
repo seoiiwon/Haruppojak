@@ -5,6 +5,7 @@ from Server.api.AuthRouter import authRouter
 from Server.api.DiaryRouter import DiaryRouter
 from Server.api.MainRouter import Mainrouter
 from Server.api.ChallengeRouter import ChallengeRouter
+
 # from Server.api.MainRouter import Main_router
 from pathlib import Path
 
@@ -25,4 +26,3 @@ app.include_router(authRouter)
 app.include_router(DiaryRouter)
 app.include_router(Mainrouter)
 app.include_router(ChallengeRouter)
-
