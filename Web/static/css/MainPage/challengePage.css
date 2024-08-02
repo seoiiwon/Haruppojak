@@ -34,11 +34,17 @@ body {
 }
 
 /* 헤더 스타일 */
+
 header {
-  padding: 1rem;
   display: flex;
+  position: sticky;
+  top: 0;
+  background-color: white;
+  padding: 1rem;
   flex-direction: column;
   align-items: flex-start;
+  margin-bottom: 1rem;
+  z-index: 1;
 }
 
 .logoTitle {
@@ -47,84 +53,28 @@ header {
   width: auto;
 }
 
-.calendarHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  font-size: 20px;
-  width: 100%;
-}
-
-.calendarHeader button {
-  border: none;
-  background-color: white;
-  font-size: 18px;
-  cursor: pointer;
-  margin: 0.25rem;
-}
-
-.yearMonth {
-  flex-direction: row;
-  align-items: center;
-  width: 8rem;
-}
-
-.year,
-.month {
-  padding: 0.25rem;
-}
-
-.calendarPic {
-  margin-left: auto;
-}
-
-.calendarPic img {
-  width: 20px;
-}
-
-/* 섹션 2 */
-.calendarBody {
-  padding: 16px;
-}
-
-.calendarWeekdays,
-.calendarDays {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.weekday,
-.day {
-  width: calc(100% / 7);
-  text-align: center;
-  padding: 8px 0;
-}
-
-.weekday {
-  font-weight: bold;
-  color: #2f4858;
-}
-
-.day {
-  margin: 4px 0;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.day:hover {
-  background-color: #e0e0e0;
-}
-
-.day.today {
+.searchChallenge {
+  display: block;
+  margin: 0 auto;
+  border-radius: 20px;
+  width: 325px;
+  padding: 0.5rem;
   background-color: #2f4858;
-  color: #ffffff;
 }
 
-.day.event {
-  background-color: #ffeb3b;
-  color: #000000;
+/* 챌린지 */
+.challengeBox {
+  max-width: 75%;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+}
+
+.challengeBox div {
+  margin-bottom: 10px;
 }
 
 /* 푸터 */
@@ -164,4 +114,39 @@ footer {
 
 .footerNav img {
   width: 48px;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 10;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border-radius: 25px 25px 25px 25px;
+  width: 50%;
+}
+
+.close {
+  color: #a0a0a0;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
 }
