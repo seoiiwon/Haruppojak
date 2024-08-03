@@ -8,20 +8,20 @@ from Server.crud.DiaryCrud import *
 
 db = SessionLocal()
 
-# diary_data = CreateDiarySchema(
-#     content="일이 내 생각대로 풀리지 않아.",
-#     todo="운동하기",
-#     response="",
-#     id=0
-# )
+diary_data = CreateDiarySchema(
+    content="일이 내 생각대로 풀리지 않아.",
+    todo="운동하기",
+    response="",
+    id=0
+)
 
-# userid=5
+userid=15
 
-# reply = Diaryreply(diary_data)
+reply = Diaryreply(diary_data)
 
-# diary_data.response = reply
+diary_data.response = reply
 
-# CreateDiary(db, diary_data, reply, userid)
+CreateDiary(db, diary_data, reply, userid)
 
 
 # def writediary():

@@ -42,10 +42,8 @@ async def writediaryhtml(request : Request):
 #     CreateDiary(db=db, diaryreply=diaryreply,reply=reply)
 
 @router.post("/diary/write", status_code=status.HTTP_201_CREATED) # 다이어리 작성 테스트중
-async def writediarys(writediary: CreateDiarySchema, request : Request, db: Session = Depends(get_db)):
-    token = request.cookies.get("access_token")
-    user = getCurrentUser(token,db)
-    userid = user.id
+async def writediarys(writediary: CreateDiarySchema, currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser), db: Session = Depends(get_db)):
+    userid = currentUser.id
     writediary.id = userid
     latest_diary = db.query(UserDiary).filter(UserDiary.Diaryuserid == userid).order_by(desc(UserDiary.Date)).first()
     if latest_diary and latest_diary.Date > datetime.now() - timedelta(days=1):
