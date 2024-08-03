@@ -4,6 +4,7 @@ from typing import Optional, List
 
 
 class TodoCreate(BaseModel):
+    userid: str
     todowrite: str
     tododate: datetime.datetime
     todocheck: bool

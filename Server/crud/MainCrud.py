@@ -9,14 +9,14 @@ from dotenv import load_dotenv
 
 
 # 투두리스트 조회
-def get_todos(db: Session):
-    return db.query(TodoListModel.TodoList).all()
+def get_todos(db: Session, user_id: int):
+    return db.query(TodoListModel.TodoList).filter(TodoListModel.TodoList.user_id == user_id).all()
 
 
 # 투두리스트 작성
-def create_todo(db: Session, todo: TodoListSchema.TodoCreate):
+def create_todo(db: Session, todo: TodoListSchema.TodoCreate, user_id: int):
     db_todo = TodoListModel.TodoList(todo=todo.todowrite,
-                                     date=datetime.now())
+                                     date=datetime.now(), user_id=user_id)
     db.add(db_todo)
     db.commit()
     db.refresh(db_todo)
@@ -24,9 +24,9 @@ def create_todo(db: Session, todo: TodoListSchema.TodoCreate):
 
 
 # 투두리스트 수정
-def update_todo(db: Session, todo_id: int, todo_update: TodoListSchema.TodoUpdate):
+def update_todo(db: Session, todo_id: int, todo_update: TodoListSchema.TodoUpdate, user_id: int):
     db_todo = db.query(TodoListModel.TodoList).filter(
-        TodoListModel.TodoList.id == todo_id).first()
+        TodoListModel.TodoList.id == todo_id, TodoListModel.TodoList.user_id == user_id).first()
     if db_todo:
         db_todo.date = todo_update.tododate
         db_todo.todo = todo_update.todowrite
@@ -37,9 +37,9 @@ def update_todo(db: Session, todo_id: int, todo_update: TodoListSchema.TodoUpdat
 
 
 # 투두리스트 삭제
-def delete_todo(db: Session, todo_id: int):
+def delete_todo(db: Session, todo_id: int, user_id: int):
     db_todo = db.query(TodoListModel.TodoList).filter(
-        TodoListModel.TodoList.id == todo_id).first()
+        TodoListModel.TodoList.id == todo_id, TodoListModel.TodoList.user_id == user_id).first()
     if db_todo:
         db.delete(db_todo)
         db.commit()
@@ -47,9 +47,9 @@ def delete_todo(db: Session, todo_id: int):
 
 
 # 투두리스트 완료 기능
-def check_todo(db: Session, todo_id: int, todo_check: TodoListSchema.TodoCheck):
+def check_todo(db: Session, todo_id: int, todo_check: TodoListSchema.TodoCheck, user_id: int):
     db_todo = db.query(TodoListModel.TodoList).filter(
-        TodoListModel.TodoList.id == todo_id).first()
+        TodoListModel.TodoList.id == todo_id, TodoListModel.TodoList.user_id == user_id).first()
     if db_todo:
         db_todo.check = todo_check.todocheck
         db.commit()
