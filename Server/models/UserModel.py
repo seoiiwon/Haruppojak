@@ -34,7 +34,6 @@ class UserInfo(Base):
     challenges = relationship('UserChallenge', back_populates='user')
     proofShots = relationship('UserProofShot', back_populates='user')
 
-
 class UserChallenge(Base):
     __tablename__ = "userChallenge"
 

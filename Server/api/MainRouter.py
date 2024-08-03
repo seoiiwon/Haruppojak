@@ -3,8 +3,6 @@ from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from Server.config.database import get_db
-
-from Server.crud import MainCrud
 from Server.models.TodoListModel import *
 from Server.schemas.TodoListSchema import *
 from Server.crud.MainCrud import *
@@ -26,7 +24,8 @@ template_dir_auth = os.path.join(os.path.dirname(
 templates_auth = Jinja2Templates(directory=template_dir_auth)
 
 
-@router.get("/main", response_class=HTMLResponse)  # todo 리스트 보기
+# todo 리스트 보기
+@router.get("/haru/main", response_class=HTMLResponse)
 async def read_todos(request: Request, db: Session = Depends(get_db)):
 
     token = request.cookies.get("access_token")
