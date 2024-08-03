@@ -36,29 +36,18 @@ async def writediaryhtml(request : Request):
     else:
         return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
 
-# @router.post("/diary/write", status_code=status.HTTP_204_NO_CONTENT) # 다이어리 작성
-# async def writediarys(diaryreply : CreateDiarySchema, db : Session=Depends(get_db)):
-#     reply = Diaryreply(diaryreply)
-#     CreateDiary(db=db, diaryreply=diaryreply,reply=reply)
-
-@router.post("/diary/write", status_code=status.HTTP_201_CREATED) # 다이어리 작성 테스트중
+@router.post("/diary/write", status_code=status.HTTP_201_CREATED) # 다이어리 작성
 async def writediarys(writediary: CreateDiarySchema, currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser), db: Session = Depends(get_db)):
     userid = currentUser.id
     writediary.id = userid
     latest_diary = db.query(UserDiary).filter(UserDiary.Diaryuserid == userid).order_by(desc(UserDiary.Date)).first()
-    if latest_diary and latest_diary.Date > datetime.now() - timedelta(days=1):
-        raise HTTPException(status_code=429, detail="하루에 한 번만 일기를 작성할 수 있습니다.")
+    # if latest_diary and latest_diary.Date > datetime.now() - timedelta(days=1):
+    #     raise HTTPException(status_code=429, detail="하루에 한 번만 일기를 작성할 수 있습니다.")
     reply = Diaryreply(writediary)
     writediary.response = reply
     CreateDiary(db=db, diary=writediary, reply=reply, diaryuserid=userid) 
 
-# @router.post("/diary/write", status_code=status.HTTP_201_CREATED) # 다이어리 작성 수정 후
-# async def writediarys(writediary: CreateDiarySchema, db: Session = Depends(get_db)):
-#     reply = Diaryreply(writediary)
-#     writediary.response = reply
-#     CreateDiary(db=db, writediary=writediary, reply=reply) 
-
-@router.get("/diary/reply", response_class=HTMLResponse)  # 다이어리 답장 보기
+@router.get("/diary/reply", response_class=HTMLResponse)  # 다이어리 답장 페이지
 async def diary_reply(request: Request, currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser), db: Session = Depends(get_db)):
     
     userid = currentUser.id
@@ -73,27 +62,30 @@ async def diary_reply(request: Request, currentUser: AuthSchema.UserInfoSchema =
     # 일기가 있는 경우
     return templates_diary.TemplateResponse(name="reply.html", context={"request": request, "reply": latest_diary.Response})
 
-# @router.get("/diary/reply", response_class=HTMLResponse) # 다이어리 답장 보기 test
-# async def diary_reply(request: Request, currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser),db: Session = Depends(get_db)):
-#     # token = request.cookies.get("access_token")
-#     # user = getCurrentUser(token,db)
-#     userid = currentUser.id
-#     latest_diary = db.query(UserDiary).filter(UserDiary.Diaryuserid == userid).order_by(desc(UserDiary.Date)).first()
-#     # diaryreply = CreateDiarySchema(content=latest_diary.Diarycontent, response=latest_diary.Response, todo=latest_diary.Diarytodo, id=latest_diary.Diaryuserid)
-#     return templates_diary.TemplateResponse(name="reply.html",context= {"request": request,"reply": latest_diary.Response})
+@router.get("/diary/calendar", response_model=CreateDiarySchema) # 다이어리 캘린더
+async def get_monthly_diaries(currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser), db: Session = Depends(get_db)):
+    today = datetime.now()
+    startdate = today.replace(day=1)  # 이번 달 1일
+    enddate = (startdate + timedelta(days=31)).replace(day=1)  # 다음 달 1일
 
-# @router.get("/diary/reply", status_code=status.HTTP_200_OK) # 다이어리 답장 수정중.
-# async def diary_reply(diaryreply : CreateDiarySchema, request: Request ):
-#     reply = Diaryreply(diaryreply)
-#     return templates_diary.TemplateResponse(name="reply.html",context={"request": request, "content": diaryreply.content, "reply": reply})
+    diaries = db.query(UserDiary).filter(
+        UserDiary.Diaryuserid == currentUser.id,
+        UserDiary.Date >= startdate,
+        UserDiary.Date < enddate
+    ).order_by(UserDiary.Date).all()
 
-@router.get("/diary/calendar", response_class=HTMLResponse) # 다이어리 캘린더
-async def diarycalendarhtml(request : Request):
-    token = request.cookies.get("access_token")
-    if token:
-        return templates_diary.TemplateResponse(name="diaryCalendar.html", request=request)
-    else:
-        return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
+    if not diaries:
+        raise HTTPException(status_code=404, detail="No diaries found for this month.")
+
+    return diaries
+
+# @router.get("/diary/calendar", response_class=HTMLResponse) # 다이어리 캘린더
+# async def diarycalendarhtml(request : Request):
+#     token = request.cookies.get("access_token")
+#     if token:
+#         return templates_diary.TemplateResponse(name="diaryCalendar.html", request=request)
+#     else:
+#         return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
 
 @router.get("/diary/close", response_class=HTMLResponse) # 앱 종료
 async def diaryclosehtml(request : Request):
@@ -103,27 +95,17 @@ async def diaryclosehtml(request : Request):
     else:
         return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
     
-# @router.get("/diary/reply", response_class=HTMLResponse) # 다이어리 답장 페이지
-# async def diaryreplyhtml(request : Request):
-#     token = request.cookies.get("access_token")
-#     if token:
-#         return templates_diary.TemplateResponse(name="reply.html", request=request)
-#     else:
-#         return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
-    
-# @router.get("/diary/reply", status_code=status.HTTP_204_NO_CONTENT) # 다이어리 답장
-# async def diary_reply(diaryreply: CreateDiarySchema, request: Request):
-#     return templates_diary.TemplateResponse(name="reply.html", context={"request": request, "content": diaryreply.content, "reply": diaryreply.response})
-    
-# @router.get("/diary/reply", status_code=status.HTTP_200_OK) # 다이어리 답장 수정
-# async def diary_reply(content: str, response: str, request: Request):
-#     diaryreply = {"content": content, "response": response}
-#     reply = Diaryreply(diaryreply)  # Diaryreply 함수로 가정
-#     return templates_diary.TemplateResponse(name="reply.html", context={"request": request, "content": content, "reply": response})
+# @router.get("/diary/detail/{date}", response_class=HTMLResponse)  # 일기 다시보기
+# async def diary_reply(request: Request, date: str, db: Session = Depends(get_db), currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser)):
 
-# @router.get("diary/detail/{id}", response_class=HTMLResponse) # 일기 다시보기
-# async def diarydetailhtml(request:Request,id:int,db:Session=Depends(get_db)):
-#     diary=getdiarydetail(db,id=id)
+#     userid = currentUser.id
+   
+#     targetdate = datetime.strptime(date, '%Y-%m-%d').date()
+
+#     # 사용자별 원하는 날짜 일기 조회
+#     detaildiary = db.query(UserDiary).filter(UserDiary.Diaryuserid == userid,UserDiary.Date == targetdate).first()
+
+#     return templates_diary.TemplateResponse(name="diarydetail.html", context={"request": request, "content": detaildiary.Diarycontent})
 
 # @router.get("diary/responsedetail/{id}", response_class=HTMLResponse) # 답장 다시보기
 # async def diarydetailresponse(request:Request, id:int,db:Session=Depends(get_db)):
