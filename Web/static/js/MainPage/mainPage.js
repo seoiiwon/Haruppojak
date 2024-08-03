@@ -1,18 +1,18 @@
-// 페이지 연결
-// function fetchTodos() {
-//   fetch("/todo/all", {
-//     method: "GET",
-//   })
-//     .then((response) => response.json())
-//     .then((data) => {
-//       const todoListContainer = document.getElementById("todoListContainer");
-//       data.todos.forEach((todo) => {
-//         const todoItem = createTodoElement(todo);
-//         todoListContainer.appendChild(todoItem);
-//       });
-//     })
-//     .catch((error) => console.error("Error fetching todos:", error));
-// }
+//페이지 연결
+function fetchMain() {
+  fetch("/haru/main", {
+    method: "GET",
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      const todoListContainer = document.getElementById("todoListContainer");
+      data.todos.forEach((todo) => {
+        const todoItem = createTodoElement(todo);
+        todoListContainer.appendChild(todoItem);
+      });
+    })
+    .catch((error) => console.error("Error fetching todos:", error));
+}
 
 // 날짜 및 날짜 요소 배열 생성
 let dates = [];
@@ -75,25 +75,25 @@ function handleDateClick(clickedDate) {
 }
 
 // Todo 화면에 표시하기
-// function fetchTodosForDate(date) {
-//   const formattedDate = `${date.getFullYear()}-${String(
-//     date.getMonth() + 1
-//   ).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+function fetchTodosForDate(date) {
+  const formattedDate = `${date.getFullYear()}-${String(
+    date.getMonth() + 1
+  ).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
 
-//   fetch(`/todo/date/${formattedDate}`, {
-//     method: "GET",
-//   })
-//     .then((response) => response.json())
-//     .then((data) => {
-//       const todoListContainer = document.getElementById("todoListContainer");
-//       todoListContainer.innerHTML = ""; // 기존 항목 제거
-//       data.todos.forEach((todo) => {
-//         const todoItem = createTodoElement(todo);
-//         todoListContainer.appendChild(todoItem);
-//       });
-//     })
-//     .catch((error) => console.error("Error fetching todos:", error));
-// }
+  fetch(`/todo/date/${formattedDate}`, {
+    method: "GET",
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      const todoListContainer = document.getElementById("todoListContainer");
+      todoListContainer.innerHTML = ""; // 기존 항목 제거
+      data.todos.forEach((todo) => {
+        const todoItem = createTodoElement(todo);
+        todoListContainer.appendChild(todoItem);
+      });
+    })
+    .catch((error) => console.error("Error fetching todos:", error));
+}
 
 // 투두 추가 - 더 수정하기
 // 이벤트 리스너를 등록하는 함수
