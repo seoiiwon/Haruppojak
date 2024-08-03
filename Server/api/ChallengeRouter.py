@@ -4,6 +4,7 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from Server.config.database import get_db
 from Server.schemas import ChallengeSchema, AuthSchema
+from Server.models.UserModel import UserChallenge
 from Server.crud.AuthCrud import getUserInfo
 from Server.crud.ChallengeCrud import getChallengeListAll, postNewChallenge, joinChallenge
 from Server.crud.TokenForAuth import getCurrentUser
