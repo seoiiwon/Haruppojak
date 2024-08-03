@@ -34,6 +34,7 @@ def verifyPW(plainPW, hashedPW):
 
 def getUserInfo(user : AuthSchema.UserInfoSchema):
     userInfo = {
+        "id" : user.id,
         "userID": user.userID,
         "userName": user.userName,
         "userEmail": user.userEmail,

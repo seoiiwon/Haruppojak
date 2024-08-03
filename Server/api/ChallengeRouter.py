@@ -4,6 +4,7 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from Server.config.database import get_db
 from Server.schemas import ChallengeSchema, AuthSchema
+from Server.crud.AuthCrud import getUserInfo
 from Server.crud.ChallengeCrud import getChallengeListAll, postNewChallenge, joinChallenge
 from Server.crud.TokenForAuth import getCurrentUser
 from pathlib import Path
@@ -18,9 +19,9 @@ templates = Jinja2Templates(directory=template_dir)
 # GET
 
 @router.get("/challenge/all", response_class=HTMLResponse) # 전체 챌린지 페이지
-async def getChallengeList(request : Request, db : Session=Depends(get_db)):
-    challengeListAll = getChallengeListAll(db) 
-    return templates.TemplateResponse(name="challengePage.html", context={"request" : request, "challengeList" : challengeListAll})
+async def getChallengeList(request : Request, db : Session=Depends(get_db), currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser)):
+    challengeListAll = getChallengeListAll(db)
+    return templates.TemplateResponse(name="challengePage.html", context={"request" : request, "challengeList" : challengeListAll, "user" : getUserInfo(currentUser)})
 
 
 # POST 

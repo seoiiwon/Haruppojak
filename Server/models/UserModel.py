@@ -33,6 +33,8 @@ class UserInfo(Base):
 
     challenges = relationship('UserChallenge', back_populates='user')
     proofShots = relationship('UserProofShot', back_populates='user')
+    todos = relationship('TodoList', back_populates='user')
+
 
 
 class UserChallenge(Base):
@@ -53,3 +55,4 @@ class UserProofShot(Base):
 
     user = relationship("UserInfo", back_populates="proofShots")
     proofShot = relationship("ProofShot", back_populates="participants") # 이 부분때문에 모델 수정 요망
+
