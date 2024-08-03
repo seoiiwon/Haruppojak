@@ -17,7 +17,8 @@ template_dir = os.path.join(os.path.dirname(
     __file__), "../../Web/templates/MainPage")
 templates = Jinja2Templates(directory=template_dir)
 
-template_dir_auth = os.path.join(os.path.dirname(__file__), "../../Web/templates/AuthPage")
+template_dir_auth = os.path.join(os.path.dirname(
+    __file__), "../../Web/templates/AuthPage")
 templates_auth = Jinja2Templates(directory=template_dir_auth)
 
 template_dir_auth = os.path.join(os.path.dirname(
@@ -25,7 +26,7 @@ template_dir_auth = os.path.join(os.path.dirname(
 templates_auth = Jinja2Templates(directory=template_dir_auth)
 
 
-@router.get("/todo/all", response_class=HTMLResponse)  # todo 리스트 보기
+@router.get("/main", response_class=HTMLResponse)  # todo 리스트 보기
 async def read_todos(request: Request, db: Session = Depends(get_db)):
 
     token = request.cookies.get("access_token")
