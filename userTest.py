@@ -6,22 +6,22 @@ from Server.crud.TokenForAuth import *
 from datetime import datetime
 from Server.crud.DiaryCrud import *
 
-db = SessionLocal()
+# db = SessionLocal()
 
-diary_data = CreateDiarySchema(
-    content="일이 내 생각대로 풀리지 않아.",
-    todo="운동하기",
-    response="",
-    id=0
-)
+# diary_data = CreateDiarySchema(
+#     content="일이 내 생각대로 풀리지 않아.",
+#     todo="운동하기",
+#     response="",
+#     id=0
+# )
 
-userid=15
+# userid=1
 
-reply = Diaryreply(diary_data)
+# reply = Diaryreply(diary_data)
 
-diary_data.response = reply
+# diary_data.response = reply
 
-CreateDiary(db, diary_data, reply, userid)
+# CreateDiary(db, diary_data, reply, userid)
 
 
 # def writediary():
@@ -49,5 +49,5 @@ CreateDiary(db, diary_data, reply, userid)
 #     print("삭제할 일기 항목이 없습니다.")
 
 # 세션 종료
-db.close()
+# db.close()
 
