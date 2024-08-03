@@ -29,9 +29,9 @@ function showTodoModal() {
   displayTodos();
 }
 
-// '뽀짝이가 답장을 써줄 거예요!' 클릭 시 'reply.html'로 이동
+// '뽀짝이가 답장을 써줄 거예요!' 클릭 시 '/diary/reply'로 이동
 function goToReply() {
-  window.location.href = 'reply.html';
+  window.location.href = '/diary/reply';
 }
 
 // 투두리스트 데이터를 로드하고 모달에 표시하는 함수
