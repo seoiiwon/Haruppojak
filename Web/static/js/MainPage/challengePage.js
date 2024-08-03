@@ -1,34 +1,40 @@
 document.addEventListener("DOMContentLoaded", function () {
-  var modal = document.getElementById("myModal");
-  var modalText = document.getElementById("modalText");
-  var span = document.getElementsByClassName("close")[0];
-  var container = document.getElementsByClassName("container");
+  var header = document.querySelector("header");
 
   // 각 challengeBox 클릭 시 모달 열기
   document.querySelectorAll(".challengeBox").forEach(function (box) {
     box.addEventListener("click", function () {
+      var challengeId = this.getAttribute("data-challenge-id");
+      var modal = document.getElementById("myModal-" + challengeId);
+      var modalText = document.getElementById("modalText-" + challengeId);
+
       modalText.innerHTML = this.innerHTML;
       modal.style.display = "block";
-      container.style
     });
   });
 
-  // 모달 닫기 버튼 클릭 시
-  span.onclick = function () {
-    modal.style.display = "none";
-  };
+  // 각 모달의 닫기 버튼 클릭 시
+  document.querySelectorAll(".close").forEach(function (span) {
+    span.addEventListener("click", function () {
+      var modalId = this.getAttribute("data-modal-id");
+      var modal = document.getElementById(modalId);
+      modal.style.display = "none";
+    });
+  });
 
   // 모달 외부 클릭 시
-  window.onclick = function (event) {
-    if (event.target == modal) {
-      modal.style.display = "none";
+  window.addEventListener("click", function (event) {
+    if (event.target.classList.contains("modal")) {
+      event.target.style.display = "none";
     }
-  };
+  });
 
-  // Escape 키 눌렀을 때
+  // Escape 키 눌렀을 때 모든 모달 닫기
   document.addEventListener("keydown", function (event) {
     if (event.key === "Escape" || event.key === "Esc" || event.keyCode === 27) {
-      modal.style.display = "none";
+      document.querySelectorAll(".modal").forEach(function (modal) {
+        modal.style.display = "none";
+      });
     }
   });
 
@@ -36,12 +42,13 @@ document.addEventListener("DOMContentLoaded", function () {
   document.querySelectorAll(".joinChallengeBtn").forEach(function (button) {
     button.addEventListener("click", function () {
       var challengeId = this.getAttribute("data-challenge-id");
-      console.log("Clicked challengeId:", challengeId); // 클릭된 챌린지 ID 콘솔에 출력
-
       var url = "/challenge/join";
+
       var payload = {
         challenge_id: parseInt(challengeId, 10)
       };
+
+      console.log(challengeId);
 
       fetch(url, {
         method: 'POST',

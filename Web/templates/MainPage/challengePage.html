@@ -17,13 +17,13 @@
                 <input id="searchBar" type="text" name="keyword" placeholder="검색어 입력">
                 <button type="submit">
                     <img class="SImg" src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
-                </button>        
+                </button>
             </div>
         </header>
         <main>
             <section class="challengeList">
                 {% for challenge in challengeList %}
-                    <div class="challengeBox">
+                    <div class="challengeBox" data-challenge-id="{{ challenge.id }}">
                         <div class="challengeTop">
                             <div class="challengeThumbnail">
                                 <img class="Thumbnail" src="{{ url_for('static', path='img/ChallengeImg/' ~ challenge.challengeThumbnail1) }}" alt="Challenge Thumbnail">
@@ -41,10 +41,11 @@
                         </div>
                         <div class="challengeComment">{{ challenge.challengeComment }}</div>
                     </div>
-                    <div id="myModal" class="modal">
+                    <div id="myModal-{{ challenge.id }}" class="modal">
                         <div class="modal-content">
-                            <span class="close">&times;</span>
-                            <div id="modalText"></div>
+                            <span class="close" data-modal-id="myModal-{{ challenge.id }}">&times;</span>
+                            <div id="modalText-{{ challenge.id }}"></div>
+                            <div>{{ user.id }}</div>
                             <input class="joinChallengeBtn" type="button" value="참가하기" data-challenge-id="{{ challenge.id }}">
                         </div>
                     </div>
@@ -85,10 +86,10 @@
                 </ul>
             </nav>
         </footer>
-        
+
     </div>
 
-    <script src="../../static/js/MainPage/challengePage.js">c</script>
+    <script src="../../static/js/MainPage/challengePage.js"></script>
 </body>
 
 </html>
