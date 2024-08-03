@@ -3,9 +3,11 @@ from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from Server.config.database import get_db
+from Server.crud.TokenForAuth import getCurrentUser
 from Server.models.TodoListModel import *
 from Server.schemas.TodoListSchema import *
 from Server.crud.MainCrud import *
+from Server.schemas import AuthSchema
 import os
 
 router = APIRouter()
@@ -26,11 +28,11 @@ templates_auth = Jinja2Templates(directory=template_dir_auth)
 
 # todo 리스트 보기
 @router.get("/haru/main", response_class=HTMLResponse)
-async def read_todos(request: Request, db: Session = Depends(get_db)):
+async def read_todos(request: Request, db: Session = Depends(get_db), currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser)):
 
     token = request.cookies.get("access_token")
     if token:
-        todos = get_todos(db)
+        todos = get_todos(db, currentUser.id)
         return templates.TemplateResponse(name="mainPage.html", context={"request": request, "todos": todos})
     else:
         return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
@@ -67,12 +69,11 @@ async def check_existing_todo(
 ):
     return check_todo(db=db, todo_id=todo_id, todo_check=todo)
 
+
 # 추천 todo리스트
-
-
 @router.get("/todo/recommendations", response_model=TopTodoRecommendations)
 async def get_recommended_todos(db: Session = Depends(get_db)):
-    top_recommendations = get_recommended_todo(db)
+    top_recommendations = get_recommended_todos(db)
     return {"recommendations": [item[0] for item in top_recommendations]}
 
 
