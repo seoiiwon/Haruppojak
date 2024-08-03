@@ -1,3 +1,20 @@
+// 페이지 연결
+function fetchTodos() {
+  fetch("/todo/all", {
+    method: "GET",
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      const todoListContainer = document.getElementById("todoListContainer");
+      data.todos.forEach((todo) => {
+        const todoItem = createTodoElement(todo);
+        todoListContainer.appendChild(todoItem);
+      });
+    })
+    .catch((error) => console.error("Error fetching todos:", error));
+}
+
+// 날짜 및 날짜 요소 배열 생성
 let dates = [];
 let dateElements = {};
 
@@ -58,25 +75,110 @@ function handleDateClick(clickedDate) {
 }
 
 // Todo 화면에 표시하기
-function fetchTodosForDate(date) {
-  const formattedDate = `${date.getFullYear()}-${String(
-    date.getMonth() + 1
-  ).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+// function fetchTodosForDate(date) {
+//   const formattedDate = `${date.getFullYear()}-${String(
+//     date.getMonth() + 1
+//   ).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
 
-  fetch(`/todo/date/${formattedDate}`, {
-    method: "GET",
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      const todoListContainer = document.getElementById("todoListContainer");
-      todoListContainer.innerHTML = ""; // 기존 항목 제거
-      data.todos.forEach((todo) => {
-        const todoItem = createTodoElement(todo);
-        todoListContainer.appendChild(todoItem);
-      });
-    })
-    .catch((error) => console.error("Error fetching todos:", error));
+//   fetch(`/todo/date/${formattedDate}`, {
+//     method: "GET",
+//   })
+//     .then((response) => response.json())
+//     .then((data) => {
+//       const todoListContainer = document.getElementById("todoListContainer");
+//       todoListContainer.innerHTML = ""; // 기존 항목 제거
+//       data.todos.forEach((todo) => {
+//         const todoItem = createTodoElement(todo);
+//         todoListContainer.appendChild(todoItem);
+//       });
+//     })
+//     .catch((error) => console.error("Error fetching todos:", error));
+// }
+
+// 투두 추가 - 더 수정하기
+function addTodoItem() {
+  const todoListContainer = document.getElementById("addTodoList");
+  const li = document.createElement("li");
+  const div = document.createElement("div");
+  const plus = document.createElement("img");
+  const inputText = document.createElement("input");
+  const hr = document.createElement("hr");
+
+  plus.src = "{{ url_for('static', path='img/MainPage/addTodoButton.svg')}}";
+  inputText.type = "text";
+  inputText.placeholder = "투두 추가하기";
+  inputText.className = "todoContent";
+
+  div.appendChild(plus);
+  div.appendChild(inputText);
+  div.appendChild(hr);
+  li.appendChild(div);
+  todoListContainer.appendChild(li);
+
+  addEnterKeyListener(inputText);
+
+  inputText.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      event.stopPropagation();
+      console.log(`뿡`);
+      addTodoItem();
+      const todoContentInputs = document.getElementsByClassName("todoContent");
+      const nextInputIndex =
+        Array.from(todoContentInputs).indexOf(inputText) + 1;
+      console.log(`${todoContentInputs}`);
+      console.log(`${nextInputIndex}`);
+      if (todoContentInputs[nextInputIndex]) {
+        todoContentInputs[nextInputIndex].focus();
+      }
+    }
+  });
+
+  inputText.focus();
 }
+
+function addEnterKeyListener(inputText) {
+  inputText.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      event.stopPropagation();
+      console.log(`뿡`);
+      addTodoItem();
+      const todoContentInputs = document.getElementsByClassName("todoContent");
+      const nextInputIndex =
+        Array.from(todoContentInputs).indexOf(inputText) + 1;
+      console.log(`${todoContentInputs}`);
+      console.log(`${nextInputIndex}`);
+      if (todoContentInputs[nextInputIndex]) {
+        todoContentInputs[nextInputIndex].focus();
+      }
+    }
+  });
+}
+
+// 초기 입력 필드에도 이벤트 리스너를 추가합니다.
+document.addEventListener("DOMContentLoaded", function () {
+  const initialInput = document.querySelector("#addTodoList .todoContent");
+  if (initialInput) {
+    addEnterKeyListener(initialInput);
+    initialInput.focus();
+  }
+});
+
+// 뿡뿡
+// function createTodoElement(todo) {
+//   const li = document.createElement("li");
+//   const button = document.createElement("input");
+//   button.type = "button";
+//   button.checked = todo.completed;
+//   const input = document.createElement("input");
+//   input.type = "text";
+//   input.value = todo.content;
+//   input.className = "todoContent";
+//   li.appendChild(button);
+//   li.appendChild(input);
+//   return li;
+// }
 
 // 뽀짝챌 자동으로 넘어가기
 document.addEventListener("DOMContentLoaded", function () {
@@ -149,66 +251,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   setInterval(scrollBoxes, 5000);
 });
-
-// Todo
-document.addEventListener("DOMContentLoaded", function () {
-  fetchTodos();
-
-  document
-    .getElementById("addTodoButton")
-    .addEventListener("click", function () {
-      addTodoItem();
-    });
-});
-
-// 페이지 연결
-function fetchTodos() {
-  fetch("/todo/all", {
-    method: "GET",
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      const todoListContainer = document.getElementById("todoListContainer");
-      data.todos.forEach((todo) => {
-        const todoItem = createTodoElement(todo);
-        todoListContainer.appendChild(todoItem);
-      });
-    })
-    .catch((error) => console.error("Error fetching todos:", error));
-}
-
-// 뿡뿡
-function createTodoElement(todo) {
-  const li = document.createElement("li");
-  const button = document.createElement("input");
-  button.type = "button";
-  button.checked = todo.completed;
-  const input = document.createElement("input");
-  input.type = "text";
-  input.value = todo.content;
-  input.className = "todoContent";
-  li.appendChild(button);
-  li.appendChild(input);
-  return li;
-}
-
-//빵빠아랑
-function addTodoItem() {
-  const todoListContainer = document.getElementById("todoListContainer");
-  const li = document.createElement("li");
-  const button = document.createElement("input");
-  button.type = "button";
-  const hr = document.createElement("hr");
-  const input = document.createElement("input");
-  input.type = "text";
-  input.placeholder = "오늘의 투두를 입력해주세요.";
-  input.className = "todoContent";
-  li.appendChild(button);
-  li.appendChild(input);
-  li.appendChild(hr);
-  todoListContainer.appendChild(li);
-  input.focus();
-}
 
 // 챌린지 페이지 넘어가기
 document.addEventListener("DOMContentLoaded", function () {
