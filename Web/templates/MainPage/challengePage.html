@@ -22,6 +22,9 @@
         </header>
         <main>
             <section class="challengeList">
+                <!-- {% for challenge in challengeList %}
+                    <div>{{ challenge.id }}</div>
+                {% endfor %} -->
                 {% for challenge in challengeList %}
                     <div class="challengeBox" data-challenge-id="{{ challenge.id }}">
                         <div class="challengeTop">
@@ -45,8 +48,14 @@
                         <div class="modal-content">
                             <span class="close" data-modal-id="myModal-{{ challenge.id }}">&times;</span>
                             <div id="modalText-{{ challenge.id }}"></div>
-                            <div>{{ user.id }}</div>
-                            <input class="joinChallengeBtn" type="button" value="참가하기" data-challenge-id="{{ challenge.id }}">
+                            <!-- {% for challenge in userChallenge %}
+                                {{ challenge.challenge_id }}
+                            {% endfor %} -->
+                            {% if challenge.id in userChallenge %}
+                                <input class="joinChallengeBtn" type="button" value="참여중" data-challenge-id="{{ challenge.id }}">
+                            {% else %}
+                                <input class="joinChallengeBtn" type="button" value="참여하기" data-challenge-id="{{ challenge.id }}">
+                            {% endif %}
                         </div>
                     </div>
                 {% endfor %}
