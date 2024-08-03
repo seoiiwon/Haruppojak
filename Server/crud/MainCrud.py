@@ -8,9 +8,11 @@ def get_todos(db: Session):  # 투두리스트 조회
     return db.query(TodoListModel.TodoList).all()
 
 
-def create_todo(db: Session, todo: TodoListSchema.TodoCreate):  # 투두리스트 작성
+def create_todo(db: Session, todo: TodoListSchema.TodoCreate, user : int):  # 투두리스트 작성
     db_todo = TodoListModel.TodoList(todo=todo.todowrite,
-                                     date=datetime.now())
+                                     date=datetime.now(),
+                                     todocheck=todo.todocheck,
+                                     user_id=user)
     db.add(db_todo)
     db.commit()
     db.refresh(db_todo)

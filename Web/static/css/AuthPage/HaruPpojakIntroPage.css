@@ -74,3 +74,7 @@ body {
     border: 0.5px solid white;
     border-radius: 10px;
 }
+
+input {
+    background-color: none;
+}
