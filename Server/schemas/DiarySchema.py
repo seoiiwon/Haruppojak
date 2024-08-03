@@ -2,10 +2,11 @@ from pydantic import BaseModel, field_validator
 import datetime
 from typing import Optional
 
-class CreateDiarySchema(BaseModel):
+class CreateDiarySchema(BaseModel): 
     content : str
     response : str
     todo : str
+    id : int
 
     @field_validator("content")
     def empty_vaildation(cls, valid) :

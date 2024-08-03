@@ -13,6 +13,4 @@ class UserDiary(Base):
     Diarycontent = Column(Text,nullable=False)
     Response = Column(Text, nullable=False, default="")
     Diarytodo = Column(String, nullable=True)
-    
-    # Diaryuserid = Column(Integer, ForeignKey('userinfo.id'))
-    # Diaryuser =  relationship("UserInfo", back_populates="Diary")
+    Diaryuserid = Column(Integer, nullable=False, default=0)
