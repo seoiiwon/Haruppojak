@@ -1,9 +1,9 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional
 from datetime import datetime
 
 class ChallengeSchema(BaseModel):
-    id : int
+    id: Optional[int] = Field(None)
     challengeOwner: str
     challengeTitle: str
     challengeComment: str
@@ -25,3 +25,6 @@ class ChallengeReadSchema(ChallengeSchema):
 
 class ChallengeJoinRequest(BaseModel):
     challenge_id: int
+
+class UserChallenge(BaseModel):
+    user_id : int

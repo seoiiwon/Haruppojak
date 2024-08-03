@@ -4,6 +4,7 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from Server.config.database import get_db
 from Server.schemas.AuthSchema import UserInfoSchema
+from Server.schemas.TodoListSchema import TodoCreate
 from Server.crud.AuthCrud import signup, getUser, verifyPW, getUserInfo
 from Server.crud.TokenForAuth import getCurrentUser, createAccessToken
 from Server.models.UserModel import UserInfo
@@ -91,6 +92,14 @@ async def postUserSignIn(response: Response, loginForm: security.OAuth2PasswordR
 @router.post("/auth/photo", status_code=status.HTTP_204_NO_CONTENT)
 async def postUserPhoto(db : Session=Depends(get_db), ):
     pass
+
+
+@router.post("/haru/intro", status_code=status.HTTP_204_NO_CONTENT)
+async def postFirstTodo(request : Request, todolist : TodoCreate, currentUser: UserInfoSchema = Depends(getCurrentUser) ,db : Session=Depends(get_db)):
+    pass
+    
+
+
 
 # 로그아웃 부분 수정해서 활용하도록 하죠...
 # @router.get("/auth/logout")

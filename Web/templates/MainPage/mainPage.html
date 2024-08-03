@@ -5,29 +5,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Main Page</title>
-    <link rel="stylesheet" href="../../static/css/MainPage/mainPage.css">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/MainPage/mainPage.css') }}">
 </head>
 
 <body>
     <div class="container">
         <header>
-            <!-- 로고, 날짜표시 -->
-            <img src="logo.png" alt="하루뽀짝" class="logo">
+            <!-- 로고, 하루뽀짝, 날짜표시 -->
+            <div class="logo">
+                <img class="ppojakLogo" src="{{ url_for('static', path='img/haruppojak_logo.png') }}" alt="haruppojak">
+                <div id="haruPpojak">하루뽀짝</div>
+            </div>
             <div class="date" id="dateContainer">
-                <span id="past2"></span>
-                <span id="past1"></span>
-                <span id="today"></span>
-                <span id="future1"></span>
-                <span id="future2"></span>
+                <div id="past2"></div>
+                <div id="past1"></div>
+                <div id="today"></div>
+                <div id="future1"></div>
+                <div id="future2"></div>
             </div>
         </header>
         <main>
             <section class="todoList">
                 <!-- 섹션 1 : 투두 리스트 -->
                 <ul id="todoListContainer">
-                    <!-- ToDo 항목이 동적으로 추가될 예정 -->
+                    <!-- /haru/intro에서 작성한 ToDo 항목 불러오는 곳 -->
                 </ul>
-                <button id="addTodoButton">새 투두 추가</button>
+                <ul id="addTodoList">
+                    <li>
+                        <div>
+                            <img src="{{ url_for('static', path='img/MainPage/addTodoButton.svg')}}">
+                            <input type="text" class="todoContent" placeholder="투두 추가하기">
+                            <hr>
+                        </div>
+                    </li>
+                </ul>
             </section>
             <section class="recommendation">
                 <!-- 섹션 2 : 나이대 추천 뽀짝 -->
@@ -75,10 +86,7 @@
                         </div>
                         <div>냠냠</div>
                     </div>
-                    <div class="challengeBoxMore">
-                        <div>
-                            <img src="">
-                        </div>
+                    <div id="challengeMore" class="challengeBox">
                         <div>챌린지 더보기</div>
                     </div>
                 </div>
@@ -86,6 +94,7 @@
             </section>
         </main>
         <footer>
+            <!-- 푸터 - 나중에 js로 다시 연결하기 -->
             <nav class="footerNav">
                 <ul>
                     <li>
@@ -121,7 +130,7 @@
         </footer>
 
     </div>
-    <script src="../../static/js/MainPage/mainPage.js"></script>
+    <script src="{{ url_for('static', path='js/MainPage/mainPage.js') }}"></script>
 </body>
 
 </html>
