@@ -38,7 +38,7 @@ function updateDateElements() {
   dateElements.future2.textContent = dates[4].getDate();
 }
 
-// 날짜 클릭 시 해당 날짜로 이동
+// Todo 항목 불러오기
 function handleDateClick(clickedDate) {
   const dateOrder = ["past2", "past1", "today", "future1", "future2"];
   const clickedIndex = dateOrder.indexOf(clickedDate);
@@ -161,9 +161,9 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-// 페이지 연결
+// Todo 표시
 function fetchTodos() {
-  fetch("/todo/all", {
+  fetch("/main", {
     method: "GET",
   })
     .then((response) => response.json())
@@ -177,7 +177,7 @@ function fetchTodos() {
     .catch((error) => console.error("Error fetching todos:", error));
 }
 
-// 뿡뿡
+//
 function createTodoElement(todo) {
   const li = document.createElement("li");
   const button = document.createElement("input");
@@ -192,7 +192,7 @@ function createTodoElement(todo) {
   return li;
 }
 
-//빵빠아랑
+//
 function addTodoItem() {
   const todoListContainer = document.getElementById("todoListContainer");
   const li = document.createElement("li");
@@ -212,8 +212,13 @@ function addTodoItem() {
 
 // 챌린지 페이지 넘어가기
 document.addEventListener("DOMContentLoaded", function () {
-  var challengeBoxMore = document.getElementById("challengeBoxMore");
-  challengeBoxMore.addEventListener("click", function () {
-    window.location.href = "/challenge/all";
-  });
+  var challengeBoxMore = document.querySelector(".challengeBoxMore");
+
+  if (challengeBoxMore) {
+    challengeBoxMore.addEventListener("click", function () {
+      window.location.href = "/templates/ChallengePage/challengePage.html";
+    });
+  } else {
+    console.error("challengeBoxMore 요소를 찾을 수 없습니다.");
+  }
 });

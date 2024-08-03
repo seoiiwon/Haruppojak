@@ -1,12 +1,15 @@
 from pydantic import BaseModel
 import datetime
-from typing import Optional
+from typing import Optional, List
 
 
 class TodoCreate(BaseModel):
     todowrite: str
     tododate: datetime.datetime
+    todocheck: bool
 
+class TodoCreateRequest(BaseModel):
+    todos: List[TodoCreate]
 
 class TodoUpdate(BaseModel):
     id: int
@@ -14,6 +17,9 @@ class TodoUpdate(BaseModel):
     tododate: datetime.datetime
     todocheck: bool
 
-
 class TodoCheck(BaseModel):
     todocheck: bool
+
+
+class TopTodoRecommendations(BaseModel):
+    recommendations: List[str]

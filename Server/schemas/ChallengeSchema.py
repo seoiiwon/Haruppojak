@@ -25,3 +25,6 @@ class ChallengeReadSchema(ChallengeSchema):
 
 class ChallengeJoinRequest(BaseModel):
     challenge_id: int
+
+class UserChallenge(BaseModel):
+    user_id : int

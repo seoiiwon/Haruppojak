@@ -60,6 +60,8 @@ document.addEventListener("DOMContentLoaded", function () {
       })
       .then(response => {
         if (response.ok) {
+          // alert('참여하기 완료!'); - alert 수정하기
+          // 참여하기 완료하면 버튼이 바뀌게 하던가 새로고침 해야하는데 새로고침 했을 때 현재 페이지 상태에서 변화가 있으면 좀 그렇긴 함
           console.log('Challenge joined successfully!');
         } else {
           return response.json().then(errorData => {

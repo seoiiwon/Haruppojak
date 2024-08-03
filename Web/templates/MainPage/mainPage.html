@@ -30,8 +30,15 @@
                 <ul id="todoListContainer">
                     <!-- /haru/intro에서 작성한 ToDo 항목 불러오는 곳 -->
                 </ul>
-                <button id="addTodoButton"><img
-                        src="{{ url_for('static', path='img/MainPage/addTodoButton.svg')}}"></button>
+                <ul id="addTodoList">
+                    <li>
+                        <div>
+                            <img src="{{ url_for('static', path='img/MainPage/addTodoButton.svg')}}">
+                            <input type="text" class="todoContent" placeholder="투두 추가하기">
+                            <hr>
+                        </div>
+                    </li>
+                </ul>
             </section>
             <section class="recommendation">
                 <!-- 섹션 2 : 나이대 추천 뽀짝 -->
@@ -79,10 +86,7 @@
                         </div>
                         <div>냠냠</div>
                     </div>
-                    <div id="challengeBoxMore">
-                        <div>
-                            <img src="">
-                        </div>
+                    <div id="challengeMore" class="challengeBox">
                         <div>챌린지 더보기</div>
                     </div>
                 </div>
