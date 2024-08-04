@@ -34,16 +34,32 @@ function goToReply() {
   window.location.href = "/diary/reply";
 }
 
-// 투두리스트 데이터를 로드하고 모달에 표시하는 함수
-function displayTodos() {
-  const todos = [
-    { text: "투두리스트 항목 1", completed: false },
-    { text: "투두리스트 항목 2", completed: true },
-    { text: "투두리스트 항목 3", completed: false },
-  ];
+async function fetchTodos() {
+  const date = new Date().toISOString().split("T")[0]; // 오늘 날짜 (YYYY-MM-DD 형식)
+  try {
+    const response = await fetch(`/diary/todos?date=${date}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getAuthToken()}`,
+      },
+    });
 
-  const todoList = document.getElementById("todo-list");
-  todoList.innerHTML = "";
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const data = await response.json();
+    console.log(data); // 응답 데이터 확인용 로그
+    displayTodos(data.todos); // 서버에서 가져온 To Do 항목을 표시하는 함수 호출
+  } catch (error) {
+    console.error("Error fetching todos:", error);
+  }
+}
+// 투두리스트 데이터를 로드하고 모달에 표시하는 함수
+function displayTodos(todos) {
+  const todoListContainer = document.getElementById("todo-list");
+  todoListContainer.innerHTML = ""; // 기존 목록 초기화
 
   todos.forEach((todo, index) => {
     const todoItem = document.createElement("li");
@@ -70,7 +86,7 @@ function displayTodos() {
     todoItem.appendChild(todoText);
     todoItem.appendChild(pawprintImg);
 
-    todoList.appendChild(todoItem);
+    todoListContainer.appendChild(todoItem);
   });
 }
 
