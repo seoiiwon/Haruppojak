@@ -4,8 +4,9 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from Server.config.database import get_db
 from Server.schemas.AuthSchema import UserInfoSchema
-from Server.schemas.TodoListSchema import TodoCreate
+from Server.schemas.TodoListSchema import *
 from Server.crud.AuthCrud import signup, getUser, verifyPW, getUserInfo
+from Server.crud.MainCrud import *
 from Server.crud.TokenForAuth import getCurrentUser, createAccessToken
 from Server.models.UserModel import UserInfo
 import os
@@ -19,43 +20,47 @@ ACCESS_TOKEN_EXPIRE_MINUTES = float(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
 router = APIRouter()
 authRouter = router
 
-template_dir = os.path.join(os.path.dirname(__file__), "../../Web/templates/AuthPage")
+template_dir = os.path.join(os.path.dirname(
+    __file__), "../../Web/templates/AuthPage")
 templates = Jinja2Templates(directory=template_dir)
 
 # GET
 
-@router.get("/", response_class=HTMLResponse) # 로그인 선택 페이지 (초기 화면)
+
+@router.get("/", response_class=HTMLResponse)  # 로그인 선택 페이지 (초기 화면)
 async def getLoginMenuHaruPpojak(request: Request):
     return templates.TemplateResponse(name="HaruPpojakLoginMenu.html", request=request)
 
 
-@router.get("/auth/signin", response_class=HTMLResponse) # 로그인 페이지
-async def getSignInPage(request : Request):
+@router.get("/auth/signin", response_class=HTMLResponse)  # 로그인 페이지
+async def getSignInPage(request: Request):
     return templates.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
 
 
-@router.get("/auth/signup", response_class=HTMLResponse) # 회원가입 페이지
-async def getSignUpPage(request : Request):
+@router.get("/auth/signup", response_class=HTMLResponse)  # 회원가입 페이지
+async def getSignUpPage(request: Request):
     return templates.TemplateResponse(name="HaruPpojakSignUp.html", request=request)
 
 
-@router.get("/haru/intro", response_class=HTMLResponse) # 초기 투두리스트 입력하는 페이지
-async def getIntroPage(request : Request):
+@router.get("/haru/intro", response_class=HTMLResponse)  # 초기 투두리스트 입력하는 페이지
+async def getIntroPage(request: Request):
     token = request.cookies.get("access_token")
     if token:
         return templates.TemplateResponse(name="HaruPpojakIntroPage.html", request=request)
     else:
         return templates.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
 
-@router.get("/haru/photo", response_class=HTMLResponse) # 뽀짝 인증 사진 촬영 페이지
-async def getUserCam(request : Request):
+
+@router.get("/haru/photo", response_class=HTMLResponse)  # 뽀짝 인증 사진 촬영 페이지
+async def getUserCam(request: Request):
     token = request.cookies.get("access_token")
     if token:
         return templates.TemplateResponse(name="HaruPpojakCamera.html", request=request)
     else:
         return templates.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
 
-@router.get("/haru/mypage", response_class=HTMLResponse) # 마이페이지 페이지
+
+@router.get("/haru/mypage", response_class=HTMLResponse)  # 마이페이지 페이지
 async def getMypage(request: Request, currentUser: UserInfoSchema = Depends(getCurrentUser)):
     token = request.cookies.get("access_token")
     if token:
@@ -68,39 +73,47 @@ async def getMypage(request: Request, currentUser: UserInfoSchema = Depends(getC
 
 @router.post("/auth/signup", status_code=status.HTTP_204_NO_CONTENT)
 async def postUserSignUp(newUserInfo: UserInfoSchema, db: Session = Depends(get_db)):
-    userData = db.query(UserInfo).filter(UserInfo.userID == newUserInfo.userID).first()
+    userData = db.query(UserInfo).filter(
+        UserInfo.userID == newUserInfo.userID).first()
     if userData:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="이미 존재하는 사용자입니다.")
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail="이미 존재하는 사용자입니다.")
     signup(db=db, user=newUserInfo)
 
-@router.post("/auth/signin") # 로그인 요청
+
+@router.post("/auth/signin")  # 로그인 요청
 async def postUserSignIn(response: Response, loginForm: security.OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     user = getUser(db, loginForm.username)
     if not user:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="회원가입이 필요합니다.")
-    
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail="회원가입이 필요합니다.")
+
     res = verifyPW(loginForm.password, user.userPassword)
     if not res:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="아이디나 비밀번호를 확인해주세요.")
-    
-    accessTokenExpires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    accessToken = createAccessToken(data={"sub": user.userID}, expiresDelta=accessTokenExpires)
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail="아이디나 비밀번호를 확인해주세요.")
 
-    response.set_cookie(key="access_token", value=accessToken, max_age=ACCESS_TOKEN_EXPIRE_MINUTES * 60, httponly=True)
+    accessTokenExpires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    accessToken = createAccessToken(
+        data={"sub": user.userID}, expiresDelta=accessTokenExpires)
+
+    response.set_cookie(key="access_token", value=accessToken,
+                        max_age=ACCESS_TOKEN_EXPIRE_MINUTES * 60, httponly=True)
     return {"access_token": accessToken, "token_type": "bearer"}
 
+
 @router.post("/auth/photo", status_code=status.HTTP_204_NO_CONTENT)
-async def postUserPhoto(db : Session=Depends(get_db), ):
+async def postUserPhoto(db: Session = Depends(get_db), ):
     pass
 
 
 @router.post("/haru/intro", status_code=status.HTTP_204_NO_CONTENT)
-async def postFirstTodo(request : Request, todolist : TodoCreate, currentUser: UserInfoSchema = Depends(getCurrentUser) ,db : Session=Depends(get_db)):
-    
-    
-    pass
-    
+async def postFirstTodo(request: Request, todolist: TodoCreateRequest, currentUser: UserInfoSchema = Depends(getCurrentUser), db: Session = Depends(get_db)):
+    user_id = currentUser.id
 
+    create_intro_todos(db=db, todo=todolist, user_id=user_id)
+
+    return HTMLResponse(status_code=status.HTTP_204_NO_CONTENT)
 
 
 # 로그아웃 부분 수정해서 활용하도록 하죠...

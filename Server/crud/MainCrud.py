@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 
 # 투두리스트 조회
 def get_todos(db: Session, user_id: int):
-    return db.query(TodoListModel.TodoList).filter(TodoListModel.TodoList.user_id == user_id).all()
+    return db.query(TodoListModel.TodoList).filter(TodoListModel.TodoList.id == user_id).all()
 
 
 # 투두리스트 작성
@@ -21,6 +21,25 @@ def create_todo(db: Session, todo: TodoListSchema.TodoCreate, user_id: int):
     db.commit()
     db.refresh(db_todo)
     return db_todo
+
+
+# intro 투두리스트 작성
+def create_intro_todos(db: Session, todo_request: TodoListSchema.TodoCreateRequest):
+    db_todos = []
+    for todo in todo_request.todos:
+        db_todo = TodoListModel.TodoList(
+            todo=todo.todowrite,
+            date=todo.tododate,
+            user_id=todo.user_id
+        )
+        db_todos.append(db_todo)
+        db.add(db_todo)
+
+    db.commit()
+    for db_todo in db_todos:
+        db.refresh(db_todo)
+
+    return db_todos
 
 
 # 투두리스트 수정
