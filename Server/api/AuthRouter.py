@@ -56,10 +56,10 @@ async def getUserCam(request : Request):
         return templates.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
 
 @router.get("/haru/mypage", response_class=HTMLResponse) # 마이페이지 페이지
-async def getMypage(request: Request):
+async def getMypage(request: Request, db: Session = Depends(get_db)):
     token = request.cookies.get("access_token")
     if token:
-        currentUser: UserInfoSchema = Depends(getCurrentUser)
+        currentUser = getCurrentUser(token, db)
         return templates.TemplateResponse(name="HaruPpojakMyPage.html", context={"request": request, "currentUser": getUserInfo(currentUser)})
     else:
         return templates.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
