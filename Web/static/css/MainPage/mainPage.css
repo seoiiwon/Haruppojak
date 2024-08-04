@@ -43,6 +43,10 @@ header {
   margin: 1rem;
 }
 
+img {
+  width: 1rem;
+}
+
 /* 헤더 로고 */
 .logo {
   display: flex;
@@ -96,19 +100,21 @@ main {
   margin: 1rem;
 }
 
-/* 섹션 1&2 */
+/* 섹션 1 */
 section {
   margin: 1rem;
   text-align: left;
 }
 
 .todoList ul,
+.addTodoList ul,
 .recommendation ul {
   list-style-type: none;
-  padding: 1rem;
+  padding: 0 1rem;
 }
 
 .todoContent,
+.addTodoList,
 .recommendation {
   width: calc(100% - 40px);
   padding: 5px 20px;
@@ -124,15 +130,40 @@ input::placeholder {
   line-height: 1.5;
 }
 
+.todoText {
+  padding: 5px 20px;
+}
+
+.todoWrapperBig {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.todoWrapperSmall {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.todoWrapperBtn {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+}
+
+.todoWrapperBtn button {
+  border: none;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.options {
+  display: flex;
+}
+
 hr {
   border-style: dashed;
   border-width: 0.75px;
   border-color: #2f4858;
-}
-
-#new-item {
-  margin-top: 1rem;
-  color: #999999;
 }
 
 /* 섹션 3 */
