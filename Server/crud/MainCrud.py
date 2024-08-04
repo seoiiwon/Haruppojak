@@ -12,7 +12,7 @@ from dotenv import load_dotenv
 
 # 투두리스트 조회
 def get_todos(db: Session, user_id: int):
-    today = datetime.now().date()  # 오늘 날짜만
+    today = datetime.now().date()  # 오늘 날짜
     start_of_day = datetime.combine(today, datetime.min.time())
     end_of_day = datetime.combine(today, datetime.max.time())
 
@@ -25,26 +25,22 @@ def get_todos(db: Session, user_id: int):
     return todos
 
 
-# 특정 날짜 투두리스트 조회
-def get_todos_for_date(db: Session, user_id: int, date: datetime):
-    start_of_day = datetime.combine(date, datetime.min.time())
-    end_of_day = start_of_day + timedelta(days=1)
+def get_todos_by_date(db: Session, user_id: int, target_date: date):
+    start_of_day = datetime.combine(target_date, datetime.min.time())
+    end_of_day = datetime.combine(target_date, datetime.max.time())
 
     todos = db.query(TodoListModel.TodoList).filter(
         TodoListModel.TodoList.user_id == user_id,
         TodoListModel.TodoList.date >= start_of_day,
-        TodoListModel.TodoList.date < end_of_day
+        TodoListModel.TodoList.date <= end_of_day
     ).all()
-
-    todos = db.query(TodoListModel.TodoList).filter(
-        TodoListModel.TodoList.user_id == user_id).all()
     return todos
-
-
 # 투두리스트 작성
+
+
 def create_todo(db: Session, todo: TodoListSchema.TodoCreate, user_id: int):
     db_todo = TodoListModel.TodoList(todo=todo.todowrite,
-                                     date=datetime.now(), user_id=user_id)
+                                     date=todo.tododate, user_id=user_id)
     db.add(db_todo)
     db.commit()
     db.refresh(db_todo)
