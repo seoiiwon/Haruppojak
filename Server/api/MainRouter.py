@@ -34,6 +34,7 @@ async def read_todos(request: Request, date: Optional[str] = Query(None), db: Se
     if token:
         joinedChallengeIDList = joinedChallengeID(currentUser.id, db)
         joinedChallenges = joinedChallenge(joinedChallengeIDList, db)
+        writtentoday = checkdiary(db, currentUser.id) # 일기 작성은 True, 작성 안하면 False
         if date:
             try:
                 target_date = datetime.strptime(date, '%Y-%m-%d').date()
@@ -43,7 +44,7 @@ async def read_todos(request: Request, date: Optional[str] = Query(None), db: Se
             todos = get_todos_by_date(db, currentUser.id, target_date)
         else:
             todos = get_todos(db, currentUser.id)
-        return templates.TemplateResponse(name="mainPage.html", context={"request": request, "todos": todos, "joinedChallenge": joinedChallenges})
+        return templates.TemplateResponse(name="mainPage.html", context={"request": request, "todos": todos, "joinedChallenge": joinedChallenges, "writtentoday": writtentoday})
     else:
         return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
 
@@ -107,6 +108,8 @@ async def check_existing_todo(
 async def get_recommended_todos(db: Session = Depends(get_db)):
     top_recommendations = get_recommended_todos(db)
     return {"recommendations": [item[0] for item in top_recommendations]}
+
+
 
 
 Mainrouter = router
