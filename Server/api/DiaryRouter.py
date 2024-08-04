@@ -52,7 +52,7 @@ async def writediarys(writediary: CreateDiarySchema, currentUser: AuthSchema.Use
 async def diary_reply(request: Request, db: Session = Depends(get_db)):
     token = request.cookies.get("access_token")
     if token:
-        currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser)
+        currentUser = getCurrentUser(token, db)
         userid = currentUser.id
         latest_diary = db.query(UserDiary).filter(UserDiary.Diaryuserid == userid).order_by(desc(UserDiary.Date)).first()
         if latest_diary is None:

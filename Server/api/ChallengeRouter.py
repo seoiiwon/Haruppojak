@@ -27,7 +27,7 @@ templates_auth = Jinja2Templates(directory=template_auth)
 async def getChallengeList(request: Request, db: Session = Depends(get_db)):
     token = request.cookies.get("access_token")
     if token:
-        currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser)
+        currentUser = getCurrentUser(token, db)
         challengeListAll = getChallengeListAll(db)
         joinedChallenge = db.query(UserChallenge).filter(UserChallenge.user_id == currentUser.id).all()
         userChallengeID = [challenge.challenge_id for challenge in joinedChallenge]
