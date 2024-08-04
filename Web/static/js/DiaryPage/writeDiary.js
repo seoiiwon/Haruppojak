@@ -111,11 +111,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
 async function submitDiary() {
   let content = document.getElementById("diary-content").value;
-  let todo = document.getElementById("todo-list").value;
+  // let todo = document.getElementById("todo-list").value;
 
   let diaryData = {
     content: content,
-    todo: todo,
+    todo: "",
     response: "",
     id: 0, // 서버에서 사용자 ID를 설정합니다.
   };
@@ -132,19 +132,20 @@ async function submitDiary() {
       body: JSON.stringify(diaryData),
     });
 
-    console.log("Server response:", response); // 응답 로그 확인
+    console.log("Server response status:", response.status); // 상태 코드 로그 확인
 
-    if (response.status === 201) {
+    if (response.ok) {
+      const result = await response.json();
       alert("뽀짝일기 쓰기 성공!");
       goToReply(); // 저장이 완료되면 답장 페이지로 이동
     } else {
       const error = await response.json();
       console.error("Error response:", error); // 오류 로그 확인
-      alert(`${error.detail}`);
+      alert(`Error: ${error.detail || response.statusText}`);
     }
   } catch (error) {
     console.error("Fetch error:", error); // 예외 로그 확인
-    alert(`Error: ${error.message}`);
+    alert(`Fetch Error: ${error.message}`);
   }
 }
 
