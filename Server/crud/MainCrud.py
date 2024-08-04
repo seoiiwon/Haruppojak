@@ -36,6 +36,8 @@ def get_todos_for_date(db: Session, user_id: int, date: datetime):
         TodoListModel.TodoList.date < end_of_day
     ).all()
 
+    todos = db.query(TodoListModel.TodoList).filter(
+        TodoListModel.TodoList.user_id == user_id).all()
     return todos
 
 

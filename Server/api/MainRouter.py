@@ -9,6 +9,7 @@ from Server.models.TodoListModel import *
 from Server.schemas.TodoListSchema import *
 from Server.crud.MainCrud import *
 from Server.schemas import AuthSchema
+from Server.crud.ChallengeCrud import joinedChallengeID, joinedChallenge
 import os
 
 router = APIRouter()
@@ -63,19 +64,41 @@ async def create_new_todo(
 
 
 # todo 수정하기
+# @router.put("/todo/update/{todo_id}", response_model=TodoListSchema.TodoUpdate)
+# async def update_new_todo(
+#     todo_id: int, todo: TodoListSchema.TodoUpdate, db: Session = Depends(get_db)
+# ):
+#     return update_todo(db=db, todo_id=todo_id, todo_update=todo)
+
+# todo 수정하기
 @router.put("/todo/update/{todo_id}", response_model=TodoListSchema.TodoUpdate)
 async def update_new_todo(
-    todo_id: int, todo: TodoListSchema.TodoUpdate, db: Session = Depends(get_db)
+    todo_id: int, todo: TodoListSchema.TodoUpdate, db: Session = Depends(get_db), currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser)
 ):
-    return update_todo(db=db, todo_id=todo_id, todo_update=todo)
-
+    updated_todo = update_todo(
+        db=db, todo_id=todo_id, todo_update=todo, user_id=currentUser.id)
+    if updated_todo:
+        return JSONResponse(content={"success": True, "todo": updated_todo.todo})
+    else:
+        raise HTTPException(status_code=404, detail="Todo not found")
 
 # todo 삭제하기
+# @router.delete("/todo/delete/{todo_id}", response_model=None)
+# async def delete_existing_todo(
+#     todo_id: int, db: Session = Depends(get_db)
+# ):
+#     return delete_todo(db=db, todo_id=todo_id)
+
+
 @router.delete("/todo/delete/{todo_id}", response_model=None)
 async def delete_existing_todo(
-    todo_id: int, db: Session = Depends(get_db)
+    todo_id: int, db: Session = Depends(get_db), currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser)
 ):
-    return delete_todo(db=db, todo_id=todo_id)
+    deleted_todo = delete_todo(db=db, todo_id=todo_id, user_id=currentUser.id)
+    if deleted_todo:
+        return JSONResponse(content={"success": True})
+    else:
+        raise HTTPException(status_code=404, detail="Todo not found")
 
 
 # todo 체크

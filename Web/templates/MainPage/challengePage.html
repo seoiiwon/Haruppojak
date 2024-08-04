@@ -1,104 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Challenge Page</title>
-    <link rel="stylesheet" href="../../static/css/MainPage/challengePage.css">
-</head>
+    <link rel="stylesheet" href="../../static/css/MainPage/challengePage.css" />
+  </head>
 
-<body>
+  <body>
     <div class="container">
-        <header class="header">
-            <!-- 챌린지, 검색창 -->
-            <div class="logoTitle">하루뽀짝 챌린지</div>
-            <div class="search">
-                <input id="searchBar" type="text" name="keyword" placeholder="검색어 입력">
-                <button type="submit">
-                    <img class="SImg" src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
-                </button>
-            </div>
-        </header>
-        <main>
-            <section class="challengeList">
-                <!-- {% for challenge in challengeList %}
+      <header class="header">
+        <!-- 챌린지, 검색창 -->
+        <div class="logoTitle">하루뽀짝 챌린지</div>
+        <div class="search">
+          <input
+            id="searchBar"
+            type="text"
+            name="keyword"
+            placeholder="검색어 입력"
+          />
+          <button type="submit">
+            <img
+              class="SImg"
+              src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"
+            />
+          </button>
+        </div>
+      </header>
+      <main>
+        <section class="challengeList">
+          <!-- {% for challenge in challengeList %}
                     <div>{{ challenge.id }}</div>
                 {% endfor %} -->
-                {% for challenge in challengeList %}
-                    <div class="challengeBox" data-challenge-id="{{ challenge.id }}">
-                        <div class="challengeTop">
-                            <div class="challengeThumbnail">
-                                <img class="Thumbnail" src="{{ url_for('static', path='img/ChallengeImg/' ~ challenge.challengeThumbnail1) }}" alt="Challenge Thumbnail">
-                            </div>
-                            <div class="challengeInfoBox">
-                                <div class="challengeTitle">
-                                    {{ challenge.challengeTitle }}
-                                </div>
-                                <div class="challengeInfo">
-                                    <div class="challenger"><span class=""></span>명 참여 중</div>
-                                    <div class="challengeOwner">{{ challenge.challengeOwner }}</div>
-                                    <div class="challengeReward">리워드 : {{ challenge.challengeReward }} 뽀짝 / 개월</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="challengeComment">{{ challenge.challengeComment }}</div>
-                    </div>
-                    <div id="myModal-{{ challenge.id }}" class="modal">
-                        <div class="modal-content">
-                            <span class="close" data-modal-id="myModal-{{ challenge.id }}">&times;</span>
-                            <div id="modalText-{{ challenge.id }}"></div>
-                            <!-- {% for challenge in userChallenge %}
+          {% for challenge in challengeList %}
+          <div class="challengeBox" data-challenge-id="{{ challenge.id }}">
+            <div class="challengeTop">
+              <div class="challengeThumbnail">
+                <img
+                  class="Thumbnail"
+                  src="{{ url_for('static', path='img/ChallengeImg/' ~ challenge.challengeThumbnail1) }}"
+                  alt="Challenge Thumbnail"
+                />
+              </div>
+              <div class="challengeInfoBox">
+                <div class="challengeTitle">{{ challenge.challengeTitle }}</div>
+                <div class="challengeInfo">
+                  <div class="challenger"><span class=""></span>명 참여 중</div>
+                  <div class="challengeOwner">
+                    {{ challenge.challengeOwner }}
+                  </div>
+                  <div class="challengeReward">
+                    리워드 : {{ challenge.challengeReward }} 뽀짝 / 개월
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="challengeComment">{{ challenge.challengeComment }}</div>
+          </div>
+          <div id="myModal-{{ challenge.id }}" class="modal">
+            <div class="modal-content">
+              <span class="close" data-modal-id="myModal-{{ challenge.id }}"
+                >&times;</span
+              >
+              <div id="modalText-{{ challenge.id }}"></div>
+              <!-- {% for challenge in userChallenge %}
                                 {{ challenge.challenge_id }}
                             {% endfor %} -->
-                            {% if challenge.id in userChallenge %}
-                                <input class="joinChallengeBtn" type="button" value="참여중" data-challenge-id="{{ challenge.id }}">
-                            {% else %}
-                                <input class="joinChallengeBtn" type="button" value="참여하기" data-challenge-id="{{ challenge.id }}">
-                            {% endif %}
-                        </div>
-                    </div>
-                {% endfor %}
-            </section>
-        </main>
-        <footer>
-            <nav class="footerNav">
-                <ul>
-                    <li>
-                        <div>
-                            <a href="mainPage.html">
-                                <img src="/static/img/homeIcon.png" alt="홈">
-                            </a>
-                        </div>
-                    </li>
-                    <li>
-                        <div>
-                            <a href="../CalendarPage/calendar.html">
-                                <img src="/static/img/calendarIcon.png" alt="성취도">
-                            </a>
-                        </div>
-                    </li>
-                    <li>
-                        <div>
-                            <a href="../DiaryPage/writeDiary.html">
-                                <img src="/static/img/diaryIcon.png" alt="일기">
-                            </a>
-                        </div>
-                    </li>
-                    <li>
-                        <div>
-                            <a href="../ProfilePage/index.html">
-                                <img src="/static/img/mypageIcon.png" alt="마이페이지">
-                            </a>
-                        </div>
-                    </li>
-                </ul>
-            </nav>
-        </footer>
-
+              {% if challenge.id in userChallenge %}
+              <input
+                class="joinChallengeBtn"
+                type="button"
+                value="참여중"
+                data-challenge-id="{{ challenge.id }}"
+              />
+              {% else %}
+              <input
+                class="joinChallengeBtn"
+                type="button"
+                value="참여하기"
+                data-challenge-id="{{ challenge.id }}"
+              />
+              {% endif %}
+            </div>
+          </div>
+          {% endfor %}
+        </section>
+      </main>
+      <footer>
+        <nav class="footerNav">
+          <ul>
+            <li>
+              <div>
+                <a href="mainPage.html">
+                  <img src="/static/img/homeIcon.png" alt="홈" />
+                </a>
+              </div>
+            </li>
+            <li>
+              <div>
+                <a href="../CalendarPage/calendar.html">
+                  <img src="/static/img/calendarIcon.png" alt="성취도" />
+                </a>
+              </div>
+            </li>
+            <li>
+              <div>
+                <a href="../DiaryPage/writeDiary.html">
+                  <img src="/static/img/diaryIcon.png" alt="일기" />
+                </a>
+              </div>
+            </li>
+            <li>
+              <div>
+                <a href="../ProfilePage/index.html">
+                  <img src="/static/img/mypageIcon.png" alt="마이페이지" />
+                </a>
+              </div>
+            </li>
+          </ul>
+        </nav>
+      </footer>
     </div>
 
     <script src="../../static/js/MainPage/challengePage.js"></script>
-</body>
-
+  </body>
 </html>
