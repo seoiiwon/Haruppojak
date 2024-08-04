@@ -16,16 +16,16 @@ router = APIRouter()
 
 template_dir = os.path.join(os.path.dirname(__file__), "../../Web/templates/MainPage")
 templates = Jinja2Templates(directory=template_dir)
-
-template_dir_auth = os.path.join(os.path.dirname(__file__), "../../Web/templates/AuthPage")
+template_dir_auth = os.path.join(os.path.dirname(
+    __file__), "../../Web/templates/AuthPage")
 templates_auth = Jinja2Templates(directory=template_dir_auth)
+
 
 # 투두리스트 보기
 @router.get("/haru/main", response_class=HTMLResponse)
-async def read_todos(request: Request, date: Optional[str] = Query(None), db: Session = Depends(get_db)):
+async def read_todos(request: Request, date: Optional[str] = Query(None), db: Session = Depends(get_db), currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser)):
     token = request.cookies.get("access_token")
     if token:
-        currentUser = getCurrentUser(token, db)
         joinedChallengeIDList = joinedChallengeID(currentUser.id, db)
         joinedChallenges = joinedChallenge(joinedChallengeIDList, db)
         if date:
