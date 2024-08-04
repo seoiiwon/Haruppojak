@@ -1,5 +1,5 @@
 //페이지 연결
-function fetchMain() {
+function fetchTodos() {
   fetch("/haru/main", {
     method: "GET",
   })
@@ -13,6 +13,74 @@ function fetchMain() {
     })
     .catch((error) => console.error("Error fetching todos:", error));
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+  // 옵션 버튼 클릭 시 수정, 삭제 버튼 표시
+  document.querySelectorAll(".options-btn").forEach((button) => {
+    button.addEventListener("click", function () {
+      const options = button.nextElementSibling;
+      options.style.display =
+        options.style.display === "none" ? "block" : "none";
+    });
+  });
+
+  // 수정 버튼 클릭 시
+  document.querySelectorAll(".edit-todo").forEach((button) => {
+    button.addEventListener("click", function () {
+      const todoId = button.getAttribute("data-id");
+      const newTodo = prompt("새로운 할 일을 입력하세요:");
+      if (newTodo) {
+        fetch(`/todo/update/${todoId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ todowrite: newTodo, todocheck: false }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.success) {
+              const todoDiv = button.closest("li").querySelector("div");
+              todoDiv.innerText = newTodo;
+              alert("수정되었습니다.");
+            } else {
+              alert("수정에 실패했습니다.");
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            alert("수정 중 오류가 발생했습니다.");
+          });
+      }
+    });
+  });
+
+  // 삭제 버튼 클릭 시
+  document.querySelectorAll(".delete-todo").forEach((button) => {
+    button.addEventListener("click", function () {
+      const todoId = button.getAttribute("data-id");
+      if (confirm("정말 삭제하시겠습니까?")) {
+        fetch(`/todo/delete/${todoId}`, {
+          method: "DELETE",
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.success) {
+              const todoItem = button.closest(".todoListContainer");
+              todoItem.remove();
+              alert("삭제되었습니다.");
+            } else {
+              alert("삭제에 실패했습니다.");
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            alert("삭제 중 오류가 발생했습니다.");
+          });
+      }
+    });
+  });
+});
 
 // 날짜 및 날짜 요소 배열 생성
 let dates = [];
@@ -75,25 +143,25 @@ function handleDateClick(clickedDate) {
 }
 
 // Todo 화면에 표시하기
-function fetchTodosForDate(date) {
-  const formattedDate = `${date.getFullYear()}-${String(
-    date.getMonth() + 1
-  ).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+// function fetchTodosForDate(date) {
+//   const formattedDate = `${date.getFullYear()}-${String(
+//     date.getMonth() + 1
+//   ).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
 
-  fetch(`/todo/date/${formattedDate}`, {
-    method: "GET",
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      const todoListContainer = document.getElementById("todoListContainer");
-      todoListContainer.innerHTML = ""; // 기존 항목 제거
-      data.todos.forEach((todo) => {
-        const todoItem = createTodoElement(todo);
-        todoListContainer.appendChild(todoItem);
-      });
-    })
-    .catch((error) => console.error("Error fetching todos:", error));
-}
+//   fetch(`/todo/date/${formattedDate}`, {
+//     method: "GET",
+//   })
+//     .then((response) => response.json())
+//     .then((data) => {
+//       const todoListContainer = document.getElementById("todoListContainer");
+//       todoListContainer.innerHTML = ""; // 기존 항목 제거
+//       data.todos.forEach((todo) => {
+//         const todoItem = createTodoElement(todo);
+//         todoListContainer.appendChild(todoItem);
+//       });
+//     })
+//     .catch((error) => console.error("Error fetching todos:", error));
+// }
 
 // 투두 추가 - 더 수정하기
 // 이벤트 리스너를 등록하는 함수
