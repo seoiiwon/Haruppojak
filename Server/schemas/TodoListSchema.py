@@ -30,3 +30,5 @@ class TodoCheck(BaseModel):
 
 class TopTodoRecommendations(BaseModel):
     recommendations: List[str]
+
+

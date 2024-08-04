@@ -34,6 +34,28 @@ function goToReply() {
   window.location.href = "/diary/reply";
 }
 
+async function fetchTodos() {
+  const date = new Date().toISOString().split("T")[0]; // 오늘 날짜 (YYYY-MM-DD 형식)
+  try {
+    const response = await fetch(`/diary/todos?date=${date}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getAuthToken()}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const data = await response.json();
+    console.log(data); // 응답 데이터 확인용 로그
+    displayTodos(data.todos); // 서버에서 가져온 To Do 항목을 표시하는 함수 호출
+  } catch (error) {
+    console.error("Error fetching todos:", error);
+  }
+}
 // 투두리스트 데이터를 로드하고 모달에 표시하는 함수
 function displayTodos() {
   const todos = [
@@ -70,7 +92,7 @@ function displayTodos() {
     todoItem.appendChild(todoText);
     todoItem.appendChild(pawprintImg);
 
-    todoList.appendChild(todoItem);
+    todoListContainer.appendChild(todoItem);
   });
 }
 
@@ -115,7 +137,7 @@ async function submitDiary() {
 
   let diaryData = {
     content: content,
-    todo: "",
+    todo: "해야할일",
     response: "",
     id: 0, // 서버에서 사용자 ID를 설정합니다.
   };

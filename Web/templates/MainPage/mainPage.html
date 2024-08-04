@@ -24,17 +24,23 @@
           <div id="haruPpojak">하루뽀짝</div>
         </div>
         <div class="date" id="dateContainer">
-          <div id="past2"></div>
-          <div id="past1"></div>
-          <div id="today"></div>
-          <div id="future1"></div>
-          <div id="future2"></div>
+          <div id="past2" class="date-element"></div>
+          <!-- class 추가 -->
+          <div id="past1" class="date-element"></div>
+          <!-- class 추가 -->
+          <div id="today" class="date-element"></div>
+          <!-- class 추가 -->
+          <div id="future1" class="date-element"></div>
+          <!-- class 추가 -->
+          <div id="future2" class="date-element"></div>
+          <!-- class 추가 -->
         </div>
       </header>
       <main>
         <section class="todoList">
           <!-- 섹션 1 : 투두 리스트 -->
-          <ul>
+          <ul id="todoListContainer">
+            <!-- ID 추가 -->
             <!-- /haru/intro에서 작성한 ToDo 항목 불러오는 곳 -->
             {% for todolist in todos %}
             <li class="todoListContainer">
@@ -68,7 +74,6 @@
             </li>
           </ul>
         </section>
-
         <section class="recommendation">
           <!-- 섹션 2 : 나이대 추천 뽀짝 -->
           <div><span id="age"></span>대 추천 뽀짝!</div>
@@ -84,27 +89,11 @@
             </li>
           </ul>
         </section>
-
-        <!-- 섹션 3 : 뽀짝챌 -->
         <section class="challenges">
+          <!-- 섹션 3 : 뽀짝챌 -->
           <div class="description">현재 참여중인 뽀짝챌</div>
-
-            <div class="challengeItem">
-                {% for challenge in joinedChallenge %}
-                <div class="challengeBox" onclick="showChallengeModal('chall1')">
-                  <div>
-                    <img src="{{ url_for('static', path='img/ChallengeImg/' ~ challenge.challengeThumbnail1) }}" />
-                  </div>
-                  <div class="challengeTitle">{{ challengeTitle }}</div>
-                </div>            
-                {% endfor %}
-            </div>
-
-
->>>>>>> Stashed changes
->>>>>>> auth
           <div class="challengeList">
-            <div class="challengeBox" onclick="showChallengeModal('chall1')">
+            <div class="challengeBox">
               <div>
                 <img src="" />
               </div>
@@ -131,6 +120,7 @@
           </div>
           <div class="dots"></div>
         </section>
+>
 
         <!-- Modal -->
         <div id="modal" class="modal">
