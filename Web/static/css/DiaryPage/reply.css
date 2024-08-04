@@ -82,20 +82,7 @@ body {
   font-size: 12px;
   color: #2f4858;
   text-decoration: none;
-  /* position: fixed;
-  bottom: 0;
-  width: 100%;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 10px 0; */
 }
-
-/* .footer-link {
-  font-size: 12px;
-  color: #2f4858;
-  text-decoration: none;
-} */
 
 #go-back {
   position: absolute;
