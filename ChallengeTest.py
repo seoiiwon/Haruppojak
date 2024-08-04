@@ -21,7 +21,8 @@ def create_upload_file_from_path(file_path: str) -> UploadFile:
         return UploadFile(file=file_like_object, filename=file_like_object.name)
 
 
-test_img1_path = "/Users/suinkim/Downloads/likelion.png"
+# test_img1_path = "/Users/suinkim/Downloads/likelion.png"
+test_img1_path = "/Users/seojiwon/Downloads/likelion.png"
 test_img2_path = None
 test_img3_path = None
 
