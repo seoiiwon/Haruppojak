@@ -1,163 +1,151 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Main Page</title>
-    <link rel="stylesheet" href="{{ url_for('static', path='css/MainPage/mainPage.css') }}">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', path='css/MainPage/mainPage.css') }}"
+    />
     <link rel="stylesheet" href="../../static/css/tabbar.css" />
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="container">
-        <header>
-            <!-- 로고, 하루뽀짝, 날짜표시 -->
-            <div class="logo">
-                <img class="ppojakLogo" src="{{ url_for('static', path='img/haruppojak_logo.png') }}" alt="haruppojak">
-                <div id="haruPpojak">하루뽀짝</div>
-            </div>
-            <div class="date" id="dateContainer">
-                <div id="past2"></div>
-                <div id="past1"></div>
-                <div id="today"></div>
-                <div id="future1"></div>
-                <div id="future2"></div>
-            </div>
-        </header>
-        <main>
-            <section class="todoList">
-                <!-- 섹션 1 : 투두 리스트 -->
-                <ul>
-                    <!-- /haru/intro에서 작성한 ToDo 항목 불러오는 곳 -->
-                    {% for todolist in todos %}
-                    <li class="todoListContainer">
-                        <div>{{ todolist.todo }}</div>
-                        {% if todolist.check %}
-                        <img src="url_for('static', path='img/MainPage/checkboxBlack.svg')">
-                        {% else %}
-                        <img src="url_for('static', path='img/MainPage/checkboxWhite.svg')">
-                        {% endif %}
-                        <hr>
-                    </li>
-                    {% endfor %}
-                </ul>
-                <ul>
-                    <li id="addTodoList">
-                        <div>
-                            <img src="{{ url_for('static', path='img/MainPage/checkboxWhite.svg')}}">
-                            <input type="text" class="todoContent" placeholder="투두 추가하기">
-                            <hr>
-                        </div>
-                    </li>
-                </ul>
-            </section>
-            <section class="recommendation">
-                <!-- 섹션 2 : 나이대 추천 뽀짝 -->
-                <div>
-                    <span id="age"></span>대 추천 뽀짝!
-                </div> <!--이 부분에 나이 받는거 넣기-->
-                <ul>
-                    <li>
-                        <input type="checkbox">
-                        <input type="text" placeholder="오늘의 투두를 입력해주세요." class="todoContent">
-                    </li>
-                </ul>
-            </section>
-            <section class="challenges">
-                <!-- 섹션 3 : 뽀짝챌 -->
-                <div class="description">
-                    현재 참여중인 뽀짝챌
-                </div>
-                <div class="challengeList">
-                    <div class="challengeBox">
-                        <div>
-                            <img src="">
-                        </div>
-                        <div>밀리의 서재</div>
-                    </div>
-                    <div class="challengeBox">
-                        <div>
-                            <img src="">
-                        </div>
-                        <div>1일 1커밋</div>
-                    </div>
-                    <div class="challengeBox">
-                        <div>
-                            <img src="">
-                        </div>
-                        <div>냠냠</div>
-                    </div>
-                    <div class="challengeBox">
-                        <div>
-                            <img src="">
-                        </div>
-                        <div>냠냠</div>
-                    </div>
-                    <div id="challengeMore" class="challengeBox">
-                        <div>챌린지 더보기</div>
-                    </div>
-                </div>
-                <div class="dots"></div>
-            </section>
-        </main>
-
-        <!-- 탭바 시작 -->
-        <div class="tabbar">
-            <a class="tab" href="/haru/main">
-              <img src="../../static/img/tabbar/홈-off.png" alt="Home" />
-            </a>
-            <a class="tab" href="">
-              <img src="../../static/img/tabbar/캘린더-off.png" alt="Calendar" />
-            </a>
-            <a class="tab" href="/diary/write">
-              <img src="../../static/img/tabbar/일기-off.png" alt="Diary" />
-            </a>
-            <a class="tab">
+      <header>
+        <!-- 로고, 하루뽀짝, 날짜표시 -->
+        <div class="logo">
+          <img
+            class="ppojakLogo"
+            src="{{ url_for('static', path='img/haruppojak_logo.png') }}"
+            alt="haruppojak"
+          />
+          <div id="haruPpojak">하루뽀짝</div>
+        </div>
+        <div class="date" id="dateContainer">
+          <div id="past2"></div>
+          <div id="past1"></div>
+          <div id="today"></div>
+          <div id="future1"></div>
+          <div id="future2"></div>
+        </div>
+      </header>
+      <main>
+        <section class="todoList">
+          <!-- 섹션 1 : 투두 리스트 -->
+          <ul>
+            <!-- /haru/intro에서 작성한 ToDo 항목 불러오는 곳 -->
+            {% for todolist in todos %}
+            <li class="todoListContainer">
+              <div>{{ todolist.todo }}</div>
+              {% if todolist.check %}
               <img
-                src="../../static/img/tabbar/마이페이지-off.png"
-                alt="MyPage"
+                src="url_for('static', path='img/MainPage/checkboxBlack.svg')"
               />
-            </a>
+              {% else %}
+              <img
+                src="url_for('static', path='img/MainPage/checkboxWhite.svg')"
+              />
+              {% endif %}
+              <hr />
+            </li>
+            {% endfor %}
+          </ul>
+          <ul>
+            <li id="addTodoList">
+              <div>
+                <img
+                  src="{{ url_for('static', path='img/MainPage/checkboxWhite.svg')}}"
+                />
+                <input
+                  type="text"
+                  class="todoContent"
+                  placeholder="투두 추가하기"
+                />
+                <hr />
+              </div>
+            </li>
+          </ul>
+        </section>
+        <section class="recommendation">
+          <!-- 섹션 2 : 나이대 추천 뽀짝 -->
+          <div><span id="age"></span>대 추천 뽀짝!</div>
+          <!--이 부분에 나이 받는거 넣기-->
+          <ul>
+            <li>
+              <input type="checkbox" />
+              <input
+                type="text"
+                placeholder="오늘의 투두를 입력해주세요."
+                class="todoContent"
+              />
+            </li>
+          </ul>
+        </section>
+
+        <!-- 섹션 3 : 뽀짝챌 -->
+        <section class="challenges">
+          <div class="description">현재 참여중인 뽀짝챌</div>
+          <div class="challengeList">
+            <div class="challengeBox" onclick="showChallengeModal('chall1')">
+              <div>
+                <img src="" />
+              </div>
+              <div>밀리의 서재</div>
+            </div>
+            <div class="challengeBox" onclick="showChallengeModal('chall2')">
+              <div>
+                <img src="" />
+              </div>
+              <div>1일 1커밋</div>
+            </div>
+            <div class="challengeBox" onclick="showChallengeModal('chall3')">
+              <div>
+                <img src="" />
+              </div>
+              <div>냠냠</div>
+            </div>
+            <div class="challengeBox" onclick="showChallengeModal('chall4')">
+              <div>
+                <img src="" />
+              </div>
+              <div>냠냠</div>
+            </div>
+            <div id="challengeMore" class="challengeBox">
+              <div>챌린지 더보기</div>
+            </div>
           </div>
-          <!-- 탭바 끝 -->
-        <!-- <footer>
-            <nav class="footerNav">
-                <ul>
-                    <li>
-                        <div>
-                            <a href="mainPage.html">
-                                <img src="/static/img/homeIcon.png" alt="홈">
-                            </a>
-                        </div>
-                    </li>
-                    <li>
-                        <div>
-                            <a href="../CalendarPage/calendar.html">
-                                <img src="/static/img/calendarIcon.png" alt="성취도">
-                            </a>
-                        </div>
-                    </li>
-                    <li>
-                        <div>
-                            <a href="../DiaryPage/writeDiary.html">
-                                <img src="/static/img/diaryIcon.png" alt="일기">
-                            </a>
-                        </div>
-                    </li>
-                    <li>
-                        <div>
-                            <a href="../ProfilePage/index.html">
-                                <img src="/static/img/mypageIcon.png" alt="마이페이지">
-                            </a>
-                        </div>
-                    </li>
-                </ul>
-            </nav>
-        </footer> -->
+          <div class="dots"></div>
+        </section>
 
+        <!-- Modal -->
+        <div id="modal" class="modal">
+          <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="modalText"></div>
+          </div>
+        </div>
+      </main>
+
+      <!-- 탭바 시작 -->
+      <div class="tabbar">
+        <a class="tab" href="/haru/main">
+          <img src="../../static/img/tabbar/홈-off.png" alt="Home" />
+        </a>
+        <a class="tab" href="">
+          <img src="../../static/img/tabbar/캘린더-off.png" alt="Calendar" />
+        </a>
+        <a class="tab" href="/diary/write">
+          <img src="../../static/img/tabbar/일기-off.png" alt="Diary" />
+        </a>
+        <a class="tab">
+          <img src="../../static/img/tabbar/마이페이지-off.png" alt="MyPage" />
+        </a>
+      </div>
+      <!-- 탭바 끝 -->
     </div>
-    <script src="{{ url_for('static', path='js/MainPage/mainPage.js') }}"></script>
-</body>
 
+    <script src="{{ url_for('static', path='js/MainPage/mainPage.js') }}"></script>
+  </body>
 </html>
