@@ -165,7 +165,7 @@ async function submitDiary() {
     } else {
       const error = await response.json();
       console.error("Error response:", error); // 오류 로그 확인
-      alert(`Error: ${error.detail || response.statusText}`);
+      alert(`Error: ${error.detail}`);
     }
   } catch (error) {
     console.error("Fetch error:", error); // 예외 로그 확인
