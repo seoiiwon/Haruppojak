@@ -23,19 +23,24 @@ function closeModal() {
   document.getElementById("modal").style.display = "none";
 }
 
+// '뽀짝이가 답장을 써줄 거예요!' 클릭 시 '/diary/reply'로 이동
+function goToReply() {
+  window.location.href = "/diary/reply";
+}
+
 // '오늘의 To Do 불러오기' 클릭 시 모달을 열기
 function showTodoModal() {
   openModal();
   fetchTodos(); // 투두리스트 데이터를 데이터베이스에서 로드
 }
 
-// '뽀짝이가 답장을 써줄 거예요!' 클릭 시 '/diary/reply'로 이동
-function goToReply() {
-  window.location.href = "/diary/reply";
-}
-
+// 서버에서 투두리스트 데이터를 로드하고 모달에 표시하는 함수
 async function fetchTodos() {
-  const date = new Date().toISOString().split("T")[0]; // 오늘 날짜 (YYYY-MM-DD 형식)
+  const today = new Date();
+  const date = today.toISOString().split("T")[0]; // 오늘 날짜 (YYYY-MM-DD 형식)
+
+  console.log(`Fetching todos for date: ${date}`); // 디버그용 로그
+
   try {
     const response = await fetch(`/diary/todos?date=${date}`, {
       method: "GET",
@@ -50,22 +55,19 @@ async function fetchTodos() {
     }
 
     const data = await response.json();
-    console.log(data); // 응답 데이터 확인용 로그
+    console.log(`Received todos:`, data); // 응답 데이터 확인용 로그
     displayTodos(data.todos); // 서버에서 가져온 To Do 항목을 표시하는 함수 호출
   } catch (error) {
     console.error("Error fetching todos:", error);
   }
 }
-// 투두리스트 데이터를 로드하고 모달에 표시하는 함수
-function displayTodos() {
-  const todos = [
-    { text: "투두리스트 항목 1", completed: false },
-    { text: "투두리스트 항목 2", completed: true },
-    { text: "투두리스트 항목 3", completed: false },
-  ];
 
-  const todoList = document.getElementById("todo-list");
-  todoList.innerHTML = "";
+// 투두리스트 데이터를 로드하고 모달에 표시하는 함수
+function displayTodos(todos) {
+  const todoListContainer = document.getElementById("todo-list");
+  todoListContainer.innerHTML = ""; // 기존 목록 초기화
+
+  console.log(`Displaying todos:`, todos); // 디버그용 로그
 
   todos.forEach((todo, index) => {
     const todoItem = document.createElement("li");

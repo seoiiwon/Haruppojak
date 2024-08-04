@@ -1,7 +1,7 @@
 //페이지 연결
 function fetchTodos() {
-  fetch('/haru/main', {
-    method: 'GET',
+  fetch("/haru/main", {
+    method: "GET",
   })
     .then((response) => response.json())
     .then((data) => {
@@ -14,68 +14,118 @@ function fetchTodos() {
     .catch((error) => console.error("Error fetching todos:", error));
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener("DOMContentLoaded", function () {
   // 옵션 버튼 클릭 시 수정, 삭제 버튼 표시
-  document.querySelectorAll('.options-btn').forEach((button) => {
-    button.addEventListener('click', function () {
+  document.querySelectorAll(".options-btn").forEach((button) => {
+    button.addEventListener("click", function () {
       const options = button.nextElementSibling;
       options.style.display =
-        options.style.display === 'none' ? 'block' : 'none';
+        options.style.display === "none" ? "block" : "none";
     });
   });
 
-  // 수정 버튼 클릭 시
-  document.querySelectorAll('.edit-todo').forEach((button) => {
-    button.addEventListener('click', function () {
-      const todoId = button.getAttribute('data-id');
-      const newTodo = prompt('새로운 할 일을 입력하세요:');
+  document.querySelectorAll(".edit-todo").forEach((button) => {
+    button.addEventListener("click", function () {
+      const todoId = button.getAttribute("data-id");
+
+      // 현재 ToDo 텍스트를 가져옴
+      const todoListContainer = button.closest(".todoListContainer");
+      if (!todoListContainer) {
+        console.error("Cannot find .todoListContainer");
+        return;
+      }
+
+      const todoTextElement = todoListContainer.querySelector(".todoText");
+      if (!todoTextElement) {
+        console.error("Cannot find .todoText");
+        return;
+      }
+
+      const currentTodoText = todoTextElement.innerText;
+      const newTodo = prompt("새로운 할 일을 입력하세요:", currentTodoText);
+
       if (newTodo) {
+        // const checkBox = todoListContainer.querySelector(".todoCheck");
+        // if (!checkBox) {
+        //   console.error("Cannot find .todoCheck");
+        //   return;
+        // }
+
+        // console.log(checkBox.dataset.checked);
+        // const isChecked = function () {
+        //   if (checkBox.dataset.checked) {
+        //     return true;
+        //   } else {
+        //     return false;
+        //   }
+        // };
+        // const userId = todoListContainer.getAttribute("data-user-id");
+
+        // console.log("Sending update request for todoId:", todoId);
+        // console.log("New todo text:", newTodo);
+        // console.log("Checkbox status:", isChecked());
+
+        let url = `/todo/update/${todoId}`;
+        let asdf = {
+          id: parseInt(todoId),
+          todowrite: newTodo,
+          // todocheck: isChecked(),
+        };
+
         fetch(`/todo/update/${todoId}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ todowrite: newTodo, todocheck: false }),
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            id: parseInt(todoId),
+            todowrite: newTodo,
+            // todocheck: isChecked(),
+          }),
         })
-          .then((response) => response.json())
+          .then((response) => {
+            console.log("Response status:", response.status);
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+            return response.json();
+          })
           .then((data) => {
+            console.log("Response data:", data);
             if (data.success) {
-              const todoDiv = button.closest('li').querySelector('div');
-              todoDiv.innerText = newTodo;
-              alert('수정되었습니다.');
+              todoTextElement.innerText = newTodo;
+              alert("수정됨");
             } else {
-              alert('수정에 실패했습니다.');
+              alert("수정안되.");
             }
           })
           .catch((error) => {
-            console.error('Error:', error);
-            alert('수정 중 오류가 발생했습니다.');
+            console.error("Error:", error);
+            alert("오류 ㅅㄱ.");
           });
       }
     });
   });
 
   // 삭제 버튼 클릭 시
-  document.querySelectorAll('.delete-todo').forEach((button) => {
-    button.addEventListener('click', function () {
-      const todoId = button.getAttribute('data-id');
-      if (confirm('정말 삭제하시겠습니까?')) {
+  document.querySelectorAll(".delete-todo").forEach((button) => {
+    button.addEventListener("click", function () {
+      const todoId = button.getAttribute("data-id");
+      if (confirm("정말 삭제하시겠습니까?")) {
         fetch(`/todo/delete/${todoId}`, {
-          method: 'DELETE',
+          method: "DELETE",
         })
           .then((response) => response.json())
           .then((data) => {
             if (data.success) {
-              const todoItem = button.closest('.todoListContainer');
+              const todoItem = button.closest(".todoListContainer");
               todoItem.remove();
-              alert('삭제되었습니다.');
+              alert("삭제되었습니다.");
             } else {
-              alert('삭제에 실패했습니다.');
+              alert("삭제에 실패했습니다.");
             }
           })
           .catch((error) => {
-            console.error('Error:', error);
-            alert('삭제 중 오류가 발생했습니다.');
+            console.error("Error:", error);
+            alert("삭제 중 오류가 발생했습니다.");
           });
       }
     });
@@ -317,18 +367,18 @@ window.onclick = function (event) {
 };
 
 function openModal(modalId) {
-  document.getElementById(modalId).style.display = 'block';
+  document.getElementById(modalId).style.display = "block";
 }
 
 function closeModal(modalId) {
-  document.getElementById(modalId).style.display = 'none';
+  document.getElementById(modalId).style.display = "none";
 }
 
 window.onclick = function (event) {
-  const modals = document.getElementsByClassName('modal');
+  const modals = document.getElementsByClassName("modal");
   for (let i = 0; i < modals.length; i++) {
     if (event.target == modals[i]) {
-      modals[i].style.display = 'none';
+      modals[i].style.display = "none";
     }
   }
 };
@@ -395,7 +445,7 @@ function fetchChallenge(challId) {
   `;
 
   // 자동 슬라이드 설정
-  const carouselInner = document.querySelector('.carousel-inner');
+  const carouselInner = document.querySelector(".carousel-inner");
   let index = 0;
 
   function slideImages() {

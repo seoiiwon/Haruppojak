@@ -58,11 +58,12 @@ async def writediarys(writediary: CreateDiarySchema, currentUser: AuthSchema.Use
 @router.get("/diary/reply", response_class=HTMLResponse)  # 다이어리 답장 페이지
 async def diary_reply(request: Request, currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser), db: Session = Depends(get_db)):
     userid = currentUser.id
-    latest_diary = db.query(UserDiary).filter(UserDiary.Diaryuserid == userid).order_by(desc(UserDiary.Date)).first()
+    latest_diary = db.query(UserDiary).filter(
+        UserDiary.Diaryuserid == userid).order_by(desc(UserDiary.Date)).first()
     if latest_diary is None:
         return templates_diary.TemplateResponse(name="reply.html", context={"request": request, "reply": "최근 일기가 없습니다."})
     return templates_diary.TemplateResponse(name="reply.html", context={"request": request, "reply": latest_diary.Response})
-    
+
 # @router.get("/diary/reply", response_class=HTMLResponse)  # 다이어리 답장 페이지
 # async def diary_reply(request: Request, db: Session = Depends(get_db),):
 #     token = request.cookies.get("access_token")
@@ -76,9 +77,10 @@ async def diary_reply(request: Request, currentUser: AuthSchema.UserInfoSchema =
 #             return templates_diary.TemplateResponse(name="reply.html", context={"request": request, "reply": latest_diary.Response})
 #     else:
 #         return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
-    
-@router.get("/diary/calendar", response_class=HTMLResponse) # 다이어리 캘린더
-async def diarycalendarhtml(request : Request):
+
+
+@router.get("/diary/calendar", response_class=HTMLResponse)  # 다이어리 캘린더
+async def diarycalendarhtml(request: Request):
     token = request.cookies.get("access_token")
     if token:
         return templates_diary.TemplateResponse(name="diaryCalendar.html", request=request)
@@ -128,16 +130,19 @@ async def diaryclosehtml(request: Request):
 #     diaryresponse=getdiaryresponsedetail(db,id=id)
 
 
-# 다이어리에서 todo 불러오기
 @router.get("/diary/todos", response_class=JSONResponse)
 async def read_todos_by_date(date: str = Query(...), db: Session = Depends(get_db), currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser)):
     try:
-        target_date = datetime.strptime(date, '%Y-%m-%d').date()
+        # target_date = datetime.strptime(date, '%Y-%m-%d').date()
+        target_date = datetime.now()
+        print(f"Fetching todos for date: {target_date}")  # 디버그용 로그
     except ValueError:
         raise HTTPException(status_code=400, detail="Invalid date format")
+
     todos = get_todos_by_date(db, currentUser.id, target_date)
     todo_list = [{"text": todo.todo, "completed": todo.check}
                  for todo in todos]
+    print(f"Fetched todos: {todo_list}")  # 디버그용 로그
     return JSONResponse(content={"todos": todo_list})
 
 
