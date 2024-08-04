@@ -9,6 +9,7 @@ from Server.schemas.TodoListSchema import *
 from Server.crud.MainCrud import *
 from Server.schemas import AuthSchema
 import os
+from Server.crud.ChallengeCrud import joinedChallengeID, joinedChallenge
 
 router = APIRouter()
 
@@ -29,11 +30,12 @@ templates_auth = Jinja2Templates(directory=template_dir_auth)
 # todo 리스트 보기
 @router.get("/haru/main", response_class=HTMLResponse)
 async def read_todos(request: Request, db: Session = Depends(get_db), currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser)):
-
     token = request.cookies.get("access_token")
     if token:
+        joinedChallengeIDList = joinedChallengeID(currentUser.id, db)
+        joinedChallenges = joinedChallenge(joinedChallengeIDList, db)
         todos = get_todos(db, currentUser.id)
-        return templates.TemplateResponse(name="mainPage.html", context={"request": request, "todos": todos})
+        return templates.TemplateResponse(name="mainPage.html", context={"request": request, "todos": todos, "joinedChallenge": joinedChallenges})
     else:
         return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
 
