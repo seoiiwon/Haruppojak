@@ -8,6 +8,7 @@ from Server.models.TodoListModel import *
 from Server.schemas.TodoListSchema import *
 from Server.crud.MainCrud import *
 from Server.schemas import AuthSchema
+from Server.crud.ChallengeCrud import joinedChallengeID, joinedChallenge
 import os
 from Server.crud.ChallengeCrud import joinedChallengeID, joinedChallenge
 
@@ -39,6 +40,7 @@ async def read_todos(request: Request, db: Session = Depends(get_db), currentUse
         return templates.TemplateResponse(name="mainPage.html", context={"request": request, "todos": todos, "joinedChallenge": joinedChallenges})
     else:
         return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
+
 
 
 # todo 만들기
