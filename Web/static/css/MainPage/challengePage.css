@@ -1,18 +1,19 @@
 @font-face {
-  font-family: "Pretendard-Regular";
-  src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff")
-    format("woff");
+  font-family: 'Pretendard-Regular';
+  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
+    format('woff');
   font-weight: 400;
   font-style: normal;
 }
 
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
 }
 
 body {
-  font-family: "Pretendard-Regular";
+  font-family: 'Pretendard-Regular';
   background-color: #2f4858;
   display: flex;
   justify-content: center;
@@ -47,7 +48,6 @@ header {
   align-items: flex-start;
   margin-bottom: 1rem;
   z-index: 1;
-
 }
 
 .logoTitle {
@@ -73,10 +73,10 @@ header {
   border: none;
   border-radius: 20px;
   font-size: 1rem;
-  background-color: #2F4858;
-  border: 2px solid #2F4858;
+  background-color: #2f4858;
+  border: 2px solid #2f4858;
   padding: 1vh 3vw;
-  padding-right: 2.5rem; 
+  padding-right: 2.5rem;
 }
 
 .search input:hover {
@@ -84,7 +84,7 @@ header {
 }
 
 .search input:focus {
-  border: 1px solid #2F4858;
+  border: 1px solid #2f4858;
   background-color: white;
 }
 
@@ -124,7 +124,7 @@ main {
   max-width: 75%;
   padding: 20px;
   background-color: #fff;
-  border: 1px solid #2F4858;
+  border: 1px solid #2f4858;
   border-radius: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin: 2vh auto;
@@ -160,7 +160,7 @@ main {
   padding: 0;
   font-weight: bold;
   font-size: 3vh;
-  color: #2F4858;
+  color: #2f4858;
 }
 
 .challengeInfo {
@@ -171,7 +171,7 @@ main {
 .challenger {
   margin-bottom: 5px;
   font-size: 1rem;
-  color: #2F4858;
+  color: #2f4858;
 }
 
 .challengeOwner,
