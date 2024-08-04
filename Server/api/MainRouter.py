@@ -27,15 +27,6 @@ template_dir_auth = os.path.join(os.path.dirname(
 templates_auth = Jinja2Templates(directory=template_dir_auth)
 
 
-# @router.get("/challenge/all", response_class=HTMLResponse)  # 전체 챌린지 페이지
-# async def getChallengeList(request: Request, db: Session = Depends(get_db), currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser)):
-#     challengeListAll = getChallengeListAll(db)
-#     joinedChallenge = db.query(UserChallenge).filter(
-#         UserChallenge.user_id == currentUser.id).all()
-#     userChallengeID = [challenge.challenge_id for challenge in joinedChallenge]
-#     return templates.TemplateResponse(name="challengePage.html", context={"request": request, "challengeList": challengeListAll, "user": getUserInfo(currentUser), "userChallenge": userChallengeID})
-
-
 # todo 리스트 보기
 @router.get("/haru/main", response_class=HTMLResponse)
 async def read_todos(request: Request, db: Session = Depends(get_db), currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser)):
