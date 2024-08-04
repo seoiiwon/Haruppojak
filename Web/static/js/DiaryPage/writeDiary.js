@@ -34,7 +34,6 @@ function goToReply() {
   window.location.href = "/diary/reply";
 }
 
-
 // 투두리스트 데이터를 로드하고 모달에 표시하는 함수
 function displayTodos() {
   const todos = [
