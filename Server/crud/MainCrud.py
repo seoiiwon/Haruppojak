@@ -7,6 +7,7 @@ from Server.models import TodoListModel, UserInfo,UserDiary
 from Server.schemas import TodoListSchema
 import openai
 import os
+from typing import List
 from dotenv import load_dotenv
 
 
@@ -148,11 +149,12 @@ def recommend_todo_list(todolist : list, current_user_id : int, db : Session):
     completion = openai.chat.completions.create(model=model, messages=messages)
     print(completion.choices[0].message.content)
 
-def checkdiary(db: Session, userid: int):
-    starttoday = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
-    endtoday = starttoday + timedelta(days=1)
+def checkdiary(db: Session, userid: int, year: int, month: int):
+    startdate = datetime(year, month, 1)
+    enddate = (startdate.replace(day=28) + timedelta(days=4)).replace(day=1)  # 다음 달 1일
     
-    latest_diary = db.query(UserDiary).filter(UserDiary.Diaryuserid == userid, UserDiary.Date >= starttoday, UserDiary.Date < endtoday).first()
-    
-    # 다이어리 작성 하면 Ture, 없으면 False
-    return latest_diary is not None
+    return db.query(UserDiary).filter(
+        UserDiary.Diaryuserid == userid,
+        UserDiary.Date >= startdate,
+        UserDiary.Date < enddate
+    ).order_by(UserDiary.Date).all()

@@ -14,35 +14,20 @@ import os
 
 router = APIRouter()
 
-template_dir = os.path.join(os.path.dirname(
-    __file__), "../../Web/templates/MainPage")
+template_dir = os.path.join(os.path.dirname(__file__), "../../Web/templates/MainPage")
 templates = Jinja2Templates(directory=template_dir)
 
-template_dir_auth = os.path.join(os.path.dirname(
-    __file__), "../../Web/templates/AuthPage")
-<< << << < HEAD
-== == == =
+template_dir_auth = os.path.join(os.path.dirname(__file__), "../../Web/templates/AuthPage")
 templates_auth = Jinja2Templates(directory=template_dir_auth)
-
-template_dir_auth = os.path.join(os.path.dirname(
-    __file__), "../../Web/templates/AuthPage")
->>>>>> > main
-templates_auth = Jinja2Templates(directory=template_dir_auth)
-
 
 # 투두리스트 보기
 @router.get("/haru/main", response_class=HTMLResponse)
-<< << << < HEAD
-async def read_todos(request: Request, db: Session = Depends(get_db), currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser)):
-== == == =
-async def read_todos(request: Request, date: Optional[str] = Query(None), db: Session = Depends(get_db), currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser)):
->>>>>> > main
-  token = request.cookies.get("access_token")
-   if token:
+async def read_todos(request: Request, date: Optional[str] = Query(None), db: Session = Depends(get_db)):
+    token = request.cookies.get("access_token")
+    if token:
+        currentUser = getCurrentUser(token, db)
         joinedChallengeIDList = joinedChallengeID(currentUser.id, db)
         joinedChallenges = joinedChallenge(joinedChallengeIDList, db)
-        # 일기 작성은 True, 작성 안하면 False
-        writtentoday = checkdiary(db, currentUser.id)
         if date:
             try:
                 target_date = datetime.strptime(date, '%Y-%m-%d').date()
@@ -52,7 +37,7 @@ async def read_todos(request: Request, date: Optional[str] = Query(None), db: Se
             todos = get_todos_by_date(db, currentUser.id, target_date)
         else:
             todos = get_todos(db, currentUser.id)
-        return templates.TemplateResponse(name="mainPage.html", context={"request": request, "todos": todos, "joinedChallenge": joinedChallenges, "writtentoday": writtentoday})
+        return templates.TemplateResponse(name="mainPage.html", context={"request": request, "todos": todos, "joinedChallenge": joinedChallenges})
     else:
         return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
 
