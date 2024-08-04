@@ -6,9 +6,9 @@ db = SessionLocal()
 
 newtodo = TodoListModel.TodoList(
     date=datetime.now(),
-    todo="배고프기",
-    check=False,
-    user_id=1,
+    todo="아이디확인하기.",
+    check=True,
+    user_id=2,
 )
 
 db.add(newtodo)

@@ -49,9 +49,9 @@ def update_todo(db: Session, todo_id: int, todo_update: TodoListSchema.TodoUpdat
     db_todo = db.query(TodoListModel.TodoList).filter(
         TodoListModel.TodoList.id == todo_id, TodoListModel.TodoList.user_id == user_id).first()
     if db_todo:
-        db_todo.date = todo_update.tododate
+        # db_todo.date = datetime.now()
         db_todo.todo = todo_update.todowrite
-        db_todo.check = todo_update.todocheck
+        # db_todo.check = todo_update.todocheck
         db.commit()
         db.refresh(db_todo)
     return db_todo

@@ -16,10 +16,10 @@ class TodoCreateRequest(BaseModel):
 
 class TodoUpdate(BaseModel):
     id: int
-    user_id: int
+    # user_id: int
     todowrite: str
-    tododate: datetime.datetime
-    todocheck: bool
+    # tododate: datetime.datetime
+    # todocheck: bool
 
 
 class TodoCheck(BaseModel):
