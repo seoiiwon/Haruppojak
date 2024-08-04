@@ -4,21 +4,27 @@ from typing import Optional, List
 
 
 class TodoCreate(BaseModel):
-    userid: str
+    user_id: int
     todowrite: str
     tododate: datetime.datetime
-    todocheck: bool
+    todocheck: Optional[bool] = False
+
 
 class TodoCreateRequest(BaseModel):
     todos: List[TodoCreate]
 
+
 class TodoUpdate(BaseModel):
     id: int
+    user_id: int
     todowrite: str
     tododate: datetime.datetime
     todocheck: bool
 
+
 class TodoCheck(BaseModel):
+    id: int
+    user_id: int
     todocheck: bool
 
 
