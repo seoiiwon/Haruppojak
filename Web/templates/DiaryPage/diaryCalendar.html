@@ -18,7 +18,6 @@
           class="frame-image"
         />
         <div class="title">뽀짝일기 달력</div>
-        <!-- Calendar container to hold the calendar -->
         <div class="calendar-container">
           <div class="calendar">
             <div class="calendar-header">
@@ -35,7 +34,6 @@
             </div>
           </div>
         </div>
-        <!-- footer -->
         <div class="footer">
           <a href="#" onclick="goBack()" class="footer-link" id="go-back"
             >돌아가기</a
@@ -47,6 +45,16 @@
         </div>
       </div>
     </div>
+
+    <!-- Modal Structure -->
+    <div id="diaryModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2 id="modalDate"></h2>
+        <p id="modalContent"></p>
+      </div>
+    </div>
+
     <script src="../../static/js/DiaryPage/diaryCalendar.js"></script>
   </body>
 </html>
