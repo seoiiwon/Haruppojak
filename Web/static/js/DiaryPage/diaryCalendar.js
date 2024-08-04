@@ -34,3 +34,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
   createCalendar(new Date().getFullYear(), new Date().getMonth());
 });
+
+// Function to navigate back to reply.html
+function goBack() {
+  window.history.back();
+}
+
+// Function to close the app by navigating to closeApp.html
+function closeApp() {
+  window.location.href = 'close';
+}
