@@ -6,6 +6,7 @@ from fastapi import HTTPException, UploadFile
 import shutil
 from pathlib import Path
 import os
+from typing import List
 
 def getChallengeListAll(db : Session):
     challengeList = db.query(ChallengeModel.Challenge).order_by(ChallengeModel.Challenge.created_at.desc()).all()
@@ -75,3 +76,13 @@ def joinChallenge(challenge_id: int, current_user: AuthSchema.UserInfoSchema, db
     db.refresh(newUserChallenge)
 
     return newUserChallenge
+
+
+def joinedChallengeID(user_id : int, db : Session) -> List[int]:
+    user_challenge = db.query(UserChallenge).filter(UserChallenge.user_id == user_id).all()
+    return [uc.challenge_id for uc in user_challenge]
+
+def joinedChallenge(challenge_id_list: List[int], db: Session):
+    challenges = db.query(ChallengeModel.Challenge).filter(ChallengeModel.Challenge.id.in_(challenge_id_list)).all()
+    return challenges
+

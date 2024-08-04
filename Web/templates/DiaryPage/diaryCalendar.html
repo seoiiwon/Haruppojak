@@ -3,7 +3,66 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/Web/static/css/DiaryPage/diaryCalendar.css">
+    <script src="/Web/static/js/DiaryPage/diaryCalendar.js" defer></script>
     <title>Document</title>
   </head>
-  <body>다이어리캘린더</body>
+  <body>
+    <div class="container">
+      <div class="content">
+        <img
+          src="../../static/img/DiaryPage/Frame.png" alt="Frame Image" class="frame-image"/>
+        <div class="title">뽀짝일기 달력</div>
+        <div class="date" id="current-date"></div>
+        <div class="header">
+          <!-- 캘린더 월간통계 -->
+          <div class="calendarHeader">
+              <button class="prevMonth">&lt;</button>
+              <div class="yearMonth">
+                  <span class="year"></span>
+                  <span class="month"></span>
+              </div>
+              <button class="nextMonth">&gt;</button>
+              <button class="calendarPic">
+                  <img src="/static/img/calendar.png">
+              </button>
+          </div>
+        </div>
+        <div class="section">
+          <div class="ppojakDay">
+              <!-- 섹션 1 : 뽀짝한 날 표시 -->
+              <div class="QhWkrgksskf">
+                  <!--뽀짝한날넣기-->
+              </div>
+              <div class="QhWkrvjtpsxm">
+                  <!--뽀짝퍼센트넣기-->
+              </div>
+              <div class="dhksqurQhWkrgksskf">
+                  <!--완벽뽀짝한날넣기-->
+              </div>
+          </div>
+          <div class="calendarBody section">
+              <!-- 섹션 2 : 달력 요일 및 날짜 표시-->
+              <div class="calendarWeekdays">
+                  <div class="weekday">일</div>
+                  <div class="weekday">월</div>
+                  <div class="weekday">화</div>
+                  <div class="weekday">수</div>
+                  <div class="weekday">목</div>
+                  <div class="weekday">금</div>
+                  <div class="weekday">토</div>
+              </div>
+              <div class="calendarDays">
+                  <!-- 날짜 동적 추가 -->
+              </div>
+            </div>
+        </div>
+        <div class="footer">
+          <a href="#" onclick="goBack()" class="footer-link" id="go-back">돌아가기</a>
+          <a href="#" onclick="goToCalendar()" class="footer-link" id="go-calendar">뽀짝일기 달력</a>
+          <a href="#" onclick="closeApp()" class="footer-link" id="close-app">뽀짝 종료</a>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>

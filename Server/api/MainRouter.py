@@ -6,6 +6,9 @@ from Server.config.database import get_db
 from Server.models.TodoListModel import *
 from Server.schemas.TodoListSchema import *
 from Server.crud.MainCrud import *
+from Server.schemas import AuthSchema
+from Server.crud.TokenForAuth import getCurrentUser
+from Server.crud.ChallengeCrud import joinedChallengeID, joinedChallenge
 import os
 
 router = APIRouter()
@@ -24,16 +27,27 @@ template_dir_auth = os.path.join(os.path.dirname(
 templates_auth = Jinja2Templates(directory=template_dir_auth)
 
 
+# @router.get("/challenge/all", response_class=HTMLResponse)  # 전체 챌린지 페이지
+# async def getChallengeList(request: Request, db: Session = Depends(get_db), currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser)):
+#     challengeListAll = getChallengeListAll(db)
+#     joinedChallenge = db.query(UserChallenge).filter(
+#         UserChallenge.user_id == currentUser.id).all()
+#     userChallengeID = [challenge.challenge_id for challenge in joinedChallenge]
+#     return templates.TemplateResponse(name="challengePage.html", context={"request": request, "challengeList": challengeListAll, "user": getUserInfo(currentUser), "userChallenge": userChallengeID})
+
+
 # todo 리스트 보기
 @router.get("/haru/main", response_class=HTMLResponse)
-async def read_todos(request: Request, db: Session = Depends(get_db)):
-
+async def read_todos(request: Request, db: Session = Depends(get_db), currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser)):
     token = request.cookies.get("access_token")
     if token:
-        todos = get_todos(db)
-        return templates.TemplateResponse(name="mainPage.html", context={"request": request, "todos": todos})
+        joinedChallengeIDList = joinedChallengeID(currentUser.id, db)
+        joinedChallenges = joinedChallenge(joinedChallengeIDList, db)
+        todos = get_todos(db, currentUser.id)
+        return templates.TemplateResponse(name="mainPage.html", context={"request": request, "todos": todos, "joinedChallenge": joinedChallenges})
     else:
         return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
+
 
 
 # todo 만들기
