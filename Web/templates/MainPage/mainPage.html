@@ -6,9 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Main Page</title>
     <link rel="stylesheet" href="{{ url_for('static', path='css/MainPage/mainPage.css') }}">
-    <link rel="stylesheet" href="../../static/css/tabbar.css" />
-</head>
-
+    <link rel="stylesheet" href="../../static/css/tabbar.css" /></head>
 <body>
     <div class="container">
         <header>
@@ -28,24 +26,13 @@
         <main>
             <section class="todoList">
                 <!-- 섹션 1 : 투두 리스트 -->
-                <ul>
+                <ul id="todoListContainer">
                     <!-- /haru/intro에서 작성한 ToDo 항목 불러오는 곳 -->
-                    {% for todolist in todos %}
-                    <li class="todoListContainer">
-                        <div>{{ todolist.todo }}</div>
-                        {% if todolist.check %}
-                        <img src="url_for('static', path='img/MainPage/checkboxBlack.svg')">
-                        {% else %}
-                        <img src="url_for('static', path='img/MainPage/checkboxWhite.svg')">
-                        {% endif %}
-                        <hr>
-                    </li>
-                    {% endfor %}
                 </ul>
-                <ul>
-                    <li id="addTodoList">
+                <ul id="addTodoList">
+                    <li>
                         <div>
-                            <img src="{{ url_for('static', path='img/MainPage/checkboxWhite.svg')}}">
+                            <img src="{{ url_for('static', path='img/MainPage/addTodoButton.svg')}}">
                             <input type="text" class="todoContent" placeholder="투두 추가하기">
                             <hr>
                         </div>
@@ -62,6 +49,10 @@
                         <input type="checkbox">
                         <input type="text" placeholder="오늘의 투두를 입력해주세요." class="todoContent">
                     </li>
+                    <li>
+                        <input type="checkbox">
+                        <input type="text" placeholder="오늘의 투두를 입력해주세요." class="todoContent">
+                    </li>
                 </ul>
             </section>
             <section class="challenges">
@@ -70,30 +61,14 @@
                     현재 참여중인 뽀짝챌
                 </div>
                 <div class="challengeList">
-                    <div class="challengeBox">
-                        <div>
-                            <img src="">
+                    {% for challenge in joinedChallenge %}
+                        <div class="challengeItem">
+                            <div class="challengeBox">
+                                <img src="{{ url_for('static', path='img/ChallengeImg/' ~ challenge.challengeThumbnail1) }}" alt="">
+                            </div>
+                            <div class="challengeTitle">{{ challenge.challengeTitle }}</div>
                         </div>
-                        <div>밀리의 서재</div>
-                    </div>
-                    <div class="challengeBox">
-                        <div>
-                            <img src="">
-                        </div>
-                        <div>1일 1커밋</div>
-                    </div>
-                    <div class="challengeBox">
-                        <div>
-                            <img src="">
-                        </div>
-                        <div>냠냠</div>
-                    </div>
-                    <div class="challengeBox">
-                        <div>
-                            <img src="">
-                        </div>
-                        <div>냠냠</div>
-                    </div>
+                    {% endfor %}
                     <div id="challengeMore" class="challengeBox">
                         <div>챌린지 더보기</div>
                     </div>
@@ -101,26 +76,23 @@
                 <div class="dots"></div>
             </section>
         </main>
-
         <!-- 탭바 시작 -->
         <div class="tabbar">
             <a class="tab" href="/haru/main">
-              <img src="../../static/img/tabbar/홈-off.png" alt="Home" />
+                <img src="../../static/img/tabbar/홈-off.png" alt="Home" />
             </a>
             <a class="tab" href="">
-              <img src="../../static/img/tabbar/캘린더-off.png" alt="Calendar" />
+                <img src="../../static/img/tabbar/캘린더-off.png" alt="Calendar" />
             </a>
             <a class="tab" href="/diary/write">
-              <img src="../../static/img/tabbar/일기-off.png" alt="Diary" />
+                <img src="../../static/img/tabbar/일기-off.png" alt="Diary" />
             </a>
             <a class="tab">
-              <img
-                src="../../static/img/tabbar/마이페이지-off.png"
-                alt="MyPage"
-              />
+                <img src="../../static/img/tabbar/마이페이지-off.png" alt="MyPage" />
             </a>
-          </div>
-          <!-- 탭바 끝 -->
+        </div>
+      <!-- 탭바 끝 -->
+
         <!-- <footer>
             <nav class="footerNav">
                 <ul>
