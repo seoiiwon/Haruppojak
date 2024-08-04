@@ -13,124 +13,87 @@
 
   <body>
     <div class="container">
-        <header>
-            <!-- 로고, 하루뽀짝, 날짜표시 -->
-            <div class="logo">
-                <img class="ppojakLogo" src="{{ url_for('static', path='img/haruppojak_logo.png') }}" alt="haruppojak">
-                <div id="haruPpojak">하루뽀짝</div>
-            </div>
-            <div class="date" id="dateContainer">
-                <div id="past2"></div>
-                <div id="past1"></div>
-                <div id="today"></div>
-                <div id="future1"></div>
-                <div id="future2"></div>
-            </div>
-        </header>
-        <main>
-            <section class="todoList">
-                <!-- 섹션 1 : 투두 리스트 -->
-                <ul id="todoListContainer">
-                    <!-- /haru/intro에서 작성한 ToDo 항목 불러오는 곳 -->
-                    {% for todolist in todos %}
-                    <li class="todoListContainer" name="{{ todolist.id }}">
-                        {% if todolist.check == 1 %}
-                        <img src="{{ url_for('static', path='img/MainPage/checkboxBlack.svg') }}">
-                        {% else %}
-                        <img src="{{ url_for('static', path='img/MainPage/checkboxWhite.svg') }}">
-                        {% endif %}
-                        <div>{{ todolist.todo }}</div>
-                        <button class="options-btn" data-id="{{ todolist.id }}">옵션</button>
-                        <div class="options" style="display: none;">
-                            <button class="edit-todo" data-id="{{ todolist.id }}">수정</button>
-                            <button class="delete-todo" data-id="{{ todolist.id }}">삭제</button>
-                        </div>
-                        <hr>
-                    </li>
-                    {% endfor %}
-                </ul>
-                <ul id="addTodoList">
-                    <li>
-                        <div>
-                            <img src="{{ url_for('static', path='img/MainPage/addTodoButton.svg')}}">
-                            <input type="text" class="todoContent" placeholder="투두 추가하기">
-                            <hr>
-                        </div>
-                    </li>
-                </ul>
-            </section>
-            <section class="recommendation">
-                <!-- 섹션 2 : 나이대 추천 뽀짝 -->
-                <div>
-                    <span id="age"></span>대 추천 뽀짝!
-                </div> <!--이 부분에 나이 받는거 넣기-->
-                <ul>
-                    <li>
-                        <input type="checkbox">
-                        <input type="text" placeholder="오늘의 투두를 입력해주세요." class="todoContent">
-                    </li>
-                    <li>
-                        <input type="checkbox">
-                        <input type="text" placeholder="오늘의 투두를 입력해주세요." class="todoContent">
-                    </li>
-                </ul>
-            </section>
-            <section class="challenges">
-                <!-- 섹션 3 : 뽀짝챌 -->
-                <div class="description">
-                    <span class="challengeDes1">현재 참여중인 뽀짝챌</span><span class="challengeDes2">챌린지 더보기</span> 
-                </div>
-                <div class="challengeList">
-                    {% for challenge in joinedChallenge %}
-                    <div class="challengeBox">
-                        <div class="challengeItem">
-                            <div class="challengeBox">
-                                <img src="{{ url_for('static', path='img/ChallengeImg/' ~ challenge.challengeThumbnail1) }}" alt="">
-                            </div>
-                            <div class="challengeTitle">{{ challenge.challengeTitle }}</div>
-                        </div>
-                    {% endfor %}
-                    <div id="challengeMore" class="challengeBox">
-                        <div>챌린지 더보기</div>
-                    </div>
-                </div>
-                <div class="dots"></div>
-            </section>
-        </main>
-        <!-- 탭바 시작 -->
-        <div class="tabbar">
-            <a class="tab" href="/haru/main">
-                <img src="../../static/img/tabbar/홈-off.png" alt="Home" />
-            </a>
-            <a class="tab" href="">
-                <img src="../../static/img/tabbar/캘린더-off.png" alt="Calendar" />
-            </a>
-            <a class="tab" href="/diary/write">
-                <img src="../../static/img/tabbar/일기-off.png" alt="Diary" />
-            </a>
-            <a class="tab">
-                <img src="../../static/img/tabbar/마이페이지-off.png" alt="MyPage" />
-            </a>
+      <header>
+        <!-- 로고, 하루뽀짝, 날짜표시 -->
+        <div class="logo">
+          <img
+            class="ppojakLogo"
+            src="{{ url_for('static', path='img/haruppojak_logo.png') }}"
+            alt="haruppojak"
+          />
+          <div id="haruPpojak">하루뽀짝</div>
         </div>
-
-        <!-- 섹션 3 : 뽀짝챌
+        <div class="date" id="dateContainer">
+          <div id="past2" class="date-element"></div>
+          <!-- class 추가 -->
+          <div id="past1" class="date-element"></div>
+          <!-- class 추가 -->
+          <div id="today" class="date-element"></div>
+          <!-- class 추가 -->
+          <div id="future1" class="date-element"></div>
+          <!-- class 추가 -->
+          <div id="future2" class="date-element"></div>
+          <!-- class 추가 -->
+        </div>
+      </header>
+      <main>
+        <section class="todoList">
+          <!-- 섹션 1 : 투두 리스트 -->
+          <ul id="todoListContainer">
+            <!-- ID 추가 -->
+            <!-- /haru/intro에서 작성한 ToDo 항목 불러오는 곳 -->
+            {% for todolist in todos %}
+            <li class="todoListContainer">
+              <div>{{ todolist.todo }}</div>
+              {% if todolist.check %}
+              <img
+                src="url_for('static', path='img/MainPage/checkboxBlack.svg')"
+              />
+              {% else %}
+              <img
+                src="url_for('static', path='img/MainPage/checkboxWhite.svg')"
+              />
+              {% endif %}
+              <hr />
+            </li>
+            {% endfor %}
+          </ul>
+          <ul>
+            <li id="addTodoList">
+              <div>
+                <img
+                  src="{{ url_for('static', path='img/MainPage/checkboxWhite.svg')}}"
+                />
+                <input
+                  type="text"
+                  class="todoContent"
+                  placeholder="투두 추가하기"
+                />
+                <hr />
+              </div>
+            </li>
+          </ul>
+        </section>
+        <section class="recommendation">
+          <!-- 섹션 2 : 나이대 추천 뽀짝 -->
+          <div><span id="age"></span>대 추천 뽀짝!</div>
+          <!--이 부분에 나이 받는거 넣기-->
+          <ul>
+            <li>
+              <input type="checkbox" />
+              <input
+                type="text"
+                placeholder="오늘의 투두를 입력해주세요."
+                class="todoContent"
+              />
+            </li>
+          </ul>
+        </section>
         <section class="challenges">
+          <!-- 섹션 3 : 뽀짝챌 -->
           <div class="description">현재 참여중인 뽀짝챌</div>
-
-            <div class="challengeItem">
-                {% for challenge in joinedChallenge %}
-                <div class="challengeBox" onclick="showChallengeModal('chall1')">
-                  <div>
-                    <img src="{{ url_for('static', path='img/ChallengeImg/' ~ challenge.challengeThumbnail1) }}" />
-                  </div>
-                  <div class="challengeTitle">{{ challengeTitle }}</div>
-                </div>            
-                {% endfor %}
-            </div>
-
-
           <div class="challengeList">
-            <div class="challengeBox" onclick="showChallengeModal('chall1')">
+            <div class="challengeBox">
               <div>
                 <img src="" />
               </div>
