@@ -26,7 +26,7 @@ function closeModal() {
 // '오늘의 To Do 불러오기' 클릭 시 모달을 열기
 function showTodoModal() {
   openModal();
-  displayTodos();
+  fetchTodos(); // 투두리스트 데이터를 데이터베이스에서 로드
 }
 
 // '뽀짝이가 답장을 써줄 거예요!' 클릭 시 '/diary/reply'로 이동

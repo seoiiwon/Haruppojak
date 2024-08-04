@@ -62,10 +62,10 @@ async def diary_reply(request: Request, currentUser: AuthSchema.UserInfoSchema =
     # 일기가 있는 경우
     return templates_diary.TemplateResponse(name="reply.html", context={"request": request, "reply": latest_diary.Response})
 
-@router.get("/diary/calendar", response_model=CreateDiarySchema) # 다이어리 캘린더
-async def get_monthly_diaries(currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser), db: Session = Depends(get_db)):
-    today = datetime.now()
-    startdate = today.replace(day=1)  # 이번 달 1일
+@router.get("/diary/calendar/{month}", response_model=CreateDiarySchema) # 다이어리 캘린더
+async def get_monthly_diaries(month: int, currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser), db: Session = Depends(get_db)):
+    
+    startdate = month.replace(day=1)  # 이번 달 1일
     enddate = (startdate + timedelta(days=31)).replace(day=1)  # 다음 달 1일
 
     diaries = db.query(UserDiary).filter(
@@ -75,7 +75,7 @@ async def get_monthly_diaries(currentUser: AuthSchema.UserInfoSchema = Depends(g
     ).order_by(UserDiary.Date).all()
 
     if not diaries:
-        raise HTTPException(status_code=404, detail="No diaries found for this month.")
+        raise HTTPException(status_code=404, detail="해당 날짜의 뽀짝일기를 찾을 수 없습니다.")
 
     return diaries
 
