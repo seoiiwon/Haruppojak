@@ -1,7 +1,7 @@
 //페이지 연결
 function fetchTodos() {
-  fetch("/haru/main", {
-    method: "GET",
+  fetch('/haru/main', {
+    method: 'GET',
   })
     .then((response) => response.json())
     .then((data) => {
@@ -14,68 +14,68 @@ function fetchTodos() {
     .catch((error) => console.error('Error fetching todos:', error));
 }
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener('DOMContentLoaded', function () {
   // 옵션 버튼 클릭 시 수정, 삭제 버튼 표시
-  document.querySelectorAll(".options-btn").forEach((button) => {
-    button.addEventListener("click", function () {
+  document.querySelectorAll('.options-btn').forEach((button) => {
+    button.addEventListener('click', function () {
       const options = button.nextElementSibling;
       options.style.display =
-        options.style.display === "none" ? "block" : "none";
+        options.style.display === 'none' ? 'block' : 'none';
     });
   });
 
   // 수정 버튼 클릭 시
-  document.querySelectorAll(".edit-todo").forEach((button) => {
-    button.addEventListener("click", function () {
-      const todoId = button.getAttribute("data-id");
-      const newTodo = prompt("새로운 할 일을 입력하세요:");
+  document.querySelectorAll('.edit-todo').forEach((button) => {
+    button.addEventListener('click', function () {
+      const todoId = button.getAttribute('data-id');
+      const newTodo = prompt('새로운 할 일을 입력하세요:');
       if (newTodo) {
         fetch(`/todo/update/${todoId}`, {
-          method: "PUT",
+          method: 'PUT',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({ todowrite: newTodo, todocheck: false }),
         })
           .then((response) => response.json())
           .then((data) => {
             if (data.success) {
-              const todoDiv = button.closest("li").querySelector("div");
+              const todoDiv = button.closest('li').querySelector('div');
               todoDiv.innerText = newTodo;
-              alert("수정되었습니다.");
+              alert('수정되었습니다.');
             } else {
-              alert("수정에 실패했습니다.");
+              alert('수정에 실패했습니다.');
             }
           })
           .catch((error) => {
-            console.error("Error:", error);
-            alert("수정 중 오류가 발생했습니다.");
+            console.error('Error:', error);
+            alert('수정 중 오류가 발생했습니다.');
           });
       }
     });
   });
 
   // 삭제 버튼 클릭 시
-  document.querySelectorAll(".delete-todo").forEach((button) => {
-    button.addEventListener("click", function () {
-      const todoId = button.getAttribute("data-id");
-      if (confirm("정말 삭제하시겠습니까?")) {
+  document.querySelectorAll('.delete-todo').forEach((button) => {
+    button.addEventListener('click', function () {
+      const todoId = button.getAttribute('data-id');
+      if (confirm('정말 삭제하시겠습니까?')) {
         fetch(`/todo/delete/${todoId}`, {
-          method: "DELETE",
+          method: 'DELETE',
         })
           .then((response) => response.json())
           .then((data) => {
             if (data.success) {
-              const todoItem = button.closest(".todoListContainer");
+              const todoItem = button.closest('.todoListContainer');
               todoItem.remove();
-              alert("삭제되었습니다.");
+              alert('삭제되었습니다.');
             } else {
-              alert("삭제에 실패했습니다.");
+              alert('삭제에 실패했습니다.');
             }
           })
           .catch((error) => {
-            console.error("Error:", error);
-            alert("삭제 중 오류가 발생했습니다.");
+            console.error('Error:', error);
+            alert('삭제 중 오류가 발생했습니다.');
           });
       }
     });
@@ -315,6 +315,23 @@ window.onclick = function (event) {
   }
 };
 
+function openModal(modalId) {
+  document.getElementById(modalId).style.display = 'block';
+}
+
+function closeModal(modalId) {
+  document.getElementById(modalId).style.display = 'none';
+}
+
+window.onclick = function (event) {
+  const modals = document.getElementsByClassName('modal');
+  for (let i = 0; i < modals.length; i++) {
+    if (event.target == modals[i]) {
+      modals[i].style.display = 'none';
+    }
+  }
+};
+
 // static/js/MainPage/mainPage.js
 function showChallengeModal(challId) {
   fetchChallenge(challId);
@@ -322,8 +339,7 @@ function showChallengeModal(challId) {
 }
 
 function fetchChallenge(challId) {
-  // 여기에서 실제 API 호출을 통해 데이터를 가져올 수 있습니다.
-  // 예시 데이터 사용
+  // 예시 데이터입니당.. 나중에 실제 API 호출하면 될 것 같아요
   var challengeData = {
     chall1: {
       title: '밀리의 서재 #독서',
@@ -376,6 +392,20 @@ function fetchChallenge(challId) {
     <p class="participants-count">${data.participants}</p>
     <p class="challenge-description">${data.description}</p>
   `;
+
+  // 자동 슬라이드 설정
+  const carouselInner = document.querySelector('.carousel-inner');
+  let index = 0;
+
+  function slideImages() {
+    index++;
+    if (index >= data.images.length) {
+      index = 0;
+    }
+    carouselInner.style.transform = `translateX(-${index * 100}%)`;
+  }
+
+  setInterval(slideImages, 5000);
 }
 
 function openModal() {
