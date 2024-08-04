@@ -10,8 +10,6 @@ from Server.crud.MainCrud import *
 from Server.schemas import AuthSchema
 from Server.crud.ChallengeCrud import joinedChallengeID, joinedChallenge
 import os
-from Server.crud.ChallengeCrud import joinedChallengeID, joinedChallenge
-
 
 router = APIRouter()
 
