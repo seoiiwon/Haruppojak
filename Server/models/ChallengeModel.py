@@ -3,6 +3,7 @@ from sqlalchemy.orm import relationship
 from Server.config.database import Base
 from datetime import datetime
 
+
 class Challenge(Base):
     __tablename__ = "challenge"
 

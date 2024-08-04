@@ -14,3 +14,4 @@ class TodoList(Base):
     check = Column(Boolean, nullable=False, default=False)
     user_id = Column(Integer, ForeignKey('userinfo.id'), nullable=False)
     user = relationship('UserInfo', back_populates='todos')
+
