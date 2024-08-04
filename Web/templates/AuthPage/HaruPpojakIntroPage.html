@@ -8,26 +8,29 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="IntroComment">
-        <div>오늘 하루도 고생 많으셨습니다 :&#41;</div>
-        <div>오늘의 <span class="MiracleEveningTxt">미라클이브닝</span> 계획을 작성해주세요!</div>
+    <div class="container">
+        <div class="IntroComment">
+            <div>오늘 하루도 고생 많으셨습니다 :&#41;</div>
+            <div>오늘의 <span class="MiracleEveningTxt">미라클이브닝</span> 계획을 작성해주세요!</div>
+        </div>
+        <div class="TodoBox">
+            <div>
+                <img src="{{ url_for('static', path='img/AuthPage/checkbox.png') }}" alt="checkbox">
+                <input type="text" placeholder="이 곳을 눌러 입력해주세요.">
+            </div>
+            <div>
+                <img src="{{ url_for('static', path='img/AuthPage/checkbox.png') }}" alt="checkbox">
+                <input type="text" placeholder="이 곳을 눌러 입력해주세요.">
+            </div>
+            <div>
+                <img src="{{ url_for('static', path='img/AuthPage/checkbox.png') }}" alt="checkbox">
+                <input type="text" placeholder="이 곳을 눌러 입력해주세요.">
+            </div>
+        </div>
+        
+        <div class="AddTodo">더 추가하기</div>
+        <input type="submit" class="AddComplete" value="작성완료">
     </div>
-    <div class="TodoBox">
-        <div>
-            <img src="{{ url_for('static', path='img/AuthPage/checkbox.png') }}" alt="checkbox">
-            <input type="text" placeholder="이 곳을 눌러 입력해주세요.">
-        </div>
-        <div>
-            <img src="{{ url_for('static', path='img/AuthPage/checkbox.png') }}" alt="checkbox">
-            <input type="text" placeholder="이 곳을 눌러 입력해주세요.">
-        </div>
-        <div>
-            <img src="{{ url_for('static', path='img/AuthPage/checkbox.png') }}" alt="checkbox">
-            <input type="text" placeholder="이 곳을 눌러 입력해주세요.">
-        </div>
-    </div>
-    
-    <div class="AddTodo">더 추가하기</div>
-    <input type="submit" class="AddComplete" value="작성완료">
 </body>
 </html>
+

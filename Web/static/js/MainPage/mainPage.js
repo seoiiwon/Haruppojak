@@ -192,23 +192,24 @@ function handleDateClick(clickedDate) {
   }
 }
 
-// Todo 화면에 표시하기
 function fetchTodosForDate(date) {
   const formattedDate = `${date.getFullYear()}-${String(
     date.getMonth() + 1
   ).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
 
-  fetch(`/todo/date/${formattedDate}`, {
+  fetch(`/haru/main?date=${formattedDate}`, {
     method: "GET",
   })
-    .then((response) => response.json())
-    .then((data) => {
+    .then((response) => response.text())
+    .then((html) => {
       const todoListContainer = document.getElementById("todoListContainer");
-      todoListContainer.innerHTML = ""; // 기존 항목 제거
-      data.todos.forEach((todo) => {
-        const todoItem = createTodoElement(todo);
-        todoListContainer.appendChild(todoItem);
-      });
+      const tempElement = document.createElement("div");
+      tempElement.innerHTML = html;
+
+      const newTodoList = tempElement.querySelector("#todoListContainer");
+      if (newTodoList) {
+        todoListContainer.innerHTML = newTodoList.innerHTML; // 기존 항목 제거 후 새 항목 추가
+      }
     })
     .catch((error) => console.error("Error fetching todos:", error));
 }
@@ -365,6 +366,23 @@ window.onclick = function (event) {
   }
 };
 
+function openModal(modalId) {
+  document.getElementById(modalId).style.display = "block";
+}
+
+function closeModal(modalId) {
+  document.getElementById(modalId).style.display = "none";
+}
+
+window.onclick = function (event) {
+  const modals = document.getElementsByClassName("modal");
+  for (let i = 0; i < modals.length; i++) {
+    if (event.target == modals[i]) {
+      modals[i].style.display = "none";
+    }
+  }
+};
+
 // static/js/MainPage/mainPage.js
 function showChallengeModal(challId) {
   fetchChallenge(challId);
@@ -372,8 +390,7 @@ function showChallengeModal(challId) {
 }
 
 function fetchChallenge(challId) {
-  // 여기에서 실제 API 호출을 통해 데이터를 가져올 수 있습니다.
-  // 예시 데이터 사용
+  // 예시 데이터입니당.. 나중에 실제 API 호출하면 될 것 같아요
   var challengeData = {
     chall1: {
       title: "밀리의 서재 #독서",
@@ -426,6 +443,20 @@ function fetchChallenge(challId) {
     <p class="participants-count">${data.participants}</p>
     <p class="challenge-description">${data.description}</p>
   `;
+
+  // 자동 슬라이드 설정
+  const carouselInner = document.querySelector(".carousel-inner");
+  let index = 0;
+
+  function slideImages() {
+    index++;
+    if (index >= data.images.length) {
+      index = 0;
+    }
+    carouselInner.style.transform = `translateX(-${index * 100}%)`;
+  }
+
+  setInterval(slideImages, 5000);
 }
 
 function openModal() {

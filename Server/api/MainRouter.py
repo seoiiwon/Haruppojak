@@ -1,19 +1,16 @@
-from fastapi import APIRouter, Depends, Request, status, HTTPException, Form
+from fastapi import APIRouter, Depends, Query, Request, status, HTTPException, Form
 from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from Server.config.database import get_db
+from Server.crud.ChallengeCrud import joinedChallenge, joinedChallengeID
+from Server.crud.TokenForAuth import getCurrentUser
 from Server.models.TodoListModel import *
 from Server.schemas.TodoListSchema import *
 from Server.crud.MainCrud import *
 from Server.schemas import AuthSchema
-from Server.crud.TokenForAuth import getCurrentUser
 from Server.crud.ChallengeCrud import joinedChallengeID, joinedChallenge
 import os
-from Server.crud.ChallengeCrud import joinedChallengeID, joinedChallenge
-
-
-ACCESS_TOKEN_EXPIRE_MINUTES = float(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
 
 router = APIRouter()
 
@@ -23,18 +20,39 @@ templates = Jinja2Templates(directory=template_dir)
 
 template_dir_auth = os.path.join(os.path.dirname(
     __file__), "../../Web/templates/AuthPage")
+<< << << < HEAD
+== == == =
+templates_auth = Jinja2Templates(directory=template_dir_auth)
+
+template_dir_auth = os.path.join(os.path.dirname(
+    __file__), "../../Web/templates/AuthPage")
+>>>>>> > main
 templates_auth = Jinja2Templates(directory=template_dir_auth)
 
 
-# todo 리스트 보기
+# 투두리스트 보기
 @router.get("/haru/main", response_class=HTMLResponse)
+<< << << < HEAD
 async def read_todos(request: Request, db: Session = Depends(get_db), currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser)):
-    token = request.cookies.get("access_token")
-    if token:
+== == == =
+async def read_todos(request: Request, date: Optional[str] = Query(None), db: Session = Depends(get_db), currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser)):
+>>>>>> > main
+  token = request.cookies.get("access_token")
+   if token:
         joinedChallengeIDList = joinedChallengeID(currentUser.id, db)
         joinedChallenges = joinedChallenge(joinedChallengeIDList, db)
-        todos = get_todos(db, currentUser.id)
-        return templates.TemplateResponse(name="mainPage.html", context={"request": request, "todos": todos, "joinedChallenge": joinedChallenges})
+        # 일기 작성은 True, 작성 안하면 False
+        writtentoday = checkdiary(db, currentUser.id)
+        if date:
+            try:
+                target_date = datetime.strptime(date, '%Y-%m-%d').date()
+            except ValueError:
+                raise HTTPException(
+                    status_code=400, detail="잘못된 날짜 형식입니다.")
+            todos = get_todos_by_date(db, currentUser.id, target_date)
+        else:
+            todos = get_todos(db, currentUser.id)
+        return templates.TemplateResponse(name="mainPage.html", context={"request": request, "todos": todos, "joinedChallenge": joinedChallenges, "writtentoday": writtentoday})
     else:
         return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
 
@@ -45,6 +63,14 @@ async def create_new_todo(
     todo: TodoListSchema.TodoCreate, db: Session = Depends(get_db)
 ):
     return create_todo(db=db, todo=todo)
+
+
+# todo 수정하기
+# @router.put("/todo/update/{todo_id}", response_model=TodoListSchema.TodoUpdate)
+# async def update_new_todo(
+#     todo_id: int, todo: TodoListSchema.TodoUpdate, db: Session = Depends(get_db)
+# ):
+#     return update_todo(db=db, todo_id=todo_id, todo_update=todo)
 
 # todo 수정하기
 
@@ -83,12 +109,11 @@ async def check_existing_todo(
 ):
     return check_todo(db=db, todo_id=todo_id, todo_check=todo)
 
+
 # 추천 todo리스트
-
-
 @router.get("/todo/recommendations", response_model=TopTodoRecommendations)
 async def get_recommended_todos(db: Session = Depends(get_db)):
-    top_recommendations = get_recommended_todo(db)
+    top_recommendations = get_recommended_todos(db)
     return {"recommendations": [item[0] for item in top_recommendations]}
 
 

@@ -1,118 +1,36 @@
-// 연도 및 월 표시
-document.addEventListener("DOMContentLoaded", function () {
-    const daysContainer = document.querySelector(".calendarDays");
-    const yearElement = document.querySelector(".year");
-    const monthElement = document.querySelector(".month");
-    const prevMonthButton = document.querySelector(".prevMonth");
-    const nextMonthButton = document.querySelector(".nextMonth");
-  
-    let currentMonth = new Date().getMonth();
-    let currentYear = new Date().getFullYear();
-  
-    const monthNames = [
-      "1월",
-      "2월",
-      "3월",
-      "4월",
-      "5월",
-      "6월",
-      "7월",
-      "8월",
-      "9월",
-      "10월",
-      "11월",
-      "12월",
-    ];
-  
-    function generateCalendar(year, month) {
-      daysContainer.innerHTML = "";
-      const firstDay = new Date(year, month, 1).getDay();
-      const daysInMonth = new Date(year, month + 1, 0).getDate();
-  
-      yearElement.textContent = `${year}년`;
-      monthElement.textContent = monthNames[month];
-  
-      for (let i = 0; i < firstDay; i++) {
-        const emptySpot = document.createElement("div");
-        emptySpot.classList.add("day");
-        daysContainer.appendChild(emptySpot);
-      }
-  
-      for (let i = 1; i <= daysInMonth; i++) {
-        const day = document.createElement("div");
-        day.classList.add("day");
-        day.textContent = i;
-  
-        if (
-          i === new Date().getDate() &&
-          month === new Date().getMonth() &&
-          year === new Date().getFullYear()
-        ) {
-          day.classList.add("today");
-        }
-        daysContainer.appendChild(day);
-      }
+document.addEventListener('DOMContentLoaded', function () {
+  const calendarBody = document.querySelector('.calendar-body');
+
+  function createCalendar(year, month) {
+    const firstDay = new Date(year, month, 1).getDay();
+    const lastDate = new Date(year, month + 1, 0).getDate();
+    const prevLastDate = new Date(year, month, 0).getDate();
+
+    let dates = [];
+    // Add previous month's dates
+    for (let i = firstDay; i > 0; i--) {
+      dates.push(`<div class="date other-month">${prevLastDate - i + 1}</div>`);
     }
-  
-    function prevMonth() {
-      if (currentMonth === 0) {
-        currentMonth = 11;
-        currentYear--;
-      } else {
-        currentMonth--;
-      }
-      generateCalendar(currentYear, currentMonth);
+    // Add current month's dates
+    for (let i = 1; i <= lastDate; i++) {
+      const today = new Date();
+      const isToday =
+        today.getFullYear() === year &&
+        today.getMonth() === month &&
+        today.getDate() === i;
+      const className = isToday
+        ? 'date current-month today'
+        : 'date current-month';
+      dates.push(`<div class="${className}">${i}</div>`);
     }
-  
-    function nextMonth() {
-      if (currentMonth === 11) {
-        currentMonth = 0;
-        currentYear++;
-      } else {
-        currentMonth++;
-      }
-      generateCalendar(currentYear, currentMonth);
+    // Add next month's dates to fill the calendar
+    const nextDays = 42 - dates.length;
+    for (let i = 1; i <= nextDays; i++) {
+      dates.push(`<div class="date other-month">${i}</div>`);
     }
-  
-    prevMonthButton.addEventListener("click", prevMonth);
-    nextMonthButton.addEventListener("click", nextMonth);
-  
-    generateCalendar(currentYear, currentMonth);
-  });
-  
-  // 날짜 표시
-  document.addEventListener("DOMContentLoaded", function () {
-    const daysContainer = document.querySelector(".calendarDays");
-    const currentMonth = new Date().getMonth();
-    const currentYear = new Date().getFullYear();
-  
-    function generateCalendar(month, year) {
-      daysContainer.innerHTML = "";
-      const firstDay = new Date(year, month, 1).getDay();
-      const daysInMonth = new Date(year, month + 1, 0).getDate();
-  
-      for (let i = 0; i < firstDay; i++) {
-        const emptySpot = document.createElement("div");
-        emptySpot.classList.add("day");
-        daysContainer.appendChild(emptySpot);
-      }
-  
-      for (let i = 1; i <= daysInMonth; i++) {
-        const day = document.createElement("div");
-        day.classList.add("day");
-        day.textContent = i;
-  
-        if (
-          i === new Date().getDate() &&
-          month === currentMonth &&
-          year === currentYear
-        ) {
-          day.classList.add("today");
-        }
-        daysContainer.appendChild(day);
-      }
-    }
-  
-    generateCalendar(currentMonth, currentYear);
-  });
-  
+
+    calendarBody.innerHTML = dates.join('');
+  }
+
+  createCalendar(new Date().getFullYear(), new Date().getMonth());
+});

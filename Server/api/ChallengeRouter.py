@@ -23,18 +23,29 @@ templates_auth = Jinja2Templates(directory=template_auth)
 # GET
 
 
+# @router.get("/challenge/all", response_class=HTMLResponse)  # 전체 챌린지 페이지
+# async def getChallengeList(request: Request, db: Session = Depends(get_db)):
+#     token = request.cookies.get("access_token")
+#     if token:
+#         currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser)
+#         challengeListAll = getChallengeListAll(db)
+#         joinedChallenge = db.query(UserChallenge).filter(UserChallenge.user_id == currentUser.id).all()
+#         userChallengeID = [challenge.challenge_id for challenge in joinedChallenge]
+#         return templates.TemplateResponse(name="challengePage.html", context={"request": request, "challengeList": challengeListAll, "user": getUserInfo(currentUser), "userChallenge": userChallengeID})
+#     else:
+#         return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
+
 @router.get("/challenge/all", response_class=HTMLResponse)  # 전체 챌린지 페이지
-async def getChallengeList(request: Request, db: Session = Depends(get_db)):
+async def getChallengeList(request: Request, db: Session = Depends(get_db), currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser)):
     token = request.cookies.get("access_token")
     if token:
-        currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser)
+        currentUser = getCurrentUser(token, db)
         challengeListAll = getChallengeListAll(db)
         joinedChallenge = db.query(UserChallenge).filter(UserChallenge.user_id == currentUser.id).all()
         userChallengeID = [challenge.challenge_id for challenge in joinedChallenge]
         return templates.TemplateResponse(name="challengePage.html", context={"request": request, "challengeList": challengeListAll, "user": getUserInfo(currentUser), "userChallenge": userChallengeID})
     else:
-        return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
-
+        return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", context={"request": request})
 
 # POST
 
