@@ -77,10 +77,10 @@ async def check_existing_todo(
 # 추천 todo리스트
 
 
-@router.get("/todo/recommendations", response_model=TopTodoRecommendations)
-async def get_recommended_todos(db: Session = Depends(get_db)):
-    top_recommendations = get_recommended_todo(db)
-    return {"recommendations": [item[0] for item in top_recommendations]}
+# @router.get("/todo/recommendations", response_model=TopTodoRecommendations)
+# async def get_recommended_todos(db: Session = Depends(get_db)):
+#     top_recommendations = get_recommended_todo(db)
+#     return {"recommendations": [item[0] for item in top_recommendations]}
 
 
 Mainrouter = router
