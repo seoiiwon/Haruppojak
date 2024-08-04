@@ -148,6 +148,15 @@ hr {
   font-size: 17px;
 }
 
+.challengeDes1 {
+  margin-left: 0;
+  margin-right: auto;
+}
+.challengeDes2 {
+  margin-left: auto;
+  margin-right: 0;
+}
+
 .challengeList {
   display: flex;
   flex-wrap: nowrap;

@@ -22,6 +22,10 @@ template_dir_auth = os.path.join(os.path.dirname(
     __file__), "../../Web/templates/AuthPage")
 templates_auth = Jinja2Templates(directory=template_dir_auth)
 
+template_dir_auth = os.path.join(os.path.dirname(
+    __file__), "../../Web/templates/AuthPage")
+templates_auth = Jinja2Templates(directory=template_dir_auth)
+
 
 # todo 리스트 보기
 @router.get("/haru/main", response_class=HTMLResponse)
