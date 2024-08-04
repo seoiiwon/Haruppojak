@@ -137,7 +137,7 @@ async function submitDiary() {
 
   let diaryData = {
     content: content,
-    todo: "해야할일",
+    todo: "",
     response: "",
     id: 0, // 서버에서 사용자 ID를 설정합니다.
   };
