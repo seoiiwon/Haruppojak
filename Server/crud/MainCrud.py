@@ -48,22 +48,34 @@ def create_todo(db: Session, todo: TodoListSchema.TodoCreate, user_id: int):
 
 
 # intro 투두리스트 작성
-def create_intro_todos(db: Session, todo_request: TodoListSchema.TodoCreateRequest):
-    db_todos = []
+# def create_intro_todos(db: Session, todo_request: TodoListSchema.TodoCreateRequest):
+#     db_todos = []
+#     for todo in todo_request.todos:
+#         db_todo = TodoListModel.TodoList(
+#             todo=todo.todowrite,
+#             date=todo.tododate,
+#             user_id=todo.user_id
+#         )
+#         db_todos.append(db_todo)
+#         db.add(db_todo)
+
+#     db.commit()
+#     for db_todo in db_todos:
+#         db.refresh(db_todo)
+
+#     return db_todos
+
+def create_intro_todos(db: Session, todo_request: TodoListSchema.TodoCreateRequest, user_id: int):
     for todo in todo_request.todos:
         db_todo = TodoListModel.TodoList(
             todo=todo.todowrite,
-            date=todo.tododate,
-            user_id=todo.user_id
+            date=datetime.now(),
+            user_id=user_id
         )
-        db_todos.append(db_todo)
         db.add(db_todo)
-
     db.commit()
-    for db_todo in db_todos:
-        db.refresh(db_todo)
 
-    return db_todos
+
 
 
 # 투두리스트 수정

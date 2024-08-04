@@ -20,25 +20,14 @@ templates = Jinja2Templates(directory=template_dir)
 
 template_dir_auth = os.path.join(os.path.dirname(
     __file__), "../../Web/templates/AuthPage")
-<< << << < HEAD
-== == == =
-templates_auth = Jinja2Templates(directory=template_dir_auth)
-
-template_dir_auth = os.path.join(os.path.dirname(
-    __file__), "../../Web/templates/AuthPage")
->>>>>> > main
 templates_auth = Jinja2Templates(directory=template_dir_auth)
 
 
 # 투두리스트 보기
 @router.get("/haru/main", response_class=HTMLResponse)
-<< << << < HEAD
-async def read_todos(request: Request, db: Session = Depends(get_db), currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser)):
-== == == =
 async def read_todos(request: Request, date: Optional[str] = Query(None), db: Session = Depends(get_db), currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser)):
->>>>>> > main
-  token = request.cookies.get("access_token")
-   if token:
+    token = request.cookies.get("access_token")
+    if token:
         joinedChallengeIDList = joinedChallengeID(currentUser.id, db)
         joinedChallenges = joinedChallenge(joinedChallengeIDList, db)
         # 일기 작성은 True, 작성 안하면 False
