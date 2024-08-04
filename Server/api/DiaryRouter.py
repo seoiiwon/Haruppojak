@@ -20,6 +20,7 @@ template_auth = os.path.join(os.path.dirname(__file__), "../../Web/templates/Aut
 templates_diary = Jinja2Templates(directory=template_diary)
 templates_auth = Jinja2Templates(directory=template_auth)
 
+
 @router.get("/diary", response_class=HTMLResponse) # 초기 다이어리 페이지
 async def getIntroPage(request : Request):
     token = request.cookies.get("access_token")
@@ -48,44 +49,43 @@ async def writediarys(writediary: CreateDiarySchema, currentUser: AuthSchema.Use
     CreateDiary(db=db, diary=writediary, reply=reply, diaryuserid=userid) 
 
 @router.get("/diary/reply", response_class=HTMLResponse)  # 다이어리 답장 페이지
-async def diary_reply(request: Request, currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser), db: Session = Depends(get_db)):
+async def diary_reply(request: Request, db: Session = Depends(get_db)):
+    token = request.cookies.get("access_token")
+    if token:
+        currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser)
+        userid = currentUser.id
+        latest_diary = db.query(UserDiary).filter(UserDiary.Diaryuserid == userid).order_by(desc(UserDiary.Date)).first()
+        if latest_diary is None:
+            return templates_diary.TemplateResponse(name="reply.html", context={"request": request, "reply": "최근 일기가 없습니다."})
+        # 일기가 있는 경우
+        return templates_diary.TemplateResponse(name="reply.html", context={"request": request, "reply": latest_diary.Response})
+    else:
+        return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
     
-    userid = currentUser.id
+@router.get("/diary/calendar", response_class=HTMLResponse) # 다이어리 캘린더
+async def diarycalendarhtml(request : Request):
+    token = request.cookies.get("access_token")
+    if token:
+        return templates_diary.TemplateResponse(name="diaryCalendar.html", request=request)
+    else:
+        return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
     
-    # 사용자별 최신 일기 조회
-    latest_diary = db.query(UserDiary).filter(UserDiary.Diaryuserid == userid).order_by(desc(UserDiary.Date)).first()
-
-    if latest_diary is None:
-        # 일기가 없는 경우
-        return templates_diary.TemplateResponse(name="reply.html", context={"request": request, "reply": "최근 일기가 없습니다."})
+# @router.post("/diary/calendar/{month}", response_model=CreateDiarySchema) # 다이어리 다시 보기
+# async def get_monthly_diaries(month: int, currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser), db: Session = Depends(get_db)):
     
-    # 일기가 있는 경우
-    return templates_diary.TemplateResponse(name="reply.html", context={"request": request, "reply": latest_diary.Response})
+#     startdate = month.replace(day=1)  # 이번 달 1일
+#     enddate = (startdate + timedelta(days=31)).replace(day=1)  # 다음 달 1일
 
-@router.get("/diary/calendar/{month}", response_model=CreateDiarySchema) # 다이어리 캘린더
-async def get_monthly_diaries(month: int, currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser), db: Session = Depends(get_db)):
-    
-    startdate = month.replace(day=1)  # 이번 달 1일
-    enddate = (startdate + timedelta(days=31)).replace(day=1)  # 다음 달 1일
+#     diaries = db.query(UserDiary).filter(
+#         UserDiary.Diaryuserid == currentUser.id,
+#         UserDiary.Date >= startdate,
+#         UserDiary.Date < enddate
+#     ).order_by(UserDiary.Date).all()
 
-    diaries = db.query(UserDiary).filter(
-        UserDiary.Diaryuserid == currentUser.id,
-        UserDiary.Date >= startdate,
-        UserDiary.Date < enddate
-    ).order_by(UserDiary.Date).all()
+#     if not diaries:
+#         raise HTTPException(status_code=404, detail="해당 날짜의 뽀짝일기를 찾을 수 없습니다.")
 
-    if not diaries:
-        raise HTTPException(status_code=404, detail="해당 날짜의 뽀짝일기를 찾을 수 없습니다.")
-
-    return diaries
-
-# @router.get("/diary/calendar", response_class=HTMLResponse) # 다이어리 캘린더
-# async def diarycalendarhtml(request : Request):
-#     token = request.cookies.get("access_token")
-#     if token:
-#         return templates_diary.TemplateResponse(name="diaryCalendar.html", request=request)
-#     else:
-#         return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
+#     return diaries
 
 @router.get("/diary/close", response_class=HTMLResponse) # 앱 종료
 async def diaryclosehtml(request : Request):

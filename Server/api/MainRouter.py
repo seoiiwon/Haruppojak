@@ -11,21 +11,15 @@ from Server.crud.TokenForAuth import getCurrentUser
 from Server.crud.ChallengeCrud import joinedChallengeID, joinedChallenge
 import os
 
+ACCESS_TOKEN_EXPIRE_MINUTES = float(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
+
 router = APIRouter()
 
-
-template_dir = os.path.join(os.path.dirname(
-    __file__), "../../Web/templates/MainPage")
+template_dir = os.path.join(os.path.dirname(__file__), "../../Web/templates/MainPage")
 templates = Jinja2Templates(directory=template_dir)
 
-template_dir_auth = os.path.join(os.path.dirname(
-    __file__), "../../Web/templates/AuthPage")
+template_dir_auth = os.path.join(os.path.dirname(__file__), "../../Web/templates/AuthPage")
 templates_auth = Jinja2Templates(directory=template_dir_auth)
-
-template_dir_auth = os.path.join(os.path.dirname(
-    __file__), "../../Web/templates/AuthPage")
-templates_auth = Jinja2Templates(directory=template_dir_auth)
-
 
 # @router.get("/challenge/all", response_class=HTMLResponse)  # 전체 챌린지 페이지
 # async def getChallengeList(request: Request, db: Session = Depends(get_db), currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser)):
@@ -38,18 +32,17 @@ templates_auth = Jinja2Templates(directory=template_dir_auth)
 
 # todo 리스트 보기
 @router.get("/haru/main", response_class=HTMLResponse)
-async def read_todos(request: Request, db: Session = Depends(get_db), currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser)):
+async def read_todos(request: Request, db: Session = Depends(get_db)):
     token = request.cookies.get("access_token")
     if token:
+        currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser)
         joinedChallengeIDList = joinedChallengeID(currentUser.id, db)
         joinedChallenges = joinedChallenge(joinedChallengeIDList, db)
         todos = get_todos(db, currentUser.id)
         return templates.TemplateResponse(name="mainPage.html", context={"request": request, "todos": todos, "joinedChallenge": joinedChallenges})
     else:
         return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
-
-
-
+    
 # todo 만들기
 @router.post("/todo/create", response_model=TodoListSchema.TodoCreate)
 async def create_new_todo(
