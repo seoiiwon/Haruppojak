@@ -33,10 +33,11 @@ async def read_todos(request: Request, db: Session = Depends(get_db), currentUse
     token = request.cookies.get("access_token")
     if token:
         currentUser = getCurrentUser(token, db)
+        recommend_todo = recommend_todo_list(get_age_group_todo_data(get_user_age_group(currentUser.id, db), db), currentUser.id, db)
         joinedChallengeIDList = joinedChallengeID(currentUser.id, db)
         joinedChallenges = joinedChallenge(joinedChallengeIDList, db)
         todos = get_todos(db, currentUser.id)
-        return templates.TemplateResponse(name="mainPage.html",context={"request": request, "todos": todos, "joinedChallenge": joinedChallenges})
+        return templates.TemplateResponse(name="mainPage.html",context={"request": request, "todos": todos, "joinedChallenge": joinedChallenges, "recommendTodo" : recommend_todo})
     else:
         return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
 
