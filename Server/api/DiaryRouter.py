@@ -62,7 +62,21 @@ async def diary_reply(request: Request, currentUser: AuthSchema.UserInfoSchema =
     if latest_diary is None:
         return templates_diary.TemplateResponse(name="reply.html", context={"request": request, "reply": "최근 일기가 없습니다."})
     return templates_diary.TemplateResponse(name="reply.html", context={"request": request, "reply": latest_diary.Response})
-
+    
+# @router.get("/diary/reply", response_class=HTMLResponse)  # 다이어리 답장 페이지
+# async def diary_reply(request: Request, db: Session = Depends(get_db),):
+#     token = request.cookies.get("access_token")
+#     if token:
+#         currentUser = getCurrentUser(token, db)
+#         userid = currentUser.id
+#         latest_diary = db.query(UserDiary).filter(UserDiary.Diaryuserid == userid).order_by(desc(UserDiary.Date)).first()
+#         if latest_diary is None:
+#             return templates_diary.TemplateResponse(name="reply.html", context={"request": request, "reply": "최근 일기가 없습니다."})
+#         else:
+#             return templates_diary.TemplateResponse(name="reply.html", context={"request": request, "reply": latest_diary.Response})
+#     else:
+#         return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
+    
 @router.get("/diary/calendar", response_class=HTMLResponse) # 다이어리 캘린더
 async def diarycalendarhtml(request : Request):
     token = request.cookies.get("access_token")

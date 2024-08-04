@@ -46,9 +46,6 @@ def DeleteDiary(db: Session, diary: UserDiary):
     db.delete(diary)
     db.commit()
 
-# 일기 다시보기
-# def getdiarydetail(db: Session, diary: UserDiary):
-#     db
 
 def getdiarydetail(db:Session, diaryid:int, targetdate:int):
     diary = db.query(UserDiary).filter(
