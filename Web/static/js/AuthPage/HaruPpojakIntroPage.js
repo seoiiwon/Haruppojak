@@ -17,13 +17,15 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
 
-        const payload = {
+        let payload = {
             todos: todoList
         };
 
-        console.log("Payload to be sent to the server:", payload);
+        let url = '/haru/intro';
 
-        fetch("/haru/intro", {
+        console.log(payload);
+
+        fetch(url, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

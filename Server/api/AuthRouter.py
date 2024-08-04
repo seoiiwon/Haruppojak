@@ -97,8 +97,6 @@ async def postUserPhoto(db : Session=Depends(get_db), ):
 
 @router.post("/haru/intro", status_code=status.HTTP_204_NO_CONTENT)
 async def postFirstTodo(request : Request, todolist : TodoCreate, currentUser: UserInfoSchema = Depends(getCurrentUser) ,db : Session=Depends(get_db)):
-    
-    
     pass
     
 
