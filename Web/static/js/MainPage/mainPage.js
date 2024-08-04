@@ -14,9 +14,9 @@ function fetchTodos() {
     .catch((error) => console.error("Error fetching todos:", error));
 }
 
+// todo 수정 및 삭제
 document.addEventListener("DOMContentLoaded", function () {
-  // 옵션 버튼 클릭 시 수정, 삭제 버튼 표시
-  document.querySelectorAll(".options-btn").forEach((button) => {
+  document.querySelectorAll(".optionBtn").forEach((button) => {
     button.addEventListener("click", function () {
       const options = button.nextElementSibling;
       options.style.display =
@@ -24,61 +24,29 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  document.querySelectorAll(".edit-todo").forEach((button) => {
+  document.querySelectorAll(".editTodo").forEach((button) => {
     button.addEventListener("click", function () {
       const todoId = button.getAttribute("data-id");
-
-      // 현재 ToDo 텍스트를 가져옴
       const todoListContainer = button.closest(".todoListContainer");
       if (!todoListContainer) {
         console.error("Cannot find .todoListContainer");
         return;
       }
-
       const todoTextElement = todoListContainer.querySelector(".todoText");
       if (!todoTextElement) {
         console.error("Cannot find .todoText");
         return;
       }
-
       const currentTodoText = todoTextElement.innerText;
       const newTodo = prompt("새로운 할 일을 입력하세요:", currentTodoText);
 
       if (newTodo) {
-        // const checkBox = todoListContainer.querySelector(".todoCheck");
-        // if (!checkBox) {
-        //   console.error("Cannot find .todoCheck");
-        //   return;
-        // }
-
-        // console.log(checkBox.dataset.checked);
-        // const isChecked = function () {
-        //   if (checkBox.dataset.checked) {
-        //     return true;
-        //   } else {
-        //     return false;
-        //   }
-        // };
-        // const userId = todoListContainer.getAttribute("data-user-id");
-
-        // console.log("Sending update request for todoId:", todoId);
-        // console.log("New todo text:", newTodo);
-        // console.log("Checkbox status:", isChecked());
-
-        let url = `/todo/update/${todoId}`;
-        let asdf = {
-          id: parseInt(todoId),
-          todowrite: newTodo,
-          // todocheck: isChecked(),
-        };
-
         fetch(`/todo/update/${todoId}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             id: parseInt(todoId),
             todowrite: newTodo,
-            // todocheck: isChecked(),
           }),
         })
           .then((response) => {
@@ -99,14 +67,14 @@ document.addEventListener("DOMContentLoaded", function () {
           })
           .catch((error) => {
             console.error("Error:", error);
-            alert("오류 ㅅㄱ.");
+            alert("수정오류 ㅅㄱ");
           });
       }
     });
   });
 
   // 삭제 버튼 클릭 시
-  document.querySelectorAll(".delete-todo").forEach((button) => {
+  document.querySelectorAll(".deleteTodo").forEach((button) => {
     button.addEventListener("click", function () {
       const todoId = button.getAttribute("data-id");
       if (confirm("정말 삭제하시겠습니까?")) {
@@ -125,7 +93,7 @@ document.addEventListener("DOMContentLoaded", function () {
           })
           .catch((error) => {
             console.error("Error:", error);
-            alert("삭제 중 오류가 발생했습니다.");
+            alert("삭제오류 ㅅㄱ");
           });
       }
     });
@@ -221,16 +189,44 @@ function addEnterKeyListener(inputText) {
     if (event.key === "Enter") {
       event.preventDefault();
       event.stopPropagation();
-      console.log(`뿡`);
-      addTodoItem();
-      const todoContentInputs = document.getElementsByClassName("todoContent");
-      const nextInputIndex =
-        Array.from(todoContentInputs).indexOf(inputText) + 1;
-      console.log(`${todoContentInputs}`);
-      console.log(`${nextInputIndex}`);
-      if (todoContentInputs[nextInputIndex]) {
-        todoContentInputs[nextInputIndex].focus();
-      }
+
+      inputText.disabled = true;
+
+      const plusImage = inputText.previousSibling;
+      plusImage.src = "../../static/img/MainPage/checkboxWhite.svg";
+      const todoText = inputText.value;
+      const todatdate = new Date().toISOString();
+
+      // 서버에 새로운 todo를 생성하는 요청을 보냄
+      fetch("/todo/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          todowrite: todoText,
+          tododate: new Date().toISOString(), // 현재 시간을 할 일의 날짜로 설정
+          user_id: 1, // 실제 사용자 ID로 대체해야 함
+        }),
+      })
+        .then((response) => response.text())
+        .then((html) => {
+          // 새로운 할 일 요소를 리스트에 추가
+          const todoListContainer =
+            document.getElementById("todoListContainer");
+          todoListContainer.insertAdjacentHTML("beforeend", html);
+
+          // 새로운 요소에 이벤트 리스너 추가
+          addTodoItem();
+          const todoContentInputs =
+            document.getElementsByClassName("todoContent");
+          const nextInputIndex =
+            Array.from(todoContentInputs).indexOf(inputText) + 1;
+          if (todoContentInputs[nextInputIndex]) {
+            todoContentInputs[nextInputIndex].focus();
+          }
+        })
+        .catch((error) => console.error("Error:", error));
     }
   });
 }
@@ -245,7 +241,6 @@ function addTodoItem() {
   const hr = document.createElement("hr");
 
   plus.src = "../../static/img/MainPage/addTodoButton.svg";
-  // plus.src = "{{ url_for('static', path='img/MainPage/addTodoButton.svg')}}";
   inputText.type = "text";
   inputText.placeholder = "투두 추가하기";
   inputText.className = "todoContent";

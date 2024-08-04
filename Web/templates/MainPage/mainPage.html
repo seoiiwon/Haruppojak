@@ -49,14 +49,14 @@
                 <div class="todoText">{{ todolist.todo }}</div>
               </div>
               <div class="todoWrapperBtn">
-                <button class="options-btn" data-id="{{ todolist.id }}">
-                  <img src="{{ url_for('static', path='img/MainPage/moreTodo.svg')}}">
+                <button class="optionBtn" data-id="{{ todolist.id }}">
+                  <img src="{{ url_for('static', path='img/MainPage/moreTodo.svg')}}" alt="더보기">
                 </button>
                 <div class="options" style="display: none;">
-                  <button class="edit-todo" data-id="{{ todolist.id }}"><img
-                      src="{{ url_for('static', path='img/MainPage/editTodo.svg')}}"></button>
-                  <button class="delete-todo" data-id="{{ todolist.id }}"><img
-                      src="{{ url_for('static', path='img/MainPage/deleteTodo.svg')}}">
+                  <button class="editTodo" data-id="{{ todolist.id }}"><img
+                      src="{{ url_for('static', path='img/MainPage/editTodo.svg')}}" alt="수정"></button>
+                  <button class="deleteTodo" data-id="{{ todolist.id }}"><img
+                      src="{{ url_for('static', path='img/MainPage/deleteTodo.svg')}}" alt="삭제">
                   </button>
                 </div>
               </div>
@@ -66,13 +66,9 @@
           {% endfor %}
         </ul>
         <ul id="addTodoList">
-          <li>
-            <div>
-              <img src="{{ url_for('static', path='img/MainPage/addTodoButton.svg')}}">
-              <input type="text" class="todoContent" placeholder="투두 추가하기">
-              <hr>
-            </div>
-          </li>
+          {% block li %}
+          {% include 'createTodoPage.html'%}
+          {% endblock %}
         </ul>
       </section>
       <section class="recommendation">

@@ -47,6 +47,10 @@ img {
   width: 1rem;
 }
 
+button {
+  border: none;
+  background-color: rgba(0, 0, 0, 0);
+}
 /* 헤더 로고 */
 .logo {
   display: flex;
