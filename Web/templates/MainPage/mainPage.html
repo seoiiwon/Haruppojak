@@ -70,6 +70,13 @@
                     현재 참여중인 뽀짝챌
                 </div>
                 <div class="challengeList">
+                    {% for challenge in joinedChallenge %}
+                        <div class="challengeBox">
+                            
+                            <img src="{{ url_for('static', path='img/ChallengeImg/' ~ challenge.challengeThumbnail1) }}" alt="">
+                            <div>{{ challenge.challengeTitle }}</div>
+                        </div>
+                    {% endfor %}
                     <div class="challengeBox">
                         <div>
                             <img src="">
