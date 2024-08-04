@@ -10,7 +10,9 @@ from dotenv import load_dotenv
 
 # 투두리스트 조회
 def get_todos(db: Session, user_id: int):
-    return db.query(TodoListModel.TodoList).filter(TodoListModel.TodoList.id == user_id).all()
+    todos = db.query(TodoListModel.TodoList).filter(
+        TodoListModel.TodoList.user_id == user_id).all()
+    return todos
 
 
 # 투두리스트 작성

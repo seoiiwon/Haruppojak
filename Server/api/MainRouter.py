@@ -9,6 +9,8 @@ from Server.schemas.TodoListSchema import *
 from Server.crud.MainCrud import *
 from Server.schemas import AuthSchema
 import os
+from Server.crud.ChallengeCrud import joinedChallengeID, joinedChallenge
+
 
 router = APIRouter()
 
@@ -29,11 +31,12 @@ templates_auth = Jinja2Templates(directory=template_dir_auth)
 # todo 리스트 보기
 @router.get("/haru/main", response_class=HTMLResponse)
 async def read_todos(request: Request, db: Session = Depends(get_db), currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser)):
-
     token = request.cookies.get("access_token")
     if token:
+        joinedChallengeIDList = joinedChallengeID(currentUser.id, db)
+        joinedChallenges = joinedChallenge(joinedChallengeIDList, db)
         todos = get_todos(db, currentUser.id)
-        return templates.TemplateResponse(name="mainPage.html", context={"request": request, "todos": todos})
+        return templates.TemplateResponse(name="mainPage.html", context={"request": request, "todos": todos, "joinedChallenge": joinedChallenges})
     else:
         return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
 
@@ -47,19 +50,41 @@ async def create_new_todo(
 
 
 # todo 수정하기
+# @router.put("/todo/update/{todo_id}", response_model=TodoListSchema.TodoUpdate)
+# async def update_new_todo(
+#     todo_id: int, todo: TodoListSchema.TodoUpdate, db: Session = Depends(get_db)
+# ):
+#     return update_todo(db=db, todo_id=todo_id, todo_update=todo)
+
+# todo 수정하기
 @router.put("/todo/update/{todo_id}", response_model=TodoListSchema.TodoUpdate)
 async def update_new_todo(
-    todo_id: int, todo: TodoListSchema.TodoUpdate, db: Session = Depends(get_db)
+    todo_id: int, todo: TodoListSchema.TodoUpdate, db: Session = Depends(get_db), currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser)
 ):
-    return update_todo(db=db, todo_id=todo_id, todo_update=todo)
-
+    updated_todo = update_todo(
+        db=db, todo_id=todo_id, todo_update=todo, user_id=currentUser.id)
+    if updated_todo:
+        return JSONResponse(content={"success": True, "todo": updated_todo.todo})
+    else:
+        raise HTTPException(status_code=404, detail="Todo not found")
 
 # todo 삭제하기
+# @router.delete("/todo/delete/{todo_id}", response_model=None)
+# async def delete_existing_todo(
+#     todo_id: int, db: Session = Depends(get_db)
+# ):
+#     return delete_todo(db=db, todo_id=todo_id)
+
+
 @router.delete("/todo/delete/{todo_id}", response_model=None)
 async def delete_existing_todo(
-    todo_id: int, db: Session = Depends(get_db)
+    todo_id: int, db: Session = Depends(get_db), currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser)
 ):
-    return delete_todo(db=db, todo_id=todo_id)
+    deleted_todo = delete_todo(db=db, todo_id=todo_id, user_id=currentUser.id)
+    if deleted_todo:
+        return JSONResponse(content={"success": True})
+    else:
+        raise HTTPException(status_code=404, detail="Todo not found")
 
 
 # todo 체크
