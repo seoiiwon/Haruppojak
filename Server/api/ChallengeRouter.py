@@ -9,6 +9,7 @@ from Server.crud.AuthCrud import getUserInfo
 from Server.crud.ChallengeCrud import getChallengeListAll, postNewChallenge, joinChallenge
 from Server.crud.TokenForAuth import getCurrentUser
 from pathlib import Path
+from Server.models.UserModel import UserChallenge
 
 router = APIRouter()
 ChallengeRouter = router
