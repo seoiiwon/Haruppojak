@@ -15,8 +15,8 @@ class TodoCreateRequest(BaseModel):
 
 
 class TodoUpdate(BaseModel):
-    id: int
-    user_id: int
+    # id: int
+    # user_id: int
     todowrite: str
     tododate: datetime.datetime
     todocheck: bool

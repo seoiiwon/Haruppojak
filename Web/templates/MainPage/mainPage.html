@@ -111,6 +111,21 @@
         <!-- 섹션 3 : 뽀짝챌 -->
         <section class="challenges">
           <div class="description">현재 참여중인 뽀짝챌</div>
+<<<<<<< Updated upstream
+=======
+            <div class="challengeItem">
+                {% for challenge in joinedChallenge %}
+                <div class="challengeBox" onclick="showChallengeModal('chall1')">
+                  <div>
+                    <img src="{{ url_for('static', path='img/ChallengeImg/' ~ challenge.challengeThumbnail1) }}" />
+                  </div>
+                  <div class="challengeTitle">{{ challengeTitle }}</div>
+                </div>            
+                {% endfor %}
+            </div>
+
+
+>>>>>>> Stashed changes
           <div class="challengeList">
             <div class="challengeBox" onclick="showChallengeModal('chall1')">
               <div>
