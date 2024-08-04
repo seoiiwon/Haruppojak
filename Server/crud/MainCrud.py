@@ -1,6 +1,8 @@
 from collections import defaultdict
+from typing import Optional
+from sqlalchemy import and_, func
 from sqlalchemy.orm import Session
-from datetime import datetime
+from datetime import date, datetime, timedelta
 from Server.models import TodoListModel, UserInfo
 from Server.schemas import TodoListSchema
 import openai
@@ -10,7 +12,31 @@ from dotenv import load_dotenv
 
 # 투두리스트 조회
 def get_todos(db: Session, user_id: int):
-    return db.query(TodoListModel.TodoList).filter(TodoListModel.TodoList.id == user_id).all()
+    today = datetime.now().date()  # 오늘 날짜만
+    start_of_day = datetime.combine(today, datetime.min.time())
+    end_of_day = datetime.combine(today, datetime.max.time())
+
+    todos = db.query(TodoListModel.TodoList).filter(
+        TodoListModel.TodoList.user_id == user_id,
+        TodoListModel.TodoList.date >= start_of_day,
+        TodoListModel.TodoList.date <= end_of_day
+    ).all()
+
+    return todos
+
+
+# 특정 날짜 투두리스트 조회
+def get_todos_for_date(db: Session, user_id: int, date: datetime):
+    start_of_day = datetime.combine(date, datetime.min.time())
+    end_of_day = start_of_day + timedelta(days=1)
+
+    todos = db.query(TodoListModel.TodoList).filter(
+        TodoListModel.TodoList.user_id == user_id,
+        TodoListModel.TodoList.date >= start_of_day,
+        TodoListModel.TodoList.date < end_of_day
+    ).all()
+
+    return todos
 
 
 # 투두리스트 작성
