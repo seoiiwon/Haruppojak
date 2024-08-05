@@ -9,7 +9,6 @@ import openai
 import os
 from typing import List
 from dotenv import load_dotenv
-from dateutil import parser
 import re
 
 
@@ -135,6 +134,8 @@ def get_user_age_group(user_id: int, db: Session):
     return get_user_age(user.userBirth) // 10
 
 # 연령대 별 투두 함수
+
+
 def get_age_group_todo_data(user_age_group: int, db: Session):
     ageGroup = db.query(UserInfo).filter(
         get_user_age_group(UserInfo.id, db) == user_age_group).all()
@@ -157,7 +158,7 @@ def recommend_todo_list(todolist: list, current_user_id: int, db: Session):
 
     query = "todolist라는 리스트 전체를 분석해서 비슷한 유형들은 하나로 통일하고 가장 빈도수가 많은 값, 또는 자주 언급되는 todolist 중 너가 생각하기에 " + \
         str(get_user_age_group(current_user_id, db)) + \
-    "0대가 하면 좋을 생산적인일 5개 리스트로 반환해줘. 리스트 자료형으로만 반환해줘"
+        "0대가 하면 좋을 생산적인일 5개 리스트로 반환해줘. 리스트 자료형으로만 반환해줘"
 
     todolist_str = ", ".join(todolist)
 
@@ -209,4 +210,3 @@ def checkdiary(db: Session, userid: int, year: int, month: int):
         UserDiary.Date >= startdate,
         UserDiary.Date < enddate
     ).order_by(UserDiary.Date).all()
-
