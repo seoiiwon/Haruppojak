@@ -114,14 +114,11 @@ async def postUserPhoto(db: Session = Depends(get_db), ):
 #     return create_intro_todos(db=db, todo_request=todolist)
 
 
+
 @router.post("/haru/intro", status_code=status.HTTP_204_NO_CONTENT)
 async def postFirstTodo(todolist: TodoCreateRequest, currentUser: UserInfoSchema = Depends(getCurrentUser), db: Session = Depends(get_db)):
-    try:
-        create_intro_todos(db=db, todo_request=todolist, user_id=currentUser.id)
-    except Exception as e:
-        print(f"Error: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-    return RedirectResponse(url="/haru/main")
+    create_intro_todos(db=db, todo_request=todolist, user_id=currentUser.id)
+
 
 
 
