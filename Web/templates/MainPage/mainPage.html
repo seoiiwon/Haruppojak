@@ -80,7 +80,7 @@
           <li class="recommendLi">
             <div class="recommendWrapper">
               <img src="{{ url_for('static', path='img/MainPage/addTodoButton.svg') }}" class="recommendationAdd"
-                onclick="hiddenPpojak(this)">
+                onclick="hiddenRecommendTodo(this)">
               <div class="todoText">{{ recommendTodo[0]|escape }}</div>
             </div>
             <hr>
@@ -88,7 +88,7 @@
           <li class="recommendLi">
             <div class="recommendWrapper">
               <img src="{{ url_for('static', path='img/MainPage/addTodoButton.svg') }}" class="recommendationAdd"
-                onclick="hiddenPpojak(this)">
+                onclick="hiddenRecommendTodo(this)">
               <div class="todoText">{{ recommendTodo[1]|escape }}</div>
             </div>
             <hr>
@@ -116,8 +116,6 @@
         <div class="dots"></div>
       </section>
     </main>
-
-
     <!-- 탭바 -->
 
     <div class="tabbar">

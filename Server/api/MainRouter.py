@@ -16,18 +16,21 @@ import time
 
 router = APIRouter()
 
-template_dir = os.path.join(os.path.dirname(__file__), "../../Web/templates/MainPage")
+template_dir = os.path.join(os.path.dirname(
+    __file__), "../../Web/templates/MainPage")
 templates = Jinja2Templates(directory=template_dir)
 template_dir_auth = os.path.join(os.path.dirname(
     __file__), "../../Web/templates/AuthPage")
 templates_auth = Jinja2Templates(directory=template_dir_auth)
 
-recommend_cache = {} # 뽀짝 캐시 딕셔너리
-access_time_cache = {} # 시간 캐시 딕셔너리
-CACHE_EXPIRATION = 10 * 60 # 기준 10분
+recommend_cache = {}  # 뽀짝 캐시 딕셔너리
+access_time_cache = {}  # 시간 캐시 딕셔너리
+CACHE_EXPIRATION = 10 * 60  # 기준 10분
 
 
 # 투두리스트 보기
+
+
 @router.get("/haru/main", response_class=HTMLResponse)
 async def read_todos(request: Request, date: Optional[str] = Query(None), db: Session = Depends(get_db), currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser)):
     token = request.cookies.get("access_token")
@@ -38,14 +41,15 @@ async def read_todos(request: Request, date: Optional[str] = Query(None), db: Se
         if last_access_time and (current_time - last_access_time) < CACHE_EXPIRATION:
             recommend_todo = recommend_cache.get(currentUser.id)
         else:
-            recommend_todo = recommend_todo_list(get_age_group_todo_data(get_user_age_group(currentUser.id, db), db), currentUser.id, db)
+            recommend_todo = recommend_todo_list(get_age_group_todo_data(
+                get_user_age_group(currentUser.id, db), db), currentUser.id, db)
             recommend_cache[currentUser.id] = recommend_todo
             access_time_cache[currentUser.id] = current_time
 
         joinedChallengeIDList = joinedChallengeID(currentUser.id, db)
         joinedChallenges = joinedChallenge(joinedChallengeIDList, db)
         age = get_user_age_group(currentUser.id, db)
-        
+
         if date:
             try:
                 target_date = datetime.strptime(date, '%Y-%m-%d').date()
@@ -61,29 +65,12 @@ async def read_todos(request: Request, date: Optional[str] = Query(None), db: Se
 
 
 # todo 만들기
-# @router.post("/todo/create", response_model=TodoListSchema.TodoCreate)
-# async def create_new_todo(
-#     todo: TodoListSchema.TodoCreate, db: Session = Depends(get_db), currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser)
-# ):
-#     return create_todo(db=db, todo=todo)
 
-# todo 만들기
-
-
-# todo 만들기
 
 @router.post("/todo/create", response_model=TodoCreate)
 async def create_new_todo(todo: TodoCreate, db: Session = Depends(get_db), currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser)):
     db_todo = create_todo(db=db, todo=todo, user_id=currentUser.id)
     return TodoCreate(todowrite=db_todo.todo)
-
-
-# todo 수정하기
-# @router.put("/todo/update/{todo_id}", response_model=TodoListSchema.TodoUpdate)
-# async def update_new_todo(
-#     todo_id: int, todo: TodoListSchema.TodoUpdate, db: Session = Depends(get_db)
-# ):
-#     return update_todo(db=db, todo_id=todo_id, todo_update=todo)
 
 # todo 수정하기
 
@@ -104,6 +91,8 @@ async def update_new_todo(
 
 
 # todo 삭제하기
+
+
 @router.delete("/todo/delete/{todo_id}", response_model=None)
 async def delete_existing_todo(
     todo_id: int, db: Session = Depends(get_db), currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser)
@@ -116,18 +105,13 @@ async def delete_existing_todo(
 
 
 # todo 체크
+
+
 @router.put("/todo/check/{todo_id}", response_model=TodoListSchema.TodoCheck)
 async def check_existing_todo(
     todo_id: int, todo: TodoListSchema.TodoCheck, db: Session = Depends(get_db)
 ):
     return check_todo(db=db, todo_id=todo_id, todo_check=todo)
-
-
-# 추천 todo리스트
-@router.get("/todo/recommendations", response_model=TopTodoRecommendations)
-async def get_recommended_todos(db: Session = Depends(get_db)):
-    top_recommendations = get_recommended_todos(db)
-    return {"recommendations": [item[0] for item in top_recommendations]}
 
 
 Mainrouter = router

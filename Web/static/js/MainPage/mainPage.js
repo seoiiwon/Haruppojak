@@ -177,7 +177,7 @@ function fetchTodosForDate(date) {
 
       const newTodoList = tempElement.querySelector("#todoListContainer");
       if (newTodoList) {
-        todoListContainer.innerHTML = newTodoList.innerHTML; // 기존 항목 제거 후 새 항목 추가
+        todoListContainer.innerHTML = newTodoList.innerHTML;
       }
     })
     .catch((error) => console.error("Error fetching todos:", error));
@@ -199,7 +199,9 @@ function addEnterKeyListener(inputText) {
         todowrite: todoText,
       };
 
-      fetch("/todo/create", {
+      let url = "/todo/create";
+
+      fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -208,17 +210,20 @@ function addEnterKeyListener(inputText) {
       })
         .then((response) => {
           if (!response.ok) {
-            throw new Error('Network response was not ok');
+            throw new Error("Network response was not ok");
           }
           return response.json();
         })
         .then((data) => {
-          const todoListContainer = document.getElementById("todoListContainer");
+          const todoListContainer =
+            document.getElementById("todoListContainer");
           todoListContainer.insertAdjacentHTML("beforeend", data.html);
 
           addTodoItem();
-          const todoContentInputs = document.getElementsByClassName("todoContent");
-          const nextInputIndex = Array.from(todoContentInputs).indexOf(inputText) + 1;
+          const todoContentInputs =
+            document.getElementsByClassName("todoContent");
+          const nextInputIndex =
+            Array.from(todoContentInputs).indexOf(inputText) + 1;
           if (todoContentInputs[nextInputIndex]) {
             todoContentInputs[nextInputIndex].focus();
           }
@@ -229,9 +234,7 @@ function addEnterKeyListener(inputText) {
   });
 }
 
-
-
-// addTodoItem 함수
+// html에 투두 추가하기
 function addTodoItem() {
   const todoListContainer = document.getElementById("addTodoList");
   const li = document.createElement("li");
@@ -253,15 +256,12 @@ function addTodoItem() {
   todoListContainer.appendChild(li);
 
   addEnterKeyListener(inputText);
-
-  inputText.focus();
 }
 
 document.addEventListener("DOMContentLoaded", function () {
   const initialInput = document.querySelector("#addTodoList .todoContent");
   if (initialInput) {
     addEnterKeyListener(initialInput);
-    initialInput.focus();
   }
 });
 
@@ -279,8 +279,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
   }
 });
 
-// 추천 뽀짝 숨기기 & 올리기
-function hiddenPpojak(element) {
+// 추천 뽀짝 숨기기
+function hiddenRecommendTodo(element) {
   if (!element) {
     console.error("Element is undefined");
     return;
@@ -288,9 +288,31 @@ function hiddenPpojak(element) {
   const maegae = element.parentNode;
   const ppojakRecommend = maegae.parentNode;
   console.log(ppojakRecommend);
+  const todoText = maegae.querySelector(".todoText").innerText;
+
   if (ppojakRecommend) {
     alert("추가되었습니다.");
     ppojakRecommend.style = "display: none;";
+    let url = "/todo/create";
+    let payload = JSON.stringify({ todowrite: todoText });
+
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: payload,
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then(() => {
+        location.reload();
+      })
+      .catch((error) => console.error("Error:", error));
   } else {
     console.error("Parent node not found");
   }

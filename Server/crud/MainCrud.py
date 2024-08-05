@@ -178,6 +178,7 @@ def recommend_todo_list(todolist: list, current_user_id: int, db: Session):
 def checkdiary(db: Session, userid: int):
     return db.query(UserDiary).filter(UserDiary.Diaryuserid == userid).order_by(UserDiary.Date).all()
 
+
 def usertodo(db: Session, userid: int):
     target_date = datetime.now().strftime('%Y-%m-%d')
-    return db.query(TodoList).filter(TodoList.user_id == userid,TodoList.date.like(f'{target_date}%')).all()
+    return db.query(TodoList).filter(TodoList.user_id == userid, TodoList.date.like(f'{target_date}%')).all()
