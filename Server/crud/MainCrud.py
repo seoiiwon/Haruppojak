@@ -9,10 +9,6 @@ import openai
 import os
 from typing import List
 from dotenv import load_dotenv
-<<<<<<< HEAD
-=======
-# from dateutil import parser
->>>>>>> chaehyun3
 import re
 
 import re

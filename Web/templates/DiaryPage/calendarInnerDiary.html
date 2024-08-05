@@ -9,13 +9,6 @@
       href="../../static/css/DiaryPage/diaryCalendar.css"
     />
   </head>
-  <div id="myModal" class="modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>뽀짝이의 답장</h2>
-      <p>{{ diary.Response }}</p>
-    </div>
-  </div>
   <body>
     <div class="container">
       <div class="content">
@@ -24,17 +17,25 @@
           alt="Frame Image"
           class="frame-image"
         />
-        <div class="title">뽀짝일기장 :</div>
-        <div class="innerDiary-container">{{ diary.Diarycontent }}</div>
+        <div class="title">뽀짝일기장</div>
+        <div class="innerDiary-container"></div>
         <div class="footer">
           <a href="#" onclick="goBack()" class="footer-link" id="go-back"
             >돌아가기</a
           >
-          <a href="#" class="footer-link" id="show-reply">뽀짝이의 답장</a>
+          <a href="#" onclick="showReply()" class="footer-link" id="show-reply"
+            >뽀짝이의 답장</a
+          >
           <a href="#" onclick="closeApp()" class="footer-link" id="close-app"
             >뽀짝 종료</a
           >
         </div>
+      </div>
+    </div>
+    <div id="replyModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeReplyModal()">&times;</span>
+        <div class="modal-body"></div>
       </div>
     </div>
     <script src="../../static/js/DiaryPage/calendarInnerDiary.js"></script>
