@@ -47,10 +47,8 @@ async def read_todos(request: Request, date: Optional[str] = Query(None), db: Se
 
 # todo 만들기
 @router.post("/todo/create", response_model=TodoListSchema.TodoCreate)
-async def create_new_todo(
-    todo: TodoListSchema.TodoCreate, db: Session = Depends(get_db)
-):
-    return create_todo(db=db, todo=todo)
+async def create_new_todo(todo: TodoListSchema.TodoCreate, currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser), db: Session = Depends(get_db)):
+    create_todo(db=db, todo=todo, user_id=currentUser.id)
 
 
 # todo 수정하기
@@ -98,11 +96,11 @@ async def check_existing_todo(
     return check_todo(db=db, todo_id=todo_id, todo_check=todo)
 
 
-# 추천 todo리스트
-@router.get("/todo/recommendations", response_model=TopTodoRecommendations)
-async def get_recommended_todos(db: Session = Depends(get_db)):
-    top_recommendations = get_recommended_todos(db)
-    return {"recommendations": [item[0] for item in top_recommendations]}
+# # 추천 todo리스트
+# @router.get("/todo/recommendations", response_model=TopTodoRecommendations)
+# async def get_recommended_todos(db: Session = Depends(get_db)):
+#     top_recommendations = get_recommended_todos(db)
+#     return {"recommendations": [item[0] for item in top_recommendations]}
 
 
 Mainrouter = router

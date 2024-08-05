@@ -42,12 +42,12 @@ def get_todos_by_date(db: Session, user_id: int, target_date: date):
 
 # 투두리스트 작성
 def create_todo(db: Session, todo: TodoListSchema.TodoCreate, user_id: int):
-    db_todo = TodoListModel.TodoList(todo=todo.todowrite,
-                                     date=todo.tododate, user_id=user_id)  # 수정된 부분
-    db.add(db_todo)
+    todo = TodoListModel.TodoList(todo=todo.todowrite,
+                                  date=datetime.now(), 
+                                  user_id=user_id)  # 수정된 부분
+    db.add(todo)
     db.commit()
-    db.refresh(db_todo)
-    return db_todo
+    db.refresh(todo)
 
 
 # intro 투두리스트 작성
