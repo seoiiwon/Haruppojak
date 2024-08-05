@@ -68,13 +68,13 @@ body {
   text-decoration: none;
 }
 
-#go-back {
+#show-reply {
   position: absolute;
   bottom: calc(50% - 280px);
-  left: calc(50% - 122px);
+  left: calc(50% - 128px);
 }
 
-#show-reply {
+#go-calendar {
   position: absolute;
   bottom: calc(50% - 280px);
   left: calc(50% - 30px);
