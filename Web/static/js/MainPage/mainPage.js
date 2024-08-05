@@ -330,12 +330,12 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // 챌린지 페이지 넘어가기
-// document.addEventListener("DOMContentLoaded", function () {
-//   var challengeBoxMore = document.getElementById("challengeBoxMore");
-//   challengeBoxMore.addEventListener("click", function () {
-//     window.location.href = "/challenge/all";
-//   });
-// });
+document.addEventListener("DOMContentLoaded", function () {
+  var challengeBoxMore = document.getElementById("challengeBoxMore");
+  challengeBoxMore.addEventListener("click", function () {
+    window.location.href = "/challenge/all";
+  });
+});
 
 function openModal(modalId) {
   document.getElementById(modalId).style.display = "block";
