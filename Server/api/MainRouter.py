@@ -12,6 +12,7 @@ from Server.schemas import AuthSchema
 from Server.crud.ChallengeCrud import joinedChallengeID, joinedChallenge
 from Server.crud.MainCrud import recommend_todo_list, get_user_age_group, get_age_group_todo_data
 import os
+import time
 
 router = APIRouter()
 
@@ -21,26 +22,40 @@ template_dir_auth = os.path.join(os.path.dirname(
     __file__), "../../Web/templates/AuthPage")
 templates_auth = Jinja2Templates(directory=template_dir_auth)
 
+recommend_cache = {} # 뽀짝 캐시 딕셔너리
+access_time_cache = {} # 시간 캐시 딕셔너리
+CACHE_EXPIRATION = 10 * 60 # 기준 10분
+
 
 # 투두리스트 보기
 @router.get("/haru/main", response_class=HTMLResponse)
 async def read_todos(request: Request, date: Optional[str] = Query(None), db: Session = Depends(get_db), currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser)):
     token = request.cookies.get("access_token")
     if token:
+        current_time = time.time()
+        last_access_time = access_time_cache.get(currentUser.id)
+
+        if last_access_time and (current_time - last_access_time) < CACHE_EXPIRATION:
+            recommend_todo = recommend_cache.get(currentUser.id)
+        else:
+            recommend_todo = recommend_todo_list(get_age_group_todo_data(get_user_age_group(currentUser.id, db), db), currentUser.id, db)
+            recommend_cache[currentUser.id] = recommend_todo
+            access_time_cache[currentUser.id] = current_time
+
         joinedChallengeIDList = joinedChallengeID(currentUser.id, db)
         joinedChallenges = joinedChallenge(joinedChallengeIDList, db)
         age = get_user_age_group(currentUser.id, db)
-        recommend_todo = recommend_todo_list(get_age_group_todo_data(get_user_age_group(currentUser.id, db), db), currentUser.id, db)
+        
         if date:
             try:
                 target_date = datetime.strptime(date, '%Y-%m-%d').date()
             except ValueError:
-                raise HTTPException(
-                    status_code=400, detail="잘못된 날짜 형식입니다.")
+                raise HTTPException(status_code=400, detail="잘못된 날짜 형식입니다.")
             todos = get_todos_by_date(db, currentUser.id, target_date)
         else:
             todos = get_todos(db, currentUser.id)
-        return templates.TemplateResponse(name="mainPage.html", context={"request": request, "todos": todos, "joinedChallenge": joinedChallenges, "recommendTodo" : recommend_todo, "age" : age})
+
+        return templates.TemplateResponse(name="mainPage.html", context={"request": request, "todos": todos, "joinedChallenge": joinedChallenges, "recommendTodo": recommend_todo, "age": age})
     else:
         return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
 

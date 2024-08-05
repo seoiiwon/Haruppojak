@@ -54,6 +54,7 @@ def getUserInfo(user: AuthSchema.UserInfoSchema):
         "userName": user.userName,
         "userEmail": user.userEmail,
         "userGender": user.userGender,
+        "userPpojakCoin" : user.userPpojakCoin,
         "userBirth": user.userBirth,
         "userProfileName": user.userProfileName,
         "userProfileComment": user.userProfileComment,
