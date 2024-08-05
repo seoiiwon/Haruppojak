@@ -146,38 +146,20 @@ def recommend_todo_list(todolist: list, current_user_id: int, db: Session):
 
     query = "todolist라는 리스트 전체를 분석해서 비슷한 유형들은 하나로 통일하고 가장 빈도수가 많은 값, 또는 자주 언급되는 todolist 중 너가 생각하기에 " + \
         str(get_user_age_group(current_user_id, db)) + \
-        << << << < HEAD
-    "0대가 하면 좋을 생산적인일 5개 리스트로 반환해줘. 리스트 자료형으로만 반환해줘"
+        "0대가 하면 좋을 생산적인일 5개 리스트로 반환해줘. 리스트 자료형으로 인덱싱 가능하게 반환해줘 반환 값은 다른 값이 없는 []으로 반환부탁해"
+    todolist_str = ", ".join(todolist)
 
-
-== == == =
-"0대가 하면 좋을 생산적인일 5개 리스트로 반환해줘. 리스트 자료형으로 인덱싱 가능하게 반환해줘 반환 값은 다른 값이 없는 []으로 반환부탁해"
->>>>>> > main
-todolist_str = ", ".join(todolist)
-
-messages = [{
-    "role": "system",
-    "content": todolist_str
-}, {
-    "role": "user",
-    "content": query
-}]
-completion = openai.chat.completions.create(model=model, messages=messages)
-text = completion.choices[0].message.content
-matches = re.findall(r'"(.*?)"', text)
-return matches
-# for match in matches:
-#     items = [item.strip().strip("'") for item in match.split(',')]
-#     print(items)
-#     return items
-
-# def checkdiary(db: Session, userid: int):
-#     # startdate = datetime(year, month, 1)
-#     # enddate = (startdate.replace(day=28) + timedelta(days=4)).replace(day=1)  # 다음 달 1일
-
-#     return db.query(UserDiary).filter(
-#         UserDiary.Diaryuserid == userid,
-#     ).order_by(UserDiary.Date).all()
+    messages = [{
+        "role": "system",
+        "content": todolist_str
+    }, {
+        "role": "user",
+        "content": query
+    }]
+    completion = openai.chat.completions.create(model=model, messages=messages)
+    text = completion.choices[0].message.content
+    matches = re.findall(r'"(.*?)"', text)
+    return matches
 
 
 def checkdiary(db: Session, userid: int):

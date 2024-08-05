@@ -1,44 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', path='css/AuthPage/HaruPpojakMyPage.css') }}">
     <script src="{{ url_for('static', path='js/AuthPage/HaruPpojakMyPage.js') }}" defer></script>
-    <title>Document</title>
+    <title>My Page</title>
 </head>
+
 <body>
     <div class="container">
-        <h1 class="HaruPpojakLogo">하루뽀짝</h1>
-        <div class="UserProfile">
-            <img class="UserImg" src="{{ url_for('static', path='img/AuthPage/hangyodong.jpg') }}" alt="">
-            <div class="UserInfo">
-                <div>{{ currentUser.userID }}</div>
-                <div>
-                    팔로워 <span>{{ currentUser.follower }}</span> | 
-                    팔로잉 <span>{{ currentUser.following }}</span> | 
-                    뽀짝 <span>{{ currentUser.userPpojakCoin }}</span>P
+        <h1 class="HaruPpojakLogo">마이페이지</h1>
+        <main>
+            <section>
+                <!-- 섹션 1 : 유저 프로필 및 유저 코멘트 -->
+                <div class="UserProfile">
+                    <img class="UserImg" src="{{ url_for('static', path='img/haruppojakLogoRabbit.svg') }}" alt="">
+                    <div class="UserInfo">
+                        <div>{{ currentUser.userID }}</div>
+                        <div>
+                            팔로워 <span>{{ currentUser.follower }}</span> |
+                            팔로잉 <span>{{ currentUser.following }}</span> |
+                            뽀짝 <span>{{ currentUser.userPpojakCoin }}</span>P
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        
-        <div class="UserNameComment">
-            <div class="UserName">{{ currentUser.userName }}</div>
-            <div class="UserComment">{{ currentUser.userProfileComment }}</div>
-
-        </div>
-        <form action="" class="ProfileOpBtn">
-            <input class="SetBtn" type="button" value="프로필 관리">
-            <input class="ShareBtn" type="button" value="프로필 공유">
-        </form>
-        <div class="UserHighlight">
-            <div class="ProofShot">
-                <img class="Thumbnail" src="{{ url_for('static', path='img/AuthPage/hangyodong.jpg') }}" alt="">
-                <div class="PSTitle">뽀짝 인증 사진</div>
-            </div>
-            <div class="AddPS"></div>
-        </div>
-        <div class="UserFeed"></div>
+                <div class="UserNameComment">
+                    <div class="UserName">{{ currentUser.userName }}</div>
+                    <div class="UserComment">{{ currentUser.userProfileComment }}</div>
+                </div>
+            </section>
+            <section>
+                <!-- 섹션 2 : 프로필 관리, 공유 -->
+                <form action="" class="ProfileOpBtn">
+                    <input class="SetBtn" type="button" value="프로필 관리">
+                    <input class="ShareBtn" type="button" value="프로필 공유">
+                </form>
+            </section>
+            <section>
+                <div class="UserHighlight">
+                    <div class="ProofShot">
+                        <img class="Thumbnail" src="{{ url_for('static', path='img/AuthPage/hangyodong.jpg') }}" alt="">
+                        <div class="PSTitle">뽀짝 인증 사진</div>
+                    </div>
+                    <div class="AddPS"></div>
+                </div>
+            </section>
+            <section>
+                <div class="UserFeed"></div>
+            </section>
+        </main>
     </div>
 </body>
+
 </html>
