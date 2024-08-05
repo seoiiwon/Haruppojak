@@ -31,7 +31,6 @@ body {
   align-items: center;
 }
 
-/* 건너뛰기 링크 스타일 */
 .skip {
   position: absolute;
   top: 20px;
