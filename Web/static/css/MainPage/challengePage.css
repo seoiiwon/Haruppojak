@@ -181,6 +181,23 @@ main {
   color: #bcbcbc;
 }
 
+.joinChallengeBtn {
+  border: 0;
+  background-color: #2f4858;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  position: relative;
+  /* left: 50%; */
+  margin-top: 2rem;
+  /* transform: translate(-50%, -50%); */
+}
+.joinChallengeBtn:hover{
+  opacity: 60%;
+  cursor: pointer;
+  border: 1px solid #2f4858;
+}
+
 /* 푸터 */
 footer {
   position: fixed;

@@ -75,6 +75,9 @@ async def postChallenge(request: Request,
     postNewChallenge(db, challenge, challengeThumbnail1,
                      challengeThumbnail2, challengeThumbnail3)
     challengeListAll = getChallengeListAll(db)
+    challengers = []
+    for challenge in challengeListAll:
+        challenger = challengers.append()
     return templates.TemplateResponse(name="ChallengeList.html", context={"request": request, "challengeList": challengeListAll})
 
 # # 챌린지 참여 요청 - 원래 있던 부분
@@ -92,5 +95,5 @@ async def joinNewChallenge(challenge_request: ChallengeSchema.ChallengeJoinReque
                            user: AuthSchema.UserInfoSchema = Depends(
                                getCurrentUser),
                            db: Session = Depends(get_db)):
-    joinChallenge(challenge_id=challenge_request.challenge_id,
-                  current_user=user, db=db)
+    joinChallenge(challenge_id=challenge_request.challenge_id,current_user=user, db=db)
+    

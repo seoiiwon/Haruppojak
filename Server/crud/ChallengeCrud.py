@@ -71,6 +71,8 @@ def joinChallenge(challenge_id: int, current_user: AuthSchema.UserInfoSchema, db
         challenge_id=challenge_id,
         joined_at=datetime.now(tz=timezone.utc)
     )
+    challenge = db.query(ChallengeModel.Challenge).filter(ChallengeModel.Challenge.id == challenge_id).first()
+    challenge.challenger += 1
     db.add(newUserChallenge)
     db.commit()
     db.refresh(newUserChallenge)
