@@ -35,7 +35,7 @@ body {
 
 .frame-image {
   position: absolute;
-  top: 50%;
+  top: calc(50% - 40px);
   left: 50%;
   width: 335px;
   height: auto;
@@ -44,7 +44,7 @@ body {
 
 .title {
   position: absolute;
-  top: calc(50% - 280px);
+  top: calc(50% - 320px);
   left: calc(50% - 122px);
   font-size: 24px;
   font-weight: bold;
@@ -53,7 +53,7 @@ body {
 
 .calendar-container {
   position: absolute;
-  top: 58%;
+  top: calc(58% - 40px);
   left: 50%;
   width: 251px;
   height: 400px;
@@ -80,8 +80,8 @@ body {
 
 .calendar-body {
   display: grid;
-  grid-template-columns: repeat(7, 1fr); /* 7일을 고정된 너비로 표현 */
-  gap: 2px; /* 날짜들 사이의 간격을 동일하게 설정 */
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
 }
 
 .date {
@@ -89,7 +89,7 @@ body {
   justify-content: center;
   align-items: center;
   height: 40px;
-  margin: auto; /* 날짜들이 중앙에 정렬되도록 설정 */
+  margin: auto;
   box-sizing: border-box;
   font-size: 14px;
 }
@@ -103,8 +103,8 @@ body {
 }
 
 .date.today {
-  width: 36px;
-  height: 36px;
+  width: 30px;
+  height: 30px;
   color: #ffffff;
   background-color: #2f4858;
   border-radius: 14px;
@@ -112,8 +112,8 @@ body {
 }
 
 .date.diary-day {
-  width: 36px;
-  height: 36px;
+  width: 30px;
+  height: 30px;
   color: #ffffff;
   background-color: #95b1ae;
   border-radius: 14px;
@@ -133,19 +133,19 @@ body {
 
 #go-back {
   position: absolute;
-  bottom: calc(50% - 280px);
+  bottom: calc(50% - 240px);
   left: calc(50% - 116px);
 }
 
 #go-calendar {
   position: absolute;
-  bottom: calc(50% - 280px);
+  bottom: calc(50% - 240px);
   left: calc(50% - 30px);
 }
 
 #close-app {
   position: absolute;
-  bottom: calc(50% - 280px);
+  bottom: calc(50% - 240px);
   left: calc(50% + 76px);
 }
 
@@ -154,11 +154,11 @@ body {
   display: none;
   position: fixed;
   z-index: 1;
-  left: 24px; /* 좌우로 24px 간격 */
-  right: 24px; /* 좌우로 24px 간격 */
-  top: 0;
-  width: calc(100% - 48px); /* 좌우로 24px 간격 */
-  height: 100%;
+  left: 24px;
+  right: 24px;
+  top: calc(0% + 40px);
+  width: calc(100% - 48px);
+  height: calc(100% - 40px);
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.4);
 }
@@ -166,9 +166,9 @@ body {
 .modal-content {
   background-color: #fff;
   margin: 16px auto;
-  padding: 16px 20px; /* 상하 16px, 좌우 20px 간격 */
+  padding: 16px 20px;
   border: 1px solid #888;
-  width: calc(100% - 48px); /* 모달 내부 좌우 간격 20px */
+  width: calc(100% - 48px);
   max-width: 600px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
