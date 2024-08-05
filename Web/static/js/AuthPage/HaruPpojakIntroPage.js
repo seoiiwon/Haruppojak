@@ -11,16 +11,14 @@ document.addEventListener("DOMContentLoaded", function () {
             if (input.value.trim() !== "") {
                 todoList.push({
                     todowrite: input.value.trim(),
-                    tododate: new Date().toISOString(),
-                    todocheck: false
                 });
             }
         });
 
-        let url = '/haru/intro';
+        let url = '/haru/intro';  // 엔드포인트 확인
 
         fetch(url, {
-            method: "POST",
+            method: "POST",  // HTTP 메소드 확인
             headers: {
                 "Content-Type": "application/json"
             },
@@ -38,5 +36,10 @@ document.addEventListener("DOMContentLoaded", function () {
         .catch(error => {
             console.error('Error:', error);
         });
+
+    });
+    addCompleteButton.addEventListener("click", function (event) {
+        event.preventDefault();
+        window.location.href = '/haru/main';
     });
 });

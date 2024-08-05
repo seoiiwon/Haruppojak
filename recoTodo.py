@@ -53,5 +53,5 @@ def helpAI(todolist : list, current_user_id : int):
     completion = openai.chat.completions.create(model=model, messages=messages)
     print(completion.choices[0].message.content)
 
-current_user_id = 3
+current_user_id = 2
 helpAI(get_age_group_todo_data(get_user_age_group(current_user_id, db), db), current_user_id)
