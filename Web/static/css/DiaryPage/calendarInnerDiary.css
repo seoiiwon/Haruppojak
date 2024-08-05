@@ -71,7 +71,7 @@ body {
 #go-back {
   position: absolute;
   bottom: calc(50% - 280px);
-  left: calc(50% - 122px);
+  left: calc(50.5% - 122px);
 }
 
 #show-reply {
