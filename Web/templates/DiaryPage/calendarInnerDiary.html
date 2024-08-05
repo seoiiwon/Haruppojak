@@ -18,21 +18,27 @@
           class="frame-image"
         />
         <div class="title">내가 쓴 뽀짝일기</div>
-        <!-- Calendar container to hold the calendar -->
-        <div class="calendar-container"></div>
-
-        <!-- footer -->
+        <div class="innerDiary-container"></div>
         <div class="footer">
           <a href="#" onclick="goBack()" class="footer-link" id="go-back"
             >돌아가기</a
           >
           <a href="#" class="footer-link" id="go-calendar">뽀짝일기 달력</a>
+          <a href="#" onclick="showReply()" class="footer-link" id="show-reply"
+            >뽀짝이의 답장</a
+          >
           <a href="#" onclick="closeApp()" class="footer-link" id="close-app"
             >뽀짝 종료</a
           >
         </div>
       </div>
     </div>
-    <script src="../../static/js/DiaryPage/diaryCalendar.js"></script>
+    <div id="replyModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeReplyModal()">&times;</span>
+        <div class="modal-body"></div>
+      </div>
+    </div>
+    <script src="../../static/js/DiaryPage/calendarInnerDiary.js"></script>
   </body>
 </html>

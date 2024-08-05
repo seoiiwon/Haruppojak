@@ -67,7 +67,7 @@ body {
 }
 
 .calendar-header {
-  width: 103%;
+  width: 100%;
   display: flex;
   margin-bottom: 5px;
 }
@@ -81,14 +81,17 @@ body {
 .calendar-body {
   display: grid;
   grid-template-columns: repeat(7, 1fr); /* 7일을 고정된 너비로 표현 */
-  width: 100%;
+  gap: 2px; /* 날짜들 사이의 간격을 동일하게 설정 */
 }
 
 .date {
-  font-size: 14px;
-  text-align: center;
-  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  margin: auto; /* 날짜들이 중앙에 정렬되도록 설정 */
   box-sizing: border-box;
+  font-size: 14px;
 }
 
 .date.current-month {
@@ -100,15 +103,25 @@ body {
 }
 
 .date.today {
+  width: 36px;
+  height: 36px;
   color: #ffffff;
   background-color: #2f4858;
-  border-radius: 13.93px;
+  border-radius: 14px;
+  cursor: pointer;
 }
 
 .date.diary-day {
+  width: 36px;
+  height: 36px;
   color: #ffffff;
   background-color: #95b1ae;
-  border-radius: 13.93px;
+  border-radius: 14px;
+  cursor: pointer;
+}
+
+.date.future {
+  cursor: not-allowed;
 }
 
 /* footer */
@@ -136,29 +149,48 @@ body {
   left: calc(50% + 76px);
 }
 
-/* Modal styles */
+/* 모달 창 스타일 */
 .modal {
   display: none;
   position: fixed;
-  left: 0;
+  z-index: 1;
+  left: 24px; /* 좌우로 24px 간격 */
+  right: 24px; /* 좌우로 24px 간격 */
   top: 0;
-  width: 100%;
+  width: calc(100% - 48px); /* 좌우로 24px 간격 */
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  justify-content: center;
-  align-items: center;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 .modal-content {
-  background: #fff;
-  padding: 20px;
-  border-radius: 5px;
-  max-width: 500px;
-  width: 100%;
+  background-color: #fff;
+  margin: 16px auto;
+  padding: 16px 20px; /* 상하 16px, 좌우 20px 간격 */
+  border: 1px solid #888;
+  width: calc(100% - 48px); /* 모달 내부 좌우 간격 20px */
+  max-width: 600px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .close {
-  cursor: pointer;
+  color: #aaa;
   float: right;
-  font-size: 24px;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.carousel {
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+  margin-bottom: 20px;
 }

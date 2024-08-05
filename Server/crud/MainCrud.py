@@ -177,12 +177,12 @@ def recommend_todo_list(todolist: list, current_user_id: int, db: Session):
     #     print(items)
     #     return items
     
-def checkdiary(db: Session, userid: int, year: int, month: int):
-    startdate = datetime(year, month, 1)
-    enddate = (startdate.replace(day=28) + timedelta(days=4)).replace(day=1)  # 다음 달 1일
+# def checkdiary(db: Session, userid: int):
+#     # startdate = datetime(year, month, 1)
+#     # enddate = (startdate.replace(day=28) + timedelta(days=4)).replace(day=1)  # 다음 달 1일
     
-    return db.query(UserDiary).filter(
-        UserDiary.Diaryuserid == userid,
-        UserDiary.Date >= startdate,
-        UserDiary.Date < enddate
-    ).order_by(UserDiary.Date).all()
+#     return db.query(UserDiary).filter(
+#         UserDiary.Diaryuserid == userid,
+#     ).order_by(UserDiary.Date).all()
+def checkdiary(db: Session, userid: int):
+    return db.query(UserDiary).filter(UserDiary.Diaryuserid == userid).order_by(UserDiary.Date).all()
