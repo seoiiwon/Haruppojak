@@ -4,6 +4,7 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from Server.crud.DiaryCrud import *
 from Server.crud.MainCrud import *
+from Server.crud.CalendarCrud import ppojakDay
 from Server.schemas.DiarySchema import *
 from Server.schemas import AuthSchema
 from sqlalchemy import desc, func
@@ -19,8 +20,11 @@ router = APIRouter()
 
 template_diary = os.path.join(os.path.dirname(__file__), "../../Web/templates/DiaryPage")
 template_auth = os.path.join(os.path.dirname(__file__), "../../Web/templates/AuthPage")
+template_calendar = os.path.join(os.path.dirname(__file__), "../../Web/templates/CalendarPage")
+
 templates_diary = Jinja2Templates(directory=template_diary)
 templates_auth = Jinja2Templates(directory=template_auth)
+templates_calendar = Jinja2Templates(directory=template_calendar)
 
 @router.get("/diary", response_class=HTMLResponse)  # 초기 다이어리 페이지
 async def getIntroPage(request: Request):
@@ -103,6 +107,16 @@ async def diaryclosehtml(request: Request):
     token = request.cookies.get("access_token")
     if token:
         return templates_diary.TemplateResponse(name="closeApp.html", request=request)
+    else:
+        return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
+    
+@router.get("/haru/calendar", response_class=HTMLResponse)
+async def getCalendar(request : Request, db : Session=Depends(get_db)):
+    token = request.cookies.get("access_token")
+    if token:
+        currentUser = getCurrentUser(token, db)
+        # ppojakDay(currentUser, month, todo : TodoListModel.TodoList ,db : Session)
+        return templates_calendar.TemplateResponse(name="calendar.html", request=request)
     else:
         return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
 
