@@ -147,7 +147,6 @@ body {
   position: absolute;
   bottom: calc(50% - 280px);
   left: calc(50% + 76px);
-<<<<<<< HEAD
 }
 
 /* 모달 창 스타일 */
@@ -195,6 +194,3 @@ body {
   gap: 10px;
   margin-bottom: 20px;
 }
-=======
-}
->>>>>>> chaehyun2

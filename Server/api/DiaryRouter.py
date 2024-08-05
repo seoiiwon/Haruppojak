@@ -57,10 +57,6 @@ async def diary_reply(request: Request, currentUser: AuthSchema.UserInfoSchema =
         return templates_diary.TemplateResponse(name="reply.html", context={"request": request, "reply": "최근 일기가 없습니다."})
     return templates_diary.TemplateResponse(name="reply.html", context={"request": request, "reply": latest_diary.Response})
 
-<<<<<<< HEAD
-=======
-    
->>>>>>> chaehyun2
 @router.get("/diary/calendar", response_class=HTMLResponse)
 async def diary_calendar_html(request: Request, db: Session = Depends(get_db)):
     token = request.cookies.get("access_token")
@@ -68,21 +64,8 @@ async def diary_calendar_html(request: Request, db: Session = Depends(get_db)):
         currentUser = getCurrentUser(token, db)
         userid = currentUser.id
         diaries = checkdiary(db, userid)
-<<<<<<< HEAD
         diaries = [diary_to_dict(diary) for diary in diaries]  # UserDiary 객체를 사전으로 변환
         return templates_diary.TemplateResponse("diaryCalendar.html", {"request": request, "diaries": diaries})
-=======
-        if not diaries:
-            raise HTTPException(status_code=404, detail="해당 날짜의 뽀짝일기를 찾을 수 없습니다.")
-        
-        # Convert diaries to a dictionary for easy lookup
-        diary_dict = {diary.Date.strftime("%Y-%m-%d"): {"content": diary.Diarycontent} for diary in diaries}
-
-        return templates_diary.TemplateResponse("diaryCalendar.html", {
-            "request": request,
-            "diaries": diary_dict
-        })
->>>>>>> chaehyun2
     else:
         return templates_auth.TemplateResponse("HaruPpojakSignIn.html", {"request": request})
 
