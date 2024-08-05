@@ -9,10 +9,6 @@ import openai
 import os
 from typing import List
 from dotenv import load_dotenv
-<<<<<<< HEAD
-from dateutil import parser
-=======
->>>>>>> parent of a576256 (1222)
 import re
 
 import re
