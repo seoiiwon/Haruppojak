@@ -9,7 +9,7 @@ import openai
 import os
 from typing import List
 from dotenv import load_dotenv
-from dateutil import parser
+# from dateutil import parser
 import re
 
 import re
@@ -178,18 +178,6 @@ def recommend_todo_list(todolist: list, current_user_id: int, db: Session):
     #     items = [item.strip().strip("'") for item in match.split(',')]
     #     print(items)
     #     return items
-<<<<<<< HEAD
-    
-# def checkdiary(db: Session, userid: int):
-#     # startdate = datetime(year, month, 1)
-#     # enddate = (startdate.replace(day=28) + timedelta(days=4)).replace(day=1)  # 다음 달 1일
-    
-#     return db.query(UserDiary).filter(
-#         UserDiary.Diaryuserid == userid,
-#     ).order_by(UserDiary.Date).all()
-def checkdiary(db: Session, userid: int):
-    return db.query(UserDiary).filter(UserDiary.Diaryuserid == userid).order_by(UserDiary.Date).all()
-=======
     
 def checkdiary(db: Session, userid: int):
     # startdate = datetime(year, month, 1)
@@ -197,4 +185,3 @@ def checkdiary(db: Session, userid: int):
     
     return db.query(UserDiary).filter(
         UserDiary.Diaryuserid == userid).order_by(UserDiary.Date).all()
->>>>>>> chaehyun2
