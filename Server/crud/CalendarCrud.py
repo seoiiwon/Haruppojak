@@ -18,7 +18,7 @@ def ppojakDay(currentUser : AuthSchema.UserInfoSchema, month : int, todo : TodoL
         for todolist in userMonthTodo:
             if int(str(todolist.date)[5:7]) == day:
                 ppojak_day += 1
-                break
+                break 
     return ppojak_day
 
         
