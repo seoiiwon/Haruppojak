@@ -1,19 +1,24 @@
 from fastapi import APIRouter, Depends, Request, status, HTTPException, security, UploadFile, File
 from fastapi.responses import HTMLResponse, Response, RedirectResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
 from Server.config.database import get_db
 from Server.crud.MainCrud import create_intro_todos
 from Server.schemas import TodoListSchema
-from Server.schemas.AuthSchema import UserInfoSchema
+from Server.schemas.AuthSchema import UserInfoSchema, ProofShot
 from Server.schemas.TodoListSchema import TodoCreate, TodoCreateRequest
-from Server.crud.AuthCrud import signup, getUser, verifyPW, getUserInfo
+from Server.crud.AuthCrud import signup, getUser, verifyPW, getUserInfo, postProofShot
 from Server.crud.TokenForAuth import getCurrentUser, createAccessToken
 from Server.models.UserModel import UserInfo
+from Server.models import ProofShotModel
 import os
-from datetime import timedelta
+from datetime import timedelta, datetime
 from dotenv import load_dotenv
 from pathlib import Path
+import shutil
+import logging
+
 
 load_dotenv()
 
@@ -121,18 +126,55 @@ async def postFirstTodo(todolist: TodoCreateRequest, currentUser: UserInfoSchema
     create_intro_todos(db=db, todo_request=todolist, user_id=currentUser.id)
 
 
-UPLOAD_DIR = Path('uploads')
-UPLOAD_DIR.mkdir(exist_ok=True)
+@router.get("/haru/upload/imgFile")
+async def get_upload_image(request: Request, currentUser: UserInfoSchema = Depends(getCurrentUser), db: Session = Depends(get_db)):
+    user_id = currentUser.id
+    date = datetime.now().strftime("%Y%m%d")
+    fileName = f"{user_id}_{date}.png"
+    return templates.TemplateResponse(
+        name="HaruPpojakFeed.html",
+        request=request,
+        context={"fileName": fileName, "user_id": user_id}
+    )
 
-@router.post("/haru/upload")
-async def upload_image(image: UploadFile = File(...)):
-    file_path = UPLOAD_DIR / image.filename
-    with open(file_path, 'wb') as f:
-        f.write(await image.read())
-    
-    # 서버의 URL을 반환 (이것은 서버에서 실제 URL로 수정해야 함)
-    image_url = f"/uploads/{image.filename}"
-    return JSONResponse(content={"imageUrl": image_url})
+UPLOAD_DIR = Path('Web/static/img/ProofShot')
+
+@router.post("/haru/upload/imgFile")
+async def upload_image(image: UploadFile = File(...), currentUser :  UserInfoSchema = Depends(getCurrentUser), db: Session = Depends(get_db)):
+    try:
+        # 사용자 ID와 촬영 날짜를 얻기 위한 예시, 실제로는 로그인 세션 등에서 사용자 ID를 받아와야 함
+        user_id = str(currentUser.id)  # 예시 사용자 ID
+        now = datetime.now().strftime('%Y%m%d')
+        
+        user_dir = UPLOAD_DIR / user_id
+        user_dir.mkdir(parents=True, exist_ok=True)
+        
+        file_name = f"{user_id}_{now}.png"
+        file_path = user_dir / file_name
+        
+        with open(file_path, 'wb') as f:
+            shutil.copyfileobj(image.file, f)
+        
+        image_url = f"/static/img/ProofShot/{user_id}/{file_name}"
+        
+        return JSONResponse(content={"imageUrl": image_url})
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error saving image: {str(e)}")
+
+
+@router.post("/haru/upload/comment")
+async def uploadComment(proofshot: ProofShot, currentUser: UserInfoSchema = Depends(getCurrentUser), db: Session = Depends(get_db)):
+    user_id = str(currentUser.id)  
+    now = str(datetime.now().strftime('%Y%m%d'))
+    proofShot = ProofShotModel.ProofShot(
+        userID=currentUser.id,
+        date=datetime.now(),
+        photoComment=proofshot.photoComment,
+        photoName=user_id + "_" + now + ".png"
+    )
+    db.add(proofShot)
+    db.commit()
+
 
 
 # 로그아웃 부분 수정해서 활용하도록 하죠...

@@ -12,9 +12,6 @@ from typing import List
 from dotenv import load_dotenv
 import re
 
-import re
-
-
 # 투두리스트 조회
 def get_todos(db: Session, user_id: int):
     today = datetime.now().date()  # 오늘 날짜

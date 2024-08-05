@@ -10,5 +10,6 @@ class ProofShot(Base):
     userID = Column(String, nullable=False)
     date = Column(DateTime, nullable=False, default=datetime.now)
     photoComment = Column(String, nullable=True, default="")
+    photoName = Column(String, nullable=False)
 
     participants = relationship('UserProofShot', back_populates='proofShot')

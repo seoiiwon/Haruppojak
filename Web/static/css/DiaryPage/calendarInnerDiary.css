@@ -35,7 +35,7 @@ body {
 
 .frame-image {
   position: absolute;
-  top: 50%;
+  top: calc(50% - 40px);
   left: 50%;
   width: 335px;
   height: auto;
@@ -44,16 +44,17 @@ body {
 
 .title {
   position: absolute;
-  top: calc(50% - 280px);
+  top: calc(50% - 320px);
   left: calc(50% - 122px);
-  font-size: 24px;
+  margin-top: 2px;
+  font-size: 22px;
   font-weight: bold;
   color: #333;
 }
 
 .innerDiary-container {
   position: absolute;
-  top: 58%;
+  top: calc(58% - 40px);
   left: 50%;
   width: 251px;
   height: 400px;
@@ -76,13 +77,19 @@ body {
 
 #show-reply {
   position: absolute;
-  bottom: calc(50% - 280px);
+  bottom: calc(50% - 240px);
+  left: calc(50% - 128px);
+}
+
+#go-calendar {
+  position: absolute;
+  bottom: calc(50% - 240px);
   left: calc(50% - 30px);
 }
 
 #close-app {
   position: absolute;
-  bottom: calc(50% - 280px);
+  bottom: calc(50% - 240px);
   left: calc(50% + 76px);
 }
 

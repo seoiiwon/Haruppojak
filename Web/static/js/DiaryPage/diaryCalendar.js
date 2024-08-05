@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Function to navigate back to reply.html
 function goBack() {
-  window.history.back();
+  window.location.href = 'write';
 }
 
 function closeApp() {

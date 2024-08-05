@@ -1,25 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', path='css/AuthPage/HaruPpojakCamera.css') }}"/>
-    <script src="{{ url_for('static', path='js/AuthPage/HaruPpojakCamera.js') }}" defer></script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', path='css/AuthPage/HaruPpojakCamera.css') }}"
+    />
+    <script
+      src="{{ url_for('static', path='js/AuthPage/HaruPpojakCamera.js') }}"
+      defer
+    ></script>
     <title>Document</title>
-</head>
-<body>
+  </head>
+  <body onload="loadAndPlay()">
     <div class="container">
-        <a class="skip" href="/haru/intro">건너뛰기 ></a>
-        <div class="contentWrapper">
-            <div class="videoSpace">
-                <video class="Camera" id="userCam" autoplay></video>
-            </div>
-            <div class="BtnSpace">
-                <button class="CaptureBtn" onclick="capture()"></button>
-                <!-- <button class="StopBtn" onclick="stop()">Stop</button> -->
-            </div>
-            <!-- <div class="result" style="display: none;"></div> -->
+      <a class="skip" href="/haru/intro">건너뛰기 ></a>
+      <div class="contentWrapper">
+        <div class="videoSpace">
+          <video class="Camera" id="userCam" autoplay></video>
         </div>
+        <div class="BtnSpace">
+          <button class="CaptureBtn" onclick="capture()"></button>
+        </div>
+      </div>
     </div>
-</body>
+  </body>
 </html>

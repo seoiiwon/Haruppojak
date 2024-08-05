@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Challenge Page</title>
   <link rel="stylesheet" href="../../static/css/MainPage/challengePage.css" />
+  <link rel="stylesheet" href="../../static/css/tabbar.css" />
 </head>
 
 <body>
@@ -36,36 +36,65 @@
             <div class="challengeInfoBox">
               <div class="challengeTitle">{{ challenge.challengeTitle }}</div>
               <div class="challengeInfo">
-                <div class="challenger"><span class=""></span>명 참여 중</div>
+                <div class="challenger"><span class="">{{ challenge.challenger }}</span>명 참여 중</div>
                 <div class="challengeOwner">
                   {{ challenge.challengeOwner }}
                 </div>
-                <div class="challengeReward">
-                  리워드 : {{ challenge.challengeReward }} 뽀짝 / 개월
+                <div class="challengeInfo">
+                  <div class="challenger"><span class=""></span>명 참여 중</div>
+                  <div class="challengeOwner">
+                    {{ challenge.challengeOwner }}
+                  </div>
+                  <div class="challengeReward">
+                    리워드 : {{ challenge.challengeReward }} 뽀짝 / 개월
+                  </div>
                 </div>
               </div>
             </div>
+            <div class="challengeComment">{{ challenge.challengeComment }}</div>
           </div>
-          <div class="challengeComment">{{ challenge.challengeComment }}</div>
-        </div>
-        <div id="myModal-{{ challenge.id }}" class="modal">
-          <div class="modal-content">
-            <span class="close" data-modal-id="myModal-{{ challenge.id }}">&times;</span>
-            <div id="modalText-{{ challenge.id }}"></div>
-            <!-- {% for challenge in userChallenge %}
-                                {{ challenge.challenge_id }}
-                            {% endfor %} -->
-            {% if challenge.id in userChallenge %}
-            <input class="joinChallengeBtn" type="button" value="참여중" data-challenge-id="{{ challenge.id }}" />
-            {% else %}
-            <input class="joinChallengeBtn" type="button" value="참여하기" data-challenge-id="{{ challenge.id }}" />
-            {% endif %}
+          <div id="myModal-{{ challenge.id }}" class="modal">
+            <div class="modal-content">
+              <span class="close" data-modal-id="myModal-{{ challenge.id }}"
+                >&times;</span
+              >
+              <div id="modalText-{{ challenge.id }}"></div>
+              {% if challenge.id in userChallenge %}
+              <input
+                class="joinChallengeBtn"
+                type="button"
+                value="참여중"
+                data-challenge-id="{{ challenge.id }}"
+              />
+              {% else %}
+              <input
+                class="joinChallengeBtn"
+                type="button"
+                value="참여하기"
+                data-challenge-id="{{ challenge.id }}"
+              />
+              {% endif %}
+            </div>
           </div>
         </div>
         {% endfor %}
       </section>
     </main>
-    <footer>
+    <div class="tabbar">
+      <a class="tab" href="/haru/main">
+        <img src="../../static/img/tabbar/홈-off.png" alt="Home" />
+      </a>
+      <a class="tab" href="/calendar">
+        <img src="../../static/img/tabbar/캘린더-off.png" alt="Calendar" />
+      </a>
+      <a class="tab" href="/diary/write">
+        <img src="../../static/img/tabbar/일기-off.png" alt="Diary" />
+      </a>
+      <a class="tab" href="/haru/mypage">
+        <img src="../../static/img/tabbar/마이페이지-off.png" alt="MyPage" />
+      </a>
+    </div>
+    <!-- <footer>
       <nav class="footerNav">
         <ul>
           <li>
@@ -98,10 +127,9 @@
           </li>
         </ul>
       </nav>
-    </footer>
+    </footer> -->
   </div>
 
-  <script src="../../static/js/MainPage/challengePage.js"></script>
-</body>
-
+    <script src="../../static/js/MainPage/challengePage.js"></script>
+  </body>
 </html>
