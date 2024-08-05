@@ -195,37 +195,41 @@ function addEnterKeyListener(inputText) {
       const plusImage = inputText.previousSibling;
       plusImage.src = "../../static/img/MainPage/checkboxWhite.svg";
       const todoText = inputText.value;
+      let payload = {
+        todowrite: todoText,
+      };
 
       fetch("/todo/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: payload,
+        body: JSON.stringify(payload),
       })
-        .then((response) => response.text())
-        .then((html) => {
-          const todoListContainer =
-            document.getElementById("todoListContainer");
-          todoListContainer.insertAdjacentHTML("beforeend", html);
-
-          addTodoItem();
-          const todoContentInputs =
-            document.getElementsByClassName("todoContent");
-          const nextInputIndex =
-            Array.from(todoContentInputs).indexOf(inputText) + 1;
-          if (todoContentInputs[nextInputIndex]) {
-            todoContentInputs[nextInputIndex].focus();
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
           }
           return response.json();
         })
-        .then(() => {
+        .then((data) => {
+          const todoListContainer = document.getElementById("todoListContainer");
+          todoListContainer.insertAdjacentHTML("beforeend", data.html);
+
+          addTodoItem();
+          const todoContentInputs = document.getElementsByClassName("todoContent");
+          const nextInputIndex = Array.from(todoContentInputs).indexOf(inputText) + 1;
+          if (todoContentInputs[nextInputIndex]) {
+            todoContentInputs[nextInputIndex].focus();
+          }
           location.reload();
         })
         .catch((error) => console.error("Error:", error));
     }
   });
 }
+
+
 
 // addTodoItem 함수
 function addTodoItem() {
