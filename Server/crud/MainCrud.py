@@ -43,6 +43,7 @@ def get_todos_by_date(db: Session, user_id: int, target_date: date):
 
 
 # 투두리스트 작성
+
 def create_todo(db: Session, todo: TodoListSchema.TodoCreate, user_id: int):
     db_todo = TodoListModel.TodoList(todo=todo.todowrite,
                                      date=todo.tododate, user_id=user_id)  # 수정된 부분
@@ -52,24 +53,7 @@ def create_todo(db: Session, todo: TodoListSchema.TodoCreate, user_id: int):
     return db_todo
 
 
-# intro 투두리스트 작성
-# def create_intro_todos(db: Session, todo_request: TodoListSchema.TodoCreateRequest):
-#     db_todos = []
-#     for todo in todo_request.todos:
-#         db_todo = TodoListModel.TodoList(
-#             todo=todo.todowrite,
-#             date=todo.tododate,
-#             user_id=todo.user_id
-#         )
-#         db_todos.append(db_todo)
-#         db.add(db_todo)
-
-#     db.commit()
-#     for db_todo in db_todos:
-#         db.refresh(db_todo)
-
-#     return db_todos
-
+# intro todolist 작성
 def create_intro_todos(db: Session, todo_request: TodoListSchema.TodoCreateRequest, user_id: int):
     for todo in todo_request.todos:
         db_todo = TodoListModel.TodoList(
@@ -178,6 +162,7 @@ def recommend_todo_list(todolist: list, current_user_id: int, db: Session):
     #     items = [item.strip().strip("'") for item in match.split(',')]
     #     print(items)
     #     return items
+<<<<<<< HEAD
     
 # def checkdiary(db: Session, userid: int):
 #     # startdate = datetime(year, month, 1)
@@ -188,3 +173,12 @@ def recommend_todo_list(todolist: list, current_user_id: int, db: Session):
 #     ).order_by(UserDiary.Date).all()
 def checkdiary(db: Session, userid: int):
     return db.query(UserDiary).filter(UserDiary.Diaryuserid == userid).order_by(UserDiary.Date).all()
+=======
+    
+def checkdiary(db: Session, userid: int):
+    # startdate = datetime(year, month, 1)
+    # enddate = (startdate.replace(day=28) + timedelta(days=4)).replace(day=1)  # 다음 달 1일
+    
+    return db.query(UserDiary).filter(
+        UserDiary.Diaryuserid == userid).order_by(UserDiary.Date).all()
+>>>>>>> chaehyun2
