@@ -11,11 +11,18 @@
   <body>
     <div class="container">
         <header>
-            <h1>월간 통계</h1>
-            <div class="month-selector">
-                <button>&lt;</button>
-                <span>2024년 7월</span>
-                <button>&gt;</button>
+            <!-- 캘린더 월간통계 -->
+            <h1>월간통계</h1>
+            <div class="calendarHeader">
+                <button class="prevMonth">&lt;</button>
+                <div class="yearMonth">
+                    <span class="year"></span>
+                    <span class="month"></span>
+                </div>
+                <button class="nextMonth">&gt;</button>
+                <button class="calendarPic">
+                    <img src="/static/img/calendar.png">
+                </button>
             </div>
         </header>
         <section class="stats">

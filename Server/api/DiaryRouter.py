@@ -36,7 +36,8 @@ async def writediaryhtml(request: Request, db: Session = Depends(get_db)):
     if token:
         currentUser = getCurrentUser(token, db)
         userid = currentUser.id
-        usertodoall=usertodo(db, userid)
+        target_date = datetime.now().strftime('%Y-%m-%d')
+        usertodoall=db.query(TodoList).filter(TodoList.user_id == userid,TodoList.date.like(f'{target_date}%')).all()
         if not usertodoall:
             return templates_diary.TemplateResponse(name="writeDiary.html", context={"request": request, "usertodo":usertodoall})
         return templates_diary.TemplateResponse(name="writeDiary.html", context={"request": request})
