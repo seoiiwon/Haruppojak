@@ -98,28 +98,28 @@
       <section class="challenges">
         <!-- 섹션 3 : 뽀짝챌 이게대체뭐지???-->
         <div class="description">
-          <span class="challengeDes1">현재 참여중인 뽀짝챌 </span><span class="challengeDes2">챌린지 더보기</span>
+          <span class="challengeDes1">현재 참여중인 뽀짝챌 </span>
         </div>
         <div class="challengeList">
           {% for challenge in joinedChallenge %}
-          <div class="challengeBox">
-            <div class="challengeItem">
-              <div class="challengeBox">
-                <img src="{{ url_for('static', path='img/ChallengeImg/' ~ challenge.challengeThumbnail1) }}" alt="">
-              </div>
-              <div class="challengeTitle">{{ challenge.challengeTitle }}</div>
+          <div class="challengeItem">
+            <div class="challengeBox">
+              <img src="{{ url_for('static', path='img/ChallengeImg/' ~ challenge.challengeThumbnail1) }}" alt="">
             </div>
-            {% endfor %}
-            <div id="challengeMore" class="challengeBox">
-              <div>챌린지 더보기</div>
-            </div>
+            <div class="challengeTitle">{{ challenge.challengeTitle }}</div>
           </div>
-          <div class="dots"></div>
+          {% endfor %}
+          <div id="challengeBoxMore" class="challengeBox">
+            <div>챌린지 더보기</div>
+          </div>
+        </div>
+        <div class="dots"></div>
       </section>
     </main>
 
 
-    <!-- 탭바 시작 -->
+    <!-- 탭바 -->
+
     <div class="tabbar">
       <a class="tab" href="/haru/main">
         <img src="../../static/img/tabbar/홈-off.png" alt="Home" />

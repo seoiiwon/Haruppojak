@@ -22,7 +22,7 @@ def create_upload_file_from_path(file_path: str) -> UploadFile:
 
 
 # test_img1_path = "/Users/suinkim/Downloads/likelion.png"
-test_img1_path = "/Users/suinKim/Downloads/likelion.png"
+test_img1_path = "/Users/seojiwon/Downloads/likelion.png"
 test_img2_path = None
 test_img3_path = None
 

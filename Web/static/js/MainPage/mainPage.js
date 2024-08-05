@@ -195,16 +195,13 @@ function addEnterKeyListener(inputText) {
       const plusImage = inputText.previousSibling;
       plusImage.src = "../../static/img/MainPage/checkboxWhite.svg";
       const todoText = inputText.value;
-      const todoDate = new Date().toISOString();
 
       fetch("/todo/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          todowrite: todoText,
-        }),
+        body: payload,
       })
         .then((response) => response.text())
         .then((html) => {
@@ -220,13 +217,17 @@ function addEnterKeyListener(inputText) {
           if (todoContentInputs[nextInputIndex]) {
             todoContentInputs[nextInputIndex].focus();
           }
+          return response.json();
+        })
+        .then(() => {
+          location.reload();
         })
         .catch((error) => console.error("Error:", error));
     }
   });
 }
 
-// 요소 html추가 함수
+// addTodoItem 함수
 function addTodoItem() {
   const todoListContainer = document.getElementById("addTodoList");
   const li = document.createElement("li");

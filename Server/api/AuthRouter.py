@@ -1,5 +1,5 @@
-from fastapi import APIRouter, Depends, Request, status, HTTPException, security
-from fastapi.responses import HTMLResponse, Response, RedirectResponse
+from fastapi import APIRouter, Depends, Request, status, HTTPException, security, UploadFile, File
+from fastapi.responses import HTMLResponse, Response, RedirectResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from Server.config.database import get_db
@@ -13,6 +13,7 @@ from Server.models.UserModel import UserInfo
 import os
 from datetime import timedelta
 from dotenv import load_dotenv
+from pathlib import Path
 
 load_dotenv()
 
@@ -120,6 +121,18 @@ async def postFirstTodo(todolist: TodoCreateRequest, currentUser: UserInfoSchema
     create_intro_todos(db=db, todo_request=todolist, user_id=currentUser.id)
 
 
+UPLOAD_DIR = Path('uploads')
+UPLOAD_DIR.mkdir(exist_ok=True)
+
+@router.post("/haru/upload")
+async def upload_image(image: UploadFile = File(...)):
+    file_path = UPLOAD_DIR / image.filename
+    with open(file_path, 'wb') as f:
+        f.write(await image.read())
+    
+    # 서버의 URL을 반환 (이것은 서버에서 실제 URL로 수정해야 함)
+    image_url = f"/uploads/{image.filename}"
+    return JSONResponse(content={"imageUrl": image_url})
 
 
 # 로그아웃 부분 수정해서 활용하도록 하죠...
