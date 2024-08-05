@@ -13,6 +13,8 @@ from dotenv import load_dotenv
 import re
 
 # 투두리스트 조회
+
+
 def get_todos(db: Session, user_id: int):
     today = datetime.now().date()  # 오늘 날짜
     start_of_day = datetime.combine(today, datetime.min.time())
@@ -145,8 +147,6 @@ def recommend_todo_list(todolist: list, current_user_id: int, db: Session):
     query = "todolist라는 리스트 전체를 분석해서 비슷한 유형들은 하나로 통일하고 가장 빈도수가 많은 값, 또는 자주 언급되는 todolist 중 너가 생각하기에 " + \
         str(get_user_age_group(current_user_id, db)) + \
         "0대가 하면 좋을 생산적인일 5개 리스트로 반환해줘. 리스트 자료형으로만 반환해줘"
-
-
 
     todolist_str = ", ".join(todolist)
 
