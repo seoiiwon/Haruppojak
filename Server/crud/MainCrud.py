@@ -9,14 +9,7 @@ import openai
 import os
 from typing import List
 from dotenv import load_dotenv
-<<<<<<< HEAD
-=======
-# from dateutil import parser
->>>>>>> reallywoochan
 import re
-
-import re
-
 
 # 투두리스트 조회
 def get_todos(db: Session, user_id: int):
@@ -167,17 +160,10 @@ def recommend_todo_list(todolist: list, current_user_id: int, db: Session):
     text = completion.choices[0].message.content
     matches = re.findall(r'"(.*?)"', text)
     return matches
-<<<<<<< HEAD
 # for match in matches:
 #     items = [item.strip().strip("'") for item in match.split(',')]
 #     print(items)
 #     return items
-=======
-    # for match in matches:
-    #     items = [item.strip().strip("'") for item in match.split(',')]
-    #     print(items)
-    #     return items
->>>>>>> reallywoochan
 
 # def checkdiary(db: Session, userid: int):
 #     # startdate = datetime(year, month, 1)
