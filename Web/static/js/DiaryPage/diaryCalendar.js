@@ -1,5 +1,5 @@
-document.addEventListener('DOMContentLoaded', function () {
-  const calendarBody = document.querySelector('.calendar-body');
+document.addEventListener("DOMContentLoaded", function () {
+  const calendarBody = document.querySelector(".calendar-body");
   const diaries = window.diaries || []; // 전역 범위로 정의된 diaries 변수 접근, 초기화
   console.log(diaries); // 데이터를 콘솔에 출력하여 확인
 
@@ -23,20 +23,20 @@ document.addEventListener('DOMContentLoaded', function () {
       const hasDiary = diaries.some(
         (diary) => new Date(diary.Date).getDate() === i
       );
-      let className = 'date current-month';
-      let style = '';
-      let cursorStyle = '';
+      let className = "date current-month";
+      let style = "";
+      let cursorStyle = "";
 
       if (isToday) {
-        className += ' today';
-        style = 'background-color: #2F4858; border-radius: 14px;';
-        cursorStyle = 'cursor: pointer;';
+        className += " today";
+        style = "background-color: #2F4858; border-radius: 14px;";
+        cursorStyle = "cursor: pointer;";
       } else if (hasDiary) {
-        className += ' diary-day';
-        style = 'background-color: #95B1AE; border-radius: 14px;';
-        cursorStyle = 'cursor: pointer;';
+        className += " diary-day";
+        style = "background-color: #95B1AE; border-radius: 14px;";
+        cursorStyle = "cursor: pointer;";
       } else if (new Date(year, month, i) > today) {
-        cursorStyle = 'cursor: not-allowed;';
+        cursorStyle = "cursor: not-allowed;";
       }
 
       dates.push(
@@ -51,20 +51,20 @@ document.addEventListener('DOMContentLoaded', function () {
       dates.push(`<div class="date other-month">${i}</div>`);
     }
 
-    calendarBody.innerHTML = dates.join('');
+    calendarBody.innerHTML = dates.join("");
 
     // 날짜 클릭 이벤트 추가
-    document.querySelectorAll('.date.current-month').forEach((dateElem) => {
-      dateElem.addEventListener('click', function () {
-        const date = new Date(this.getAttribute('data-date'));
+    document.querySelectorAll(".date.current-month").forEach((dateElem) => {
+      dateElem.addEventListener("click", function () {
+        const date = new Date(this.getAttribute("data-date"));
         const today = new Date();
         today.setHours(0, 0, 0, 0); // 시간을 0으로 설정하여 날짜만 비교
 
         if (date > today) {
-          alert('미래 날짜는 선택할 수 없어요!');
+          alert("미래 날짜에는 미리 입력할 수 없어요 !");
         } else {
           window.location.href = `/diary/calendar/${this.getAttribute(
-            'data-date'
+            "data-date"
           )}`;
         }
       });
@@ -79,33 +79,6 @@ function goBack() {
   window.history.back();
 }
 
-// Function to close the app by navigating to closeApp.html
 function closeApp() {
-  window.location.href = 'close';
-}
-
-function closeModal() {
-  document.getElementById('diaryModal').style.display = 'none';
-}
-
-// Modal 관련 함수
-function showModal(content) {
-  const modal = document.getElementById('diaryModal');
-  modal.querySelector('.modal-body').innerHTML = content;
-  modal.style.display = 'block';
-}
-
-function closeReplyModal() {
-  document.getElementById('replyModal').style.display = 'none';
-}
-
-function showReply() {
-  const date = document
-    .querySelector('.innerDiary-container')
-    .getAttribute('data-date');
-  fetch(`/diary/reply/${date}`)
-    .then((response) => response.text())
-    .then((data) => {
-      showModal(data);
-    });
+  window.location.href = "/diary/close";
 }
