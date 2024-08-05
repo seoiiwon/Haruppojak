@@ -49,8 +49,7 @@ def create_todo(db: Session, todo: TodoListSchema.TodoCreate, user_id: int):
                                      )
     db.add(db_todo)
     db.commit()
-    db.refresh(db_todo)
-    return db_todo
+    db.refresh(todo)
 
 
 # intro 투두리스트 작성
@@ -131,20 +130,11 @@ def get_user_age(birth_date: int) -> int:
 
 
 # 연령대 구분 함수
-<< << << < HEAD
-
-
-== == == =
->>>>>> > main
-
-
 def get_user_age_group(user_id: int, db: Session):
     user = db.query(UserInfo).filter(UserInfo.id == user_id).first()
     return get_user_age(user.userBirth) // 10
 
 # 연령대 별 투두 함수
-
-
 def get_age_group_todo_data(user_age_group: int, db: Session):
     ageGroup = db.query(UserInfo).filter(
         get_user_age_group(UserInfo.id, db) == user_age_group).all()
@@ -159,13 +149,6 @@ def get_age_group_todo_data(user_age_group: int, db: Session):
 
 
 # 투두 추천 리스트 코드
-<< << << < HEAD
-
-
-== == == =
->>>>>> > main
-
-
 def recommend_todo_list(todolist: list, current_user_id: int, db: Session):
     load_dotenv()
     OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
@@ -174,25 +157,27 @@ def recommend_todo_list(todolist: list, current_user_id: int, db: Session):
 
     query = "todolist라는 리스트 전체를 분석해서 비슷한 유형들은 하나로 통일하고 가장 빈도수가 많은 값, 또는 자주 언급되는 todolist 중 너가 생각하기에 " + \
         str(get_user_age_group(current_user_id, db)) + \
-        << << << < HEAD
     "0대가 하면 좋을 생산적인일 5개 리스트로 반환해줘. 리스트 자료형으로만 반환해줘"
 
+    todolist_str = ", ".join(todolist)
 
-== == == =
-"0대가 하면 좋을 생산적인일 5개 리스트로 반환해줘. 리스트 자료형으로 인덱싱 가능하게 반환해줘 반환 값은 다른 값이 없는 []으로 반환부탁해"
->>>>>> > main
-todolist_str = ", ".join(todolist)
+    messages = [{
+        "role": "system",
+        "content": todolist_str
+    }, {
+        "role": "user",
+        "content": query
+    }]
+    completion = openai.chat.completions.create(model=model, messages=messages)
 
-messages = [{
-    "role": "system",
-    "content": todolist_str
-}, {
-    "role": "user",
-    "content": query
-}]
-completion = openai.chat.completions.create(model=model, messages=messages)
-<< << << < HEAD
-print(completion.choices[0].message.content)
+    print(completion.choices[0].message.content)
+    text = completion.choices[0].message.content
+    matches = re.findall(r'"(.*?)"', text)
+    return matches
+    # for match in matches:
+    #     items = [item.strip().strip("'") for item in match.split(',')]
+    #     print(items)
+    #     return items
 
 
 def checkdiary(db: Session, userid: int):
@@ -205,11 +190,9 @@ def checkdiary(db: Session, userid: int):
     # 다이어리 작성 하면 Ture, 없으면 False
     return latest_diary is not None
 
-
-== == == =
-text = completion.choices[0].message.content
-matches = re.findall(r'"(.*?)"', text)
-return matches
+# text = completion.choices[0].message.content
+# matches = re.findall(r'"(.*?)"', text)
+# return matches
 # for match in matches:
 #     items = [item.strip().strip("'") for item in match.split(',')]
 #     print(items)
@@ -227,5 +210,3 @@ def checkdiary(db: Session, userid: int, year: int, month: int):
         UserDiary.Date < enddate
     ).order_by(UserDiary.Date).all()
 
-
->>>>>> > main
