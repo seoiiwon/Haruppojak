@@ -64,30 +64,24 @@ async def diary_reply(request: Request, currentUser: AuthSchema.UserInfoSchema =
         return templates_diary.TemplateResponse(name="reply.html", context={"request": request, "reply": "최근 일기가 없습니다."})
     return templates_diary.TemplateResponse(name="reply.html", context={"request": request, "reply": latest_diary.Response})
 
-# @router.get("/diary/reply", response_class=HTMLResponse)  # 다이어리 답장 페이지
-# async def diary_reply(request: Request, db: Session = Depends(get_db),):
-#     token = request.cookies.get("access_token")
-#     if token:
-#         currentUser = getCurrentUser(token, db)
-#         userid = currentUser.id
-#         latest_diary = db.query(UserDiary).filter(UserDiary.Diaryuserid == userid).order_by(desc(UserDiary.Date)).first()
-#         if latest_diary is None:
-#             return templates_diary.TemplateResponse(name="reply.html", context={"request": request, "reply": "최근 일기가 없습니다."})
-#         else:
-#             return templates_diary.TemplateResponse(name="reply.html", context={"request": request, "reply": latest_diary.Response})
-#     else:
-#         return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
     
 @router.get("/diary/calendar", response_class=HTMLResponse)
-async def diary_calendar_html(request: Request, year: int, month: int, db: Session = Depends(get_db)):
+async def diary_calendar_html(request: Request, db: Session = Depends(get_db)):
     token = request.cookies.get("access_token")
     if token:
         currentUser = getCurrentUser(token, db)
         userid = currentUser.id
-        diaries = checkdiary(db, userid, year, month)
+        diaries = checkdiary(db, userid)
         if not diaries:
             raise HTTPException(status_code=404, detail="해당 날짜의 뽀짝일기를 찾을 수 없습니다.")
-        return templates_diary.TemplateResponse("diaryCalendar.html", {"request": request, "diaries": diaries})
+        
+        # Convert diaries to a dictionary for easy lookup
+        diary_dict = {diary.Date.strftime("%Y-%m-%d"): {"content": diary.Diarycontent} for diary in diaries}
+
+        return templates_diary.TemplateResponse("diaryCalendar.html", {
+            "request": request,
+            "diaries": diary_dict
+        })
     else:
         return templates_auth.TemplateResponse("HaruPpojakSignIn.html", {"request": request})
     
