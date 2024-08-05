@@ -195,7 +195,7 @@ function addEnterKeyListener(inputText) {
       const plusImage = inputText.previousSibling;
       plusImage.src = "../../static/img/MainPage/checkboxWhite.svg";
       const todoText = inputText.value;
-      const todatdate = new Date().toISOString();
+      const todoDate = new Date().toISOString();
 
       // 서버에 새로운 todo를 생성하는 요청을 보냄
       fetch("/todo/create", {
@@ -205,8 +205,6 @@ function addEnterKeyListener(inputText) {
         },
         body: JSON.stringify({
           todowrite: todoText,
-          tododate: new Date().toISOString(), // 현재 시간을 할 일의 날짜로 설정
-          user_id: 1, // 실제 사용자 ID로 대체해야 함
         }),
       })
         .then((response) => response.text())

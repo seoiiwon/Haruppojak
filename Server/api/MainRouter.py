@@ -46,11 +46,22 @@ async def read_todos(request: Request, date: Optional[str] = Query(None), db: Se
 
 
 # todo 만들기
+# @router.post("/todo/create", response_model=TodoListSchema.TodoCreate)
+# async def create_new_todo(
+#     todo: TodoListSchema.TodoCreate, db: Session = Depends(get_db), currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser)
+# ):
+#     return create_todo(db=db, todo=todo)
+
+# todo 만들기
+
+
+# todo 만들기
 @router.post("/todo/create", response_model=TodoListSchema.TodoCreate)
 async def create_new_todo(
-    todo: TodoListSchema.TodoCreate, db: Session = Depends(get_db)
+    todo: TodoListSchema.TodoCreate, db: Session = Depends(get_db), currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser)
 ):
-    return create_todo(db=db, todo=todo)
+    user_id = currentUser.id
+    return create_todo(db=db, todo=todo, user_id=user_id)
 
 
 # todo 수정하기

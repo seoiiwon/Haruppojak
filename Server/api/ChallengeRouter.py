@@ -41,8 +41,10 @@ async def getChallengeList(request: Request, db: Session = Depends(get_db), curr
     if token:
         currentUser = getCurrentUser(token, db)
         challengeListAll = getChallengeListAll(db)
-        joinedChallenge = db.query(UserChallenge).filter(UserChallenge.user_id == currentUser.id).all()
-        userChallengeID = [challenge.challenge_id for challenge in joinedChallenge]
+        joinedChallenge = db.query(UserChallenge).filter(
+            UserChallenge.user_id == currentUser.id).all()
+        userChallengeID = [
+            challenge.challenge_id for challenge in joinedChallenge]
         return templates.TemplateResponse(name="challengePage.html", context={"request": request, "challengeList": challengeListAll, "user": getUserInfo(currentUser), "userChallenge": userChallengeID})
     else:
         return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", context={"request": request})
@@ -50,6 +52,8 @@ async def getChallengeList(request: Request, db: Session = Depends(get_db), curr
 # POST
 
 # 챌린지 추가하는 요청
+
+
 @router.post("/challenge/all", status_code=status.HTTP_204_NO_CONTENT, response_class=HTMLResponse)
 async def postChallenge(request: Request,
                         challenge: ChallengeSchema.ChallengeCreateSchema,

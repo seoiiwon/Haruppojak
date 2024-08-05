@@ -6,7 +6,7 @@ db = SessionLocal()
 
 newtodo = TodoListModel.TodoList(
     date=datetime.now(),
-    todo="으어어죽여줘",
+    todo="아이디확인하기.",
     check=True,
     user_id=2,
 )
