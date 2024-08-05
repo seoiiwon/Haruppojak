@@ -9,6 +9,7 @@ import openai
 import os
 from typing import List
 from dotenv import load_dotenv
+from dateutil import parser
 import re
 
 import re
@@ -150,22 +151,20 @@ def recommend_todo_list(todolist: list, current_user_id: int, db: Session):
     "0대가 하면 좋을 생산적인일 5개 리스트로 반환해줘. 리스트 자료형으로만 반환해줘"
 
 
-== == == =
-"0대가 하면 좋을 생산적인일 5개 리스트로 반환해줘. 리스트 자료형으로 인덱싱 가능하게 반환해줘 반환 값은 다른 값이 없는 []으로 반환부탁해"
->>>>>> > main
-todolist_str = ", ".join(todolist)
 
-messages = [{
-    "role": "system",
-    "content": todolist_str
-}, {
-    "role": "user",
-    "content": query
-}]
-completion = openai.chat.completions.create(model=model, messages=messages)
-text = completion.choices[0].message.content
-matches = re.findall(r'"(.*?)"', text)
-return matches
+    todolist_str = ", ".join(todolist)
+
+    messages = [{
+        "role": "system",
+        "content": todolist_str
+    }, {
+        "role": "user",
+        "content": query
+    }]
+    completion = openai.chat.completions.create(model=model, messages=messages)
+    text = completion.choices[0].message.content
+    matches = re.findall(r'"(.*?)"', text)
+    return matches
 # for match in matches:
 #     items = [item.strip().strip("'") for item in match.split(',')]
 #     print(items)
