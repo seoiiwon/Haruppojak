@@ -3,13 +3,13 @@ from typing import Optional
 from sqlalchemy import and_, func
 from sqlalchemy.orm import Session
 from datetime import date, datetime, timedelta
-from Server.models import TodoListModel, UserInfo,UserDiary
+from Server.models import TodoListModel, UserInfo, UserDiary
 from Server.schemas import TodoListSchema
 import openai
 import os
 from typing import List
 from dotenv import load_dotenv
-from dateutil import parser
+# from dateutil import parser
 import re
 
 import re
@@ -66,9 +66,6 @@ def create_intro_todos(db: Session, todo_request: TodoListSchema.TodoCreateReque
     db.commit()
 
 
-
-
-
 # 투두리스트 수정
 def update_todo(db: Session, todo_id: int, todo_update: TodoListSchema.TodoUpdate, user_id: int):
     db_todo = db.query(TodoListModel.TodoList).filter(
@@ -116,6 +113,8 @@ def get_user_age(birth_date: int) -> int:
     return age
 
 # 연령대 구분 함수
+
+
 def get_user_age_group(user_id: int, db: Session):
     user = db.query(UserInfo).filter(UserInfo.id == user_id).first()
     return get_user_age(user.userBirth) // 10
@@ -136,6 +135,8 @@ def get_age_group_todo_data(user_age_group: int, db: Session):
     return todoListAll
 
 # 투두 추천 리스트 코드
+
+
 def recommend_todo_list(todolist: list, current_user_id: int, db: Session):
     load_dotenv()
     OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
@@ -162,13 +163,15 @@ def recommend_todo_list(todolist: list, current_user_id: int, db: Session):
     #     items = [item.strip().strip("'") for item in match.split(',')]
     #     print(items)
     #     return items
-    
+
 # def checkdiary(db: Session, userid: int):
 #     # startdate = datetime(year, month, 1)
 #     # enddate = (startdate.replace(day=28) + timedelta(days=4)).replace(day=1)  # 다음 달 1일
-    
+
 #     return db.query(UserDiary).filter(
 #         UserDiary.Diaryuserid == userid,
 #     ).order_by(UserDiary.Date).all()
+
+
 def checkdiary(db: Session, userid: int):
     return db.query(UserDiary).filter(UserDiary.Diaryuserid == userid).order_by(UserDiary.Date).all()
