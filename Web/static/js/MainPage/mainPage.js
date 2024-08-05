@@ -195,39 +195,34 @@ function addEnterKeyListener(inputText) {
       const plusImage = inputText.previousSibling;
       plusImage.src = "../../static/img/MainPage/checkboxWhite.svg";
       const todoText = inputText.value;
-      const todoDate = new Date().toISOString();
 
-      // 서버에 새로운 todo를 생성하는 요청을 보냄
-      fetch("/todo/create", {
+      let url = '/todo/create';
+      let payload = JSON.stringify({ todowrite: todoText });
+
+      fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          todowrite: todoText,
-        }),
+        body: payload
       })
-        .then((response) => response.text())
-        .then((html) => {
-          // 새로운 할 일 요소를 리스트에 추가
-          const todoListContainer =
-            document.getElementById("todoListContainer");
-          todoListContainer.insertAdjacentHTML("beforeend", html);
-
-          // 새로운 요소에 이벤트 리스너 추가
-          addTodoItem();
-          const todoContentInputs =
-            document.getElementsByClassName("todoContent");
-          const nextInputIndex =
-            Array.from(todoContentInputs).indexOf(inputText) + 1;
-          if (todoContentInputs[nextInputIndex]) {
-            todoContentInputs[nextInputIndex].focus();
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
           }
+          return response.json();
+        })
+        .then(() => {
+          location.reload();
         })
         .catch((error) => console.error("Error:", error));
     }
   });
 }
+
+
+
+
 
 // addTodoItem 함수
 function addTodoItem() {

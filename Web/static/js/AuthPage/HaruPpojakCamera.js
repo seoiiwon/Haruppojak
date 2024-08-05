@@ -33,6 +33,8 @@ function getDeviceStream(option) {
     });
   }
 }
+
+
 async function capture() {
   const video = document.getElementById('userCam');
   const canvas = document.createElement('canvas');
@@ -42,71 +44,37 @@ async function capture() {
   ctx.scale(-1, 1);
   ctx.drawImage(video, -canvas.width, 0, canvas.width, canvas.height);
   
-  const imgData = canvas.toDataURL('image/png');
+  const imgData = canvas.toDataURL('image/png'); // 캡처된 이미지의 데이터 URL
+  const formData = new FormData();
+  formData.append('image', imgData);
 
-  // 서버에 이미지 데이터 전송
   try {
-    const response = await fetch('/upload-image', {
+    // 서버에 이미지 데이터 전송
+    const response = await fetch('/upload-image', { // '/upload-image'는 실제 서버의 엔드포인트로 대체해야 함
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ image: imgData })
+      body: formData
     });
-
     if (!response.ok) {
-      throw new Error('이미지 업로드에 실패했습니다.');
+      throw new Error('Failed to upload image');
     }
 
-    const result = await response.json();
-    console.log('이미지 업로드 성공:', result);
+    // 서버의 응답을 처리하여 새로운 페이지로 리디렉션
+    const responseData = await response.json();
+    const imageUrl = responseData.imageUrl; // 서버에서 반환한 이미지 URL
 
-    // 이미지 표시
-    const img = document.createElement('img');
-    img.src = imgData;
-    const resultDiv = document.querySelector('.result');
-    resultDiv.innerHTML = '';
-    resultDiv.appendChild(img);
-    
-    // 비디오 공간 숨기기
-    const videoSpace = document.querySelector('.videoSpace');
-    videoSpace.style.display = 'none';
-    
-    // 결과 div 보이기
-    resultDiv.style.display = 'block';
-    
-    // 카메라 종료
-    stop();
+    // proofImg 태그에 이미지 추가
+    const proofImg = document.querySelector('.proofImg img');
+    proofImg.src = imageUrl;
+
+    // 페이지 이동
+    window.location.href = '/haru/photo/detail';
   } catch (error) {
-    console.error('이미지 업로드 중 오류 발생:', error);
+    console.error('Error capturing image:', error);
   }
-}
 
-
-function capture() {
-  const video = document.getElementById('userCam');
-  const canvas = document.createElement('canvas');
-  canvas.width = 400;
-  canvas.height = 600;
-  const ctx = canvas.getContext('2d');
-  ctx.scale(-1, 1);
-  ctx.drawImage(video, -canvas.width, 0, canvas.width, canvas.height);
-  
-  const img = document.createElement('img');
-  img.src = canvas.toDataURL('image/png');
+  // 비디오와 canvas 정리
   const resultDiv = document.querySelector('.result');
   resultDiv.innerHTML = '';
-  resultDiv.appendChild(img);
-  
-  // videoSpace 숨기기
-  const videoSpace = document.querySelector('.videoSpace');
-  videoSpace.style.display = 'none';
-  
-  // resultDiv 보이기
-  resultDiv.style.display = 'block';
-
-  // 캠 종료
+  resultDiv.style.display = 'none';
   stop();
 }
-
-window.onload = loadAndPlay;
