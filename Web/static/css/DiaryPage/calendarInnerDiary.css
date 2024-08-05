@@ -69,6 +69,12 @@ body {
   text-decoration: none;
 }
 
+#go-back {
+  position: absolute;
+  bottom: calc(50% - 280px);
+  left: calc(50% - 122px);
+}
+
 #show-reply {
   position: absolute;
   bottom: calc(50% - 240px);
