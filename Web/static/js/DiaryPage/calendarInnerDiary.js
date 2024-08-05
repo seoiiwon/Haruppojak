@@ -27,3 +27,11 @@ function showReply() {
       modal.style.display = 'block';
     });
 }
+
+function goToCalendar() {
+  window.history.back();
+}
+
+function closeApp() {
+  window.location.href = '../close';
+}

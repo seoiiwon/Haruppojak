@@ -138,7 +138,7 @@ main {
 }
 
 .challengeThumbnail {
-  width: 60%;
+  min-width: 60%;
   margin-left: 0;
   position: relative;
 }
