@@ -6,8 +6,10 @@
     <title>Reply</title>
     <link
       rel="stylesheet"
-      href="../../static/css/DiaryPage/diaryCalendar.css"
+      href="../../static/css/DiaryPage/diaryCalendar.css?v=1.1"
     />
+
+    <link rel="stylesheet" href="../../static/css/tabbar.css" />
   </head>
   <body>
     <div class="container">
@@ -46,6 +48,21 @@
           >
         </div>
       </div>
+      <!-- 탭바 -->
+      <div class="tabbar">
+        <a class="tab" href="/haru/main">
+          <img src="../../static/img/tabbar/홈-off.png" alt="Home" />
+        </a>
+        <a class="tab" href="/calendar">
+          <img src="../../static/img/tabbar/캘린더-off.png" alt="Calendar" />
+        </a>
+        <a class="tab" href="/diary/write">
+          <img src="../../static/img/tabbar/일기-off.png" alt="Diary" />
+        </a>
+        <a class="tab" href="/haru/mypage">
+          <img src="../../static/img/tabbar/마이페이지-off.png" alt="MyPage" />
+        </a>
+      </div>
     </div>
     <div id="diaryModal" class="modal">
       <div class="modal-content">
@@ -57,6 +74,6 @@
       window.diaries = {{ diaries | tojson | safe }};
       console.log(window.diaries);
     </script>
-    <script src="../../static/js/DiaryPage/diaryCalendar.js"></script>
+    <script src="../../static/js/DiaryPage/diaryCalendar.js?v=1.1"></script>
   </body>
 </html>

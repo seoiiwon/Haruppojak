@@ -51,9 +51,20 @@ async def getChallengeList(request: Request, db: Session = Depends(get_db), curr
 
 # POST
 
-# 챌린지 추가하는 요청
+# # 챌린지 추가하는 요청 - 원래 있던 부분
+# @router.post("/challenge/all", status_code=status.HTTP_204_NO_CONTENT, response_class=HTMLResponse)
+# async def postChallenge(request: Request,
+#                         challenge: ChallengeSchema.ChallengeCreateSchema,
+#                         challengeThumbnail1: UploadFile = File(...),
+#                         challengeThumbnail2: UploadFile = File(None),
+#                         challengeThumbnail3: UploadFile = File(None),
+#                         db: Session = Depends(get_db)):
+#     postNewChallenge(db, challenge, challengeThumbnail1,
+#                      challengeThumbnail2, challengeThumbnail3)
+#     challengeListAll = getChallengeListAll(db)
+#     return templates.TemplateResponse(name="ChallengeList.html", context={"request": request, "challengeList": challengeListAll})
 
-
+# 챌린지 추가하는 요청 - 김수인이 추가한 부분
 @router.post("/challenge/all", status_code=status.HTTP_204_NO_CONTENT, response_class=HTMLResponse)
 async def postChallenge(request: Request,
                         challenge: ChallengeSchema.ChallengeCreateSchema,
@@ -66,8 +77,16 @@ async def postChallenge(request: Request,
     challengeListAll = getChallengeListAll(db)
     return templates.TemplateResponse(name="ChallengeList.html", context={"request": request, "challengeList": challengeListAll})
 
+# # 챌린지 참여 요청 - 원래 있던 부분
+# @router.post("/challenge/join", status_code=status.HTTP_204_NO_CONTENT)
+# async def joinNewChallenge(challenge_request: ChallengeSchema.ChallengeJoinRequest,
+#                            user: AuthSchema.UserInfoSchema = Depends(
+#                                getCurrentUser),
+#                            db: Session = Depends(get_db)):
+#     joinChallenge(challenge_id=challenge_request.challenge_id,
+#                   current_user=user, db=db)
 
-# 챌린지 참여 요청
+# 챌린지 참여 요청 - 추가된 부분
 @router.post("/challenge/join", status_code=status.HTTP_204_NO_CONTENT)
 async def joinNewChallenge(challenge_request: ChallengeSchema.ChallengeJoinRequest,
                            user: AuthSchema.UserInfoSchema = Depends(

@@ -4,8 +4,8 @@ async function loadAndPlay() {
   const video = document.getElementById('userCam');
   try {
     stream = await getDeviceStream({
-      video: { width: 400, height: 600 },
-      audio: false
+      video: { width: { ideal: 1280 }, height: { ideal: 720 } },
+      audio: false,
     });
     video.srcObject = stream;
     video.play(); // video.play() 호출로 비디오 재생 시작
@@ -18,7 +18,7 @@ function stop() {
   const video = document.getElementById('userCam');
   if (stream) {
     const tracks = stream.getTracks();
-    tracks.forEach(track => {
+    tracks.forEach((track) => {
       track.stop();
     });
   }
@@ -38,8 +38,8 @@ function getDeviceStream(option) {
 async function capture() {
   const video = document.getElementById('userCam');
   const canvas = document.createElement('canvas');
-  canvas.width = 400;
-  canvas.height = 600;
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
   const ctx = canvas.getContext('2d');
   ctx.scale(-1, 1);
   ctx.drawImage(video, -canvas.width, 0, canvas.width, canvas.height);
@@ -52,7 +52,7 @@ async function capture() {
   try {
     const response = await fetch('/haru/upload/imgFile', { // 서버의 엔드포인트
       method: 'POST',
-      body: formData
+      body: formData,
     });
     if (!response.ok) {
       throw new Error('Failed to upload image');
