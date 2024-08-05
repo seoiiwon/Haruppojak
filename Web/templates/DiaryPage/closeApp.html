@@ -4,6 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../../static/css/DiaryPage/closeApp.css" />
+    <script>
+      // 페이지 로드 후 2초 뒤에 writeDiary.html로 이동
+      window.onload = function () {
+        console.log("jj");
+
+        setTimeout(function () {
+          window.location.href = "/haru/main";
+        }, 2000);
+      };
+    </script>
   </head>
   <body>
     <img src="../../static/img/DiaryPage/closeApp.svg" />

@@ -9,7 +9,7 @@ import openai
 import os
 from typing import List
 from dotenv import load_dotenv
-from dateutil import parser
+# from dateutil import parser
 import re
 
 import re
