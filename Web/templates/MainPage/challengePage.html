@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Challenge Page</title>
   <link rel="stylesheet" href="../../static/css/MainPage/challengePage.css" />
+  <link rel="stylesheet" href="../../static/css/tabbar.css" />
 </head>
 
 <body>
@@ -36,7 +37,7 @@
             <div class="challengeInfoBox">
               <div class="challengeTitle">{{ challenge.challengeTitle }}</div>
               <div class="challengeInfo">
-                <div class="challenger"><span class=""></span>명 참여 중</div>
+                <div class="challenger"><span class="">{{ challenge.challenger }}</span>명 참여 중</div>
                 <div class="challengeOwner">
                   {{ challenge.challengeOwner }}
                 </div>
@@ -65,7 +66,21 @@
         {% endfor %}
       </section>
     </main>
-    <footer>
+    <div class="tabbar">
+      <a class="tab" href="/haru/main">
+        <img src="../../static/img/tabbar/홈-off.png" alt="Home" />
+      </a>
+      <a class="tab" href="/calendar">
+        <img src="../../static/img/tabbar/캘린더-off.png" alt="Calendar" />
+      </a>
+      <a class="tab" href="/diary/write">
+        <img src="../../static/img/tabbar/일기-off.png" alt="Diary" />
+      </a>
+      <a class="tab" href="/haru/mypage">
+        <img src="../../static/img/tabbar/마이페이지-off.png" alt="MyPage" />
+      </a>
+    </div>
+    <!-- <footer>
       <nav class="footerNav">
         <ul>
           <li>
@@ -98,7 +113,7 @@
           </li>
         </ul>
       </nav>
-    </footer>
+    </footer> -->
   </div>
 
   <script src="../../static/js/MainPage/challengePage.js"></script>
