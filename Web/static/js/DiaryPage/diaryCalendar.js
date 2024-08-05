@@ -42,5 +42,5 @@ function goBack() {
 
 // Function to close the app by navigating to closeApp.html
 function closeApp() {
-  window.location.href = 'close';
+  window.location.href = "close";
 }

@@ -78,21 +78,19 @@ async def diary_reply(request: Request, currentUser: AuthSchema.UserInfoSchema =
 #     else:
 #         return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
     
-@router.get("/diary/calendar")
-async def diarycalendarhtml(request: Request, db: Session = Depends(get_db)):
+@router.get("/diary/calendar", response_class=HTMLResponse)
+async def diary_calendar_html(request: Request, year: int, month: int, db: Session = Depends(get_db)):
     token = request.cookies.get("access_token")
     if token:
         currentUser = getCurrentUser(token, db)
         userid = currentUser.id
-        year = datetime.now().year
-        month = datetime.now().month
         diaries = checkdiary(db, userid, year, month)
         if not diaries:
             raise HTTPException(status_code=404, detail="해당 날짜의 뽀짝일기를 찾을 수 없습니다.")
         return templates_diary.TemplateResponse("diaryCalendar.html", {"request": request, "diaries": diaries})
     else:
         return templates_auth.TemplateResponse("HaruPpojakSignIn.html", {"request": request})
-
+    
 # @router.post("/diary/calendar/{month}", response_model=CreateDiarySchema) # 다이어리 다시 보기
 # async def get_monthly_diaries(month: int, currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser), db: Session = Depends(get_db)):
 
