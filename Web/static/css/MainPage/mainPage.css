@@ -110,28 +110,9 @@ section {
   text-align: left;
 }
 
-.todoList ul,
-.addTodoList ul,
-.recommendation ul {
+ul {
   list-style-type: none;
   padding: 0 1rem;
-}
-
-.todoContent,
-.addTodoList,
-.recommendation {
-  width: calc(100% - 40px);
-  padding: 5px 20px;
-  border: 0;
-  outline: none;
-  font-size: 16px;
-  box-sizing: border-box;
-  line-height: 1.5;
-}
-
-input::placeholder {
-  color: #2f4858;
-  line-height: 1.5;
 }
 
 .todoText {
@@ -168,6 +149,26 @@ hr {
   border-style: dashed;
   border-width: 0.75px;
   border-color: #2f4858;
+}
+
+input {
+  border: 0;
+  outline: none;
+  font-size: 16px;
+  padding: 5px 20px;
+}
+input::placeholder {
+  color: #2f4858;
+}
+
+/* 섹션 2 */
+.age {
+  padding-top: 0.75rem;
+  font-size: 17px;
+}
+.recommendWrapper {
+  display: flex;
+  justify-content: flex-start;
 }
 
 /* 섹션 3 */

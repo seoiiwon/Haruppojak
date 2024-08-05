@@ -1,18 +1,18 @@
-//페이지 연결
-function fetchTodos() {
-  fetch("/haru/main", {
-    method: "GET",
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      const todoListContainer = document.getElementById("todoListContainer");
-      data.todos.forEach((todo) => {
-        const todoItem = createTodoElement(todo);
-        todoListContainer.appendChild(todoItem);
-      });
-    })
-    .catch((error) => console.error("Error fetching todos:", error));
-}
+// 페이지 연결
+// function fetchTodos() {
+//   fetch("/haru/main", {
+//     method: "GET",
+//   })
+//     .then((response) => response.json())
+//     .then((data) => {
+//       const todoListContainer = document.getElementById("todoListContainer");
+//       data.todos.forEach((todo) => {
+//         const todoItem = createTodoElement(todo);
+//         todoListContainer.appendChild(todoItem);
+//       });
+//     })
+//     .catch((error) => console.error("Error fetching todos:", error));
+// }
 
 // todo 수정 및 삭제
 document.addEventListener("DOMContentLoaded", function () {
@@ -160,6 +160,7 @@ function handleDateClick(clickedDate) {
   }
 }
 
+// 날짜 투두 불러오기
 function fetchTodosForDate(date) {
   const formattedDate = `${date.getFullYear()}-${String(
     date.getMonth() + 1
@@ -182,8 +183,7 @@ function fetchTodosForDate(date) {
     .catch((error) => console.error("Error fetching todos:", error));
 }
 
-// 투두 추가 - 더 수정하기
-// 이벤트 리스너를 등록하는 함수
+// 투두 추가
 function addEnterKeyListener(inputText) {
   inputText.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
@@ -196,19 +196,26 @@ function addEnterKeyListener(inputText) {
       plusImage.src = "../../static/img/MainPage/checkboxWhite.svg";
       const todoText = inputText.value;
 
-      let url = '/todo/create';
-      let payload = JSON.stringify({ todowrite: todoText });
-
-      fetch(url, {
+      fetch("/todo/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: payload
+        body: payload,
       })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
+        .then((response) => response.text())
+        .then((html) => {
+          const todoListContainer =
+            document.getElementById("todoListContainer");
+          todoListContainer.insertAdjacentHTML("beforeend", html);
+
+          addTodoItem();
+          const todoContentInputs =
+            document.getElementsByClassName("todoContent");
+          const nextInputIndex =
+            Array.from(todoContentInputs).indexOf(inputText) + 1;
+          if (todoContentInputs[nextInputIndex]) {
+            todoContentInputs[nextInputIndex].focus();
           }
           return response.json();
         })
@@ -220,10 +227,6 @@ function addEnterKeyListener(inputText) {
   });
 }
 
-
-
-
-
 // addTodoItem 함수
 function addTodoItem() {
   const todoListContainer = document.getElementById("addTodoList");
@@ -233,6 +236,7 @@ function addTodoItem() {
   const inputText = document.createElement("input");
   const hr = document.createElement("hr");
 
+  li.className = "todoListContainer";
   plus.src = "../../static/img/MainPage/addTodoButton.svg";
   inputText.type = "text";
   inputText.placeholder = "투두 추가하기";
@@ -256,6 +260,37 @@ document.addEventListener("DOMContentLoaded", function () {
     initialInput.focus();
   }
 });
+
+// 추가 이미지에서 체크박스 이미지로 변경
+document.addEventListener("DOMContentLoaded", (event) => {
+  const inputField = document.getElementById("firstWrite");
+  const changeCheckbox = document.getElementById("firstAdd");
+
+  inputField.addEventListener("keypress", (event) => {
+    changeImage();
+  });
+
+  function changeImage() {
+    changeCheckbox.src = "../../static/img/MainPage/checkboxWhite.svg";
+  }
+});
+
+// 추천 뽀짝 숨기기 & 올리기
+function hiddenPpojak(element) {
+  if (!element) {
+    console.error("Element is undefined");
+    return;
+  }
+  const maegae = element.parentNode;
+  const ppojakRecommend = maegae.parentNode;
+  console.log(ppojakRecommend);
+  if (ppojakRecommend) {
+    alert("추가되었습니다.");
+    ppojakRecommend.style = "display: none;";
+  } else {
+    console.error("Parent node not found");
+  }
+}
 
 // 뽀짝챌 자동으로 넘어가기
 document.addEventListener("DOMContentLoaded", function () {

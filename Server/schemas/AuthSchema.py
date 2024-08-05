@@ -84,3 +84,6 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     userID: Optional[str] = None
+
+class ProofShot(BaseModel):
+    photoComment: str
