@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/AuthPage/HaruPpojakFeed.css') }}">
+    <script src="{{ url_for('static', path='css/AuthPage/HaruPpojakFeed.js') }}"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <img src="{{ url_for('static', path='img/ProofShot/' ~ user_id ~ '/' ~ fileName) }}" alt="Proof Image">
+        <form id="commentForm">
+            <input id="feedComment" type="text" placeholder="메모를 남겨보세요!">
+            <input id="feedSubmit" type="submit" value="뽀짝 완료!">
+        </form>
+        <a href="/haru/main">건너뛰기</a>
+    </div>
+</body>
+</html>
