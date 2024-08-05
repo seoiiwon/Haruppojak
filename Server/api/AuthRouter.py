@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, Request, status, HTTPException, security
-from fastapi.responses import HTMLResponse, Response
+from fastapi.responses import HTMLResponse, Response, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from Server.config.database import get_db
@@ -109,9 +109,17 @@ async def postUserPhoto(db: Session = Depends(get_db), ):
     pass
 
 
+# @router.post("/haru/intro", status_code=status.HTTP_204_NO_CONTENT)
+# async def postFirstTodo(request: Request, todolist: TodoCreateRequest, currentUser: UserInfoSchema = Depends(getCurrentUser), db: Session = Depends(get_db)):
+#     return create_intro_todos(db=db, todo_request=todolist)
+
+
+
 @router.post("/haru/intro", status_code=status.HTTP_204_NO_CONTENT)
-async def postFirstTodo(request: Request, todolist: TodoCreateRequest, currentUser: UserInfoSchema = Depends(getCurrentUser), db: Session = Depends(get_db)):
-    return create_intro_todos(db=db, todo_request=todolist)
+async def postFirstTodo(todolist: TodoCreateRequest, currentUser: UserInfoSchema = Depends(getCurrentUser), db: Session = Depends(get_db)):
+    create_intro_todos(db=db, todo_request=todolist, user_id=currentUser.id)
+
+
 
 
 # 로그아웃 부분 수정해서 활용하도록 하죠...

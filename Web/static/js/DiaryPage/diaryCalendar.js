@@ -1,5 +1,5 @@
-document.addEventListener('DOMContentLoaded', function () {
-  const calendarBody = document.querySelector('.calendar-body');
+document.addEventListener("DOMContentLoaded", function () {
+  const calendarBody = document.querySelector(".calendar-body");
 
   function createCalendar(year, month) {
     const firstDay = new Date(year, month, 1).getDay();
@@ -19,8 +19,8 @@ document.addEventListener('DOMContentLoaded', function () {
         today.getMonth() === month &&
         today.getDate() === i;
       const className = isToday
-        ? 'date current-month today'
-        : 'date current-month';
+        ? "date current-month today"
+        : "date current-month";
       dates.push(`<div class="${className}">${i}</div>`);
     }
     // Add next month's dates to fill the calendar
@@ -29,8 +29,18 @@ document.addEventListener('DOMContentLoaded', function () {
       dates.push(`<div class="date other-month">${i}</div>`);
     }
 
-    calendarBody.innerHTML = dates.join('');
+    calendarBody.innerHTML = dates.join("");
   }
 
   createCalendar(new Date().getFullYear(), new Date().getMonth());
 });
+
+// Function to navigate back to reply.html
+function goBack() {
+  window.history.back();
+}
+
+// Function to close the app by navigating to closeApp.html
+function closeApp() {
+  window.location.href = "close";
+}

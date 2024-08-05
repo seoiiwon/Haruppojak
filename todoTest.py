@@ -6,11 +6,11 @@ from Server.schemas.TodoListSchema import TodoCreate, TodoCreateRequest, TodoUpd
 from datetime import datetime
 
 db = SessionLocal()
-특정_날짜 = datetime(2024, 8, 1)
+특정_날짜 = datetime(2024, 8, 5)
 
 todo_create = TodoCreate(
     user_id=3,
-    todowrite="8월 1일 데이터 입니다",
+    todowrite="8월 5일 데이터 입니다",
     tododate=특정_날짜,
     todocheck=False
 )

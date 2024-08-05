@@ -74,23 +74,23 @@
       <section class="recommendation">
         <!-- 섹션 2 : 나이대 추천 뽀짝 -->
         <div>
-          <span id="age"></span>대 추천 뽀짝!
+          <span id="age">{{ age }}0</span>대 추천 뽀짝!
         </div> <!--이 부분에 나이 받는거 넣기-->
         <ul>
           <li>
             <input type="checkbox">
-            <input type="text" placeholder="오늘의 투두를 입력해주세요." class="todoContent">
+            <input type="text" placeholder="{{ recommendTodo[0]|escape }}" class="todoContent">
           </li>
           <li>
             <input type="checkbox">
-            <input type="text" placeholder="오늘의 투두를 입력해주세요." class="todoContent">
+            <input type="text" placeholder="{{ recommendTodo[1]|escape }}" class="todoContent">
           </li>
         </ul>
       </section>
       <section class="challenges">
         <!-- 섹션 3 : 뽀짝챌 이게대체뭐지???-->
         <div class="description">
-          <span class="challengeDes1">현재 참여중인 뽀짝챌</span><span class="challengeDes2">챌린지 더보기</span>
+          <span class="challengeDes1">현재 참여중인 뽀짝챌 </span><span class="challengeDes2">챌린지 더보기</span>
         </div>
         <div class="challengeList">
           {% for challenge in joinedChallenge %}
@@ -109,18 +109,19 @@
           <div class="dots"></div>
       </section>
     </main>
+
     <!-- 탭바 시작 -->
     <div class="tabbar">
       <a class="tab" href="/haru/main">
         <img src="../../static/img/tabbar/홈-off.png" alt="Home" />
       </a>
-      <a class="tab" href="">
+      <a class="tab" href="/calendar">
         <img src="../../static/img/tabbar/캘린더-off.png" alt="Calendar" />
       </a>
       <a class="tab" href="/diary/write">
         <img src="../../static/img/tabbar/일기-off.png" alt="Diary" />
       </a>
-      <a class="tab">
+      <a class="tab" href="/haru/mypage">
         <img src="../../static/img/tabbar/마이페이지-off.png" alt="MyPage" />
       </a>
     </div>
@@ -134,8 +135,10 @@
     </div>
     </main>
   </div>
+
   <script src="{{ url_for('static', path='js/MainPage/mainPage.js') }}">
   </script>
+  <script src="{{ url_for('static', path='js/MainPage/mainPageModal.js') }}">
+  </script>
 </body>
-
 </html>

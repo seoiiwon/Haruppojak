@@ -10,12 +10,12 @@ from Server.schemas.TodoListSchema import *
 from Server.crud.MainCrud import *
 from Server.schemas import AuthSchema
 from Server.crud.ChallengeCrud import joinedChallengeID, joinedChallenge
+from Server.crud.MainCrud import recommend_todo_list, get_user_age_group, get_age_group_todo_data
 import os
 
 router = APIRouter()
 
-template_dir = os.path.join(os.path.dirname(
-    __file__), "../../Web/templates/MainPage")
+template_dir = os.path.join(os.path.dirname(__file__), "../../Web/templates/MainPage")
 templates = Jinja2Templates(directory=template_dir)
 template_dir_auth = os.path.join(os.path.dirname(
     __file__), "../../Web/templates/AuthPage")
@@ -29,8 +29,8 @@ async def read_todos(request: Request, date: Optional[str] = Query(None), db: Se
     if token:
         joinedChallengeIDList = joinedChallengeID(currentUser.id, db)
         joinedChallenges = joinedChallenge(joinedChallengeIDList, db)
-        # 일기 작성은 True, 작성 안하면 False
-        writtentoday = checkdiary(db, currentUser.id)
+        age = get_user_age_group(currentUser.id, db)
+        recommend_todo = recommend_todo_list(get_age_group_todo_data(get_user_age_group(currentUser.id, db), db), currentUser.id, db)
         if date:
             try:
                 target_date = datetime.strptime(date, '%Y-%m-%d').date()
@@ -40,7 +40,7 @@ async def read_todos(request: Request, date: Optional[str] = Query(None), db: Se
             todos = get_todos_by_date(db, currentUser.id, target_date)
         else:
             todos = get_todos(db, currentUser.id)
-        return templates.TemplateResponse(name="mainPage.html", context={"request": request, "todos": todos, "joinedChallenge": joinedChallenges, "writtentoday": writtentoday})
+        return templates.TemplateResponse(name="mainPage.html", context={"request": request, "todos": todos, "joinedChallenge": joinedChallenges, "recommendTodo" : recommend_todo, "age" : age})
     else:
         return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
 
