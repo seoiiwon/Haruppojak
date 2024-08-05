@@ -4,15 +4,12 @@ from sqlalchemy import and_, func
 from sqlalchemy.orm import Session
 from datetime import date, datetime, timedelta
 from Server.models import TodoListModel, UserInfo, UserDiary
+from Server.models.TodoListModel import TodoList
 from Server.schemas import TodoListSchema
 import openai
 import os
 from typing import List
 from dotenv import load_dotenv
-<<<<<<< HEAD
-from dateutil import parser
-=======
->>>>>>> parent of a576256 (1222)
 import re
 
 import re
@@ -183,3 +180,7 @@ def recommend_todo_list(todolist: list, current_user_id: int, db: Session):
 
 def checkdiary(db: Session, userid: int):
     return db.query(UserDiary).filter(UserDiary.Diaryuserid == userid).order_by(UserDiary.Date).all()
+
+def usertodo(db: Session, userid: int):
+    target_date = datetime.now().strftime('%Y-%m-%d')
+    return db.query(TodoList).filter(TodoList.user_id == userid,TodoList.date.like(f'{target_date}%')).all()
