@@ -1,95 +1,81 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Calendar Page</title>
-    <link rel="stylesheet" href="../../static/css/Calendarpage/calendar.css">
-</head>
+    <link rel="stylesheet" href="../../static/css/Calendarpage/calendar.css" />
+    <link rel="stylesheet" href="../../static/css/tabbar.css" />
+  </head>
 
-<body>
+  <body>
     <div class="container">
         <header>
-            <!-- 캘린더 월간통계 -->
-            <div class="logoTilte">월간통계</div>
-            <div class="calendarHeader">
-                <button class="prevMonth">&lt;</button>
-                <div class="yearMonth">
-                    <span class="year"></span>
-                    <span class="month"></span>
-                </div>
-                <button class="nextMonth">&gt;</button>
-                <button class="calendarPic">
-                    <img src="/static/img/calendar.png">
-                </button>
+            <h1>월간 통계</h1>
+            <div class="month-selector">
+                <button>&lt;</button>
+                <span>2024년 7월</span>
+                <button>&gt;</button>
             </div>
         </header>
-        <main>
-            <section class="ppojakDay">
-                <!-- 섹션 1 : 뽀짝한 날 표시 -->
-                <div class="QhWkrgksskf">
-                    <!--뽀짝한날넣기-->
-                </div>
-                <div class="QhWkrvjtpsxm">
-                    <!--뽀짝퍼센트넣기-->
-                </div>
-                <div class="dhksqurQhWkrgksskf">
-                    <!--완벽뽀짝한날넣기-->
-                </div>
-            </section>
-            <section class="calendarBody">
-                <!-- 섹션 2 : 달력 요일 및 날짜 표시-->
-                <div class="calendarWeekdays">
-                    <div class="weekday">일</div>
-                    <div class="weekday">월</div>
-                    <div class="weekday">화</div>
-                    <div class="weekday">수</div>
-                    <div class="weekday">목</div>
-                    <div class="weekday">금</div>
-                    <div class="weekday">토</div>
-                </div>
-                <div class="calendarDays">
-                    <!-- 날짜 동적 추가 -->
-                </div>
-            </section>
-        </main>
-        <footer>
-            <nav class="footerNav">
-                <ul>
-                    <li>
-                        <div>
-                            <a href="../MainPage/mainPage.html">
-                                <img src="/static/img/homeIcon.png" alt="홈">
-                            </a>
-                        </div>
-                    </li>
-                    <li>
-                        <div>
-                            <a href="calendar.html">
-                                <img src="/static/img/calendarIcon.png" alt="성취도">
-                            </a>
-                        </div>
-                    </li>
-                    <li>
-                        <div>
-                            <a href="../DiaryPage/writeDiary.html">
-                                <img src="/static/img/diaryIcon.png" alt="일기">
-                            </a>
-                        </div>
-                    </li>
-                    <li>
-                        <div>
-                            <a href="../ProfilePage/index.html">
-                                <img src="/static/img/mypageIcon.png" alt="마이페이지">
-                            </a>
-                        </div>
-                    </li>
-                </ul>
-            </nav>
-        </footer>
+        <section class="stats">
+            <div>
+                <p>뽀짝한 날</p>
+                <p>9일</p>
+            </div>
+            <div>
+                <p>뽀짝퍼센트</p>
+                <p>2%</p>
+            </div>
+            <div>
+                <p>완벽 뽀짝한 날</p>
+                <p>5일</p>
+            </div>
+        </section>
+        <section class="calendarBody">
+          <!-- 섹션 2 : 달력 요일 및 날짜 표시-->
+          <div class="calendarWeekdays">
+            <div class="weekday">일</div>
+            <div class="weekday">월</div>
+            <div class="weekday">화</div>
+            <div class="weekday">수</div>
+            <div class="weekday">목</div>
+            <div class="weekday">금</div>
+            <div class="weekday">토</div>
+          </div>
+          <div class="calendarDays">
+            <!-- 날짜 동적 추가 -->
+          </div>
+        </section>
+      </main>
+      <section class="todo-list">
+        <h2>2024년 7월 11일 뽀짝리스트</h2>
+        <ul>
+            <li><input type="checkbox" checked> 밥먹기</li>
+            <li><input type="checkbox"> 밥먹기</li>
+            <li><input type="checkbox" checked> 밥먹기</li>
+        </ul>
+    </section>
+      <footer>
+        <div class="tabbar">
+          <a class="tab" href="/haru/main">
+            <img src="../../static/img/tabbar/홈-off.png" alt="Home" />
+          </a>
+          <a class="tab" href="/calendar">
+            <img src="../../static/img/tabbar/캘린더-off.png" alt="Calendar" />
+          </a>
+          <a class="tab" href="/diary/write">
+            <img src="../../static/img/tabbar/일기-off.png" alt="Diary" />
+          </a>
+          <a class="tab" href="/haru/mypage">
+            <img
+              src="../../static/img/tabbar/마이페이지-off.png"
+              alt="MyPage"
+            />
+          </a>
+        </div>
+      </footer>
     </div>
     <script src="../../static/js/CalendarPage/calendar.js"></script>
-</body>
-
+  </body>
 </html>
