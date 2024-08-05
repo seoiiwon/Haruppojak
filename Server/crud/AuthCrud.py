@@ -1,10 +1,21 @@
 from sqlalchemy.orm import Session
 from datetime import date, datetime
-from Server.models import UserModel
+from Server.models import UserModel, ProofShotModel
 from Server.schemas import AuthSchema
 from passlib.context import CryptContext
 
 passwordContext = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+
+def postProofShot(db : Session, proofshot : AuthSchema.ProofShot, user : AuthSchema.UserInfoSchema):
+    proofShot = ProofShotModel.ProofShot(
+        userID = user.id,
+        date = datetime.now(),
+        photoComment = proofshot.photoComment,
+        photoName = proofshot.photoName
+    )
+    db.add(proofShot)
+    db.commit()
 
 
 def signup(db: Session, user: AuthSchema.UserInfoSchema):
@@ -43,6 +54,7 @@ def getUserInfo(user: AuthSchema.UserInfoSchema):
         "userName": user.userName,
         "userEmail": user.userEmail,
         "userGender": user.userGender,
+        "userPpojakCoin" : user.userPpojakCoin,
         "userBirth": user.userBirth,
         "userProfileName": user.userProfileName,
         "userProfileComment": user.userProfileComment,

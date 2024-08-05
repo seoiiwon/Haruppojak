@@ -27,3 +27,31 @@ function showReply() {
       modal.style.display = 'block';
     });
 }
+
+function goToCalendar() {
+  // 모달 열기
+  openModalButton.onclick = function () {
+    modal.style.display = "block";
+  };
+
+  // 모달 닫기
+  closeModalButton.onclick = function () {
+    modal.style.display = "none";
+  };
+
+  // 모달 외부 클릭 시 닫기
+  window.onclick = function (event) {
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  };
+};
+
+// Function to navigate back to reply.html
+function goBack() {
+  window.history.back();
+}
+
+function closeApp() {
+  window.location.href = '../close';
+}

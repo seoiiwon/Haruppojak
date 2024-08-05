@@ -195,16 +195,18 @@ function addEnterKeyListener(inputText) {
       const plusImage = inputText.previousSibling;
       plusImage.src = "../../static/img/MainPage/checkboxWhite.svg";
       const todoText = inputText.value;
+      let payload = {
+        todowrite: todoText,
+      };
 
       let url = "/todo/create";
-      let payload = JSON.stringify({ todowrite: todoText });
 
       fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: payload,
+        body: JSON.stringify(payload),
       })
         .then((response) => {
           if (!response.ok) {
@@ -212,7 +214,19 @@ function addEnterKeyListener(inputText) {
           }
           return response.json();
         })
-        .then(() => {
+        .then((data) => {
+          const todoListContainer =
+            document.getElementById("todoListContainer");
+          todoListContainer.insertAdjacentHTML("beforeend", data.html);
+
+          addTodoItem();
+          const todoContentInputs =
+            document.getElementsByClassName("todoContent");
+          const nextInputIndex =
+            Array.from(todoContentInputs).indexOf(inputText) + 1;
+          if (todoContentInputs[nextInputIndex]) {
+            todoContentInputs[nextInputIndex].focus();
+          }
           location.reload();
         })
         .catch((error) => console.error("Error:", error));
@@ -273,6 +287,7 @@ function hiddenRecommendTodo(element) {
   }
   const maegae = element.parentNode;
   const ppojakRecommend = maegae.parentNode;
+  console.log(ppojakRecommend);
   const todoText = maegae.querySelector(".todoText").innerText;
 
   if (ppojakRecommend) {

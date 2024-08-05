@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from datetime import datetime
 from Server.models.DiaryModel import UserDiary
+from Server.models.TodoListModel import TodoList
 from Server.schemas.DiarySchema import CreateDiarySchema
 from sqlalchemy import desc
 import openai
