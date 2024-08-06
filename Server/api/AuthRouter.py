@@ -67,14 +67,28 @@ async def getUserCam(request: Request):
         return templates.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
 
 
-@router.get("/haru/mypage", response_class=HTMLResponse)  # 마이페이지 페이지
-async def getMypage(request: Request, db: Session = Depends(get_db)):
+@router.get("/haru/mypage", response_class=HTMLResponse)
+async def get_mypage(request: Request, db: Session = Depends(get_db)):
     token = request.cookies.get("access_token")
     if token:
         currentUser = getCurrentUser(token, db)
-        return templates.TemplateResponse(name="HaruPpojakMyPage.html", context={"request": request, "currentUser": getUserInfo(currentUser)})
+
+        dir_path = Path(f'Web/static/img/proofShot/{currentUser.id}')
+        if dir_path.exists():
+            image_files = [file.name for file in dir_path.iterdir() if file.suffix in {'.png'}]
+            image_urls = [str(currentUser.id) + '/' + str(file) for file in image_files]
+
+            return templates.TemplateResponse(
+                name="HaruPpojakMyPage.html", 
+                context={"request": request, "currentUser": currentUser, "image_urls": image_urls}
+                )
+        return templates.TemplateResponse(
+                name="HaruPpojakMyPage.html", 
+                context={"request": request, "currentUser": currentUser}
+                )
     else:
-        return templates.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
+        return templates.TemplateResponse(name="HaruPpojakSignIn.html", context={"request": request})
+
 
 
 # POST

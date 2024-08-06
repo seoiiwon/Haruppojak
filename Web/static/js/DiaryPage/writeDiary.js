@@ -31,7 +31,107 @@ function goToReply() {
 // '오늘의 To Do 불러오기' 클릭 시 모달을 열기
 function showTodoModal() {
   openModal();
+  fetchTodos(); // 투두리스트 데이터를 데이터베이스에서 로드
 }
+
+// 서버에서 투두리스트 데이터를 로드하고 모달에 표시하는 함수
+async function fetchTodos() {
+  const today = new Date();
+  const date = today.toISOString().split("T")[0]; // 오늘 날짜 (YYYY-MM-DD 형식)
+
+  console.log(`Fetching todos for date: ${date}`); // 디버그용 로그
+
+  try {
+    const response = await fetch(`/diary/todos?date=${date}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getAuthToken()}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const data = await response.json();
+    console.log(`Received todos:`, data); // 응답 데이터 확인용 로그
+    displayTodos(data.todos); // 서버에서 가져온 To Do 항목을 표시하는 함수 호출
+  } catch (error) {
+    console.error("Error fetching todos:", error);
+  }
+}
+
+// 투두리스트 데이터를 로드하고 모달에 표시하는 함수
+function displayTodos(todos) {
+  const todoListContainer = document.getElementById("todo-list");
+  todoListContainer.innerHTML = ""; // 기존 목록 초기화
+
+  console.log(`Displaying todos:`, todos); // 디버그용 로그
+
+  todos.forEach((todo, index) => {
+    const todoItem = document.createElement("li");
+    todoItem.classList.add("todo-item");
+
+    const checkImg = document.createElement("img");
+    checkImg.src = todo.completed
+      ? "../../static/img/DiaryPage/checked-fill.svg"
+      : "../../static/img/DiaryPage/checked.svg";
+    checkImg.classList.add("check-img");
+
+    const pawprintImg = document.createElement("img");
+    pawprintImg.src = selectedTodos.includes(todo.text)
+      ? "../../static/img/DiaryPage/pawprint-fill.svg"
+      : "../../static/img/DiaryPage/pawprint.svg";
+    pawprintImg.classList.add("pawprint-img");
+    pawprintImg.onclick = () => toggleTodoInDiary(index, todo.text);
+
+    const todoText = document.createElement("span");
+    todoText.textContent = todo.text;
+    todoText.onclick = () => toggleTodoInDiary(index, todo.text);
+
+    todoItem.appendChild(checkImg);
+    todoItem.appendChild(todoText);
+    todoItem.appendChild(pawprintImg);
+
+    todoListContainer.appendChild(todoItem);
+  });
+}
+
+// 투두리스트 항목을 일기에 추가하거나 제거하는 함수
+function toggleTodoInDiary(index, todoText) {
+  const diary = document.querySelector(".diary-textfield");
+  const todoItems = document.querySelectorAll(".todo-item");
+  const pawprintImg = todoItems[index].querySelector(".pawprint-img");
+
+  if (!selectedTodos.includes(todoText)) {
+    selectedTodos.push(todoText);
+    pawprintImg.src = "../../static/img/DiaryPage/pawprint-fill.svg";
+  } else {
+    selectedTodos = selectedTodos.filter((todo) => todo !== todoText);
+    pawprintImg.src = "../../static/img/DiaryPage/pawprint.svg";
+  }
+
+  updateDiaryText(diary);
+}
+
+// 일기 텍스트 업데이트 함수
+function updateDiaryText(diary) {
+  const todoText = selectedTodos.join("\n");
+  const diaryContent = diary.value.split("\n\n");
+  diary.value = `${todoText}\n\n${diaryContent.slice(1).join("\n\n")}`;
+}
+
+// 일기 텍스트 필드에서 투두리스트가 수정되지 않도록 설정
+document.addEventListener("DOMContentLoaded", (event) => {
+  const diaryTextField = document.querySelector(".diary-textfield");
+  diaryTextField.addEventListener("input", (e) => {
+    const todoText = selectedTodos.join("\n");
+    if (!diaryTextField.value.startsWith(todoText)) {
+      updateDiaryText(diaryTextField);
+    }
+  });
+});
 
 async function submitDiary() {
   let content = document.getElementById("diary-content").value;
@@ -65,7 +165,7 @@ async function submitDiary() {
     } else {
       const error = await response.json();
       console.error("Error response:", error); // 오류 로그 확인
-      alert(`${error.detail}`);
+      alert(`Error: ${error.detail}`);
     }
   } catch (error) {
     console.error("Fetch error:", error); // 예외 로그 확인
