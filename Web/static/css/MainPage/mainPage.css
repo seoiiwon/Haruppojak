@@ -111,6 +111,11 @@ section {
   text-align: left;
 }
 
+.todayPpojak {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
 ul {
   list-style-type: none;
   padding: 0 1rem;
@@ -165,8 +170,10 @@ input::placeholder {
 /* 섹션 2 */
 .age {
   padding-top: 0.75rem;
-  font-size: 17px;
+  font-size: 1.25rem;
+  font-weight: bold;
 }
+
 .recommendWrapper {
   display: flex;
   justify-content: flex-start;
@@ -180,9 +187,10 @@ input::placeholder {
 }
 
 .description {
+  padding-top: 0.75rem;
   margin-bottom: 1rem;
+  font-size: 1.25rem;
   font-weight: bold;
-  font-size: 17px;
 }
 
 .challengeDes1 {
@@ -278,7 +286,7 @@ input::placeholder {
 }
 
 /* 푸터 */
-footer {
+/* footer {
   position: fixed;
   background-color: white;
   width: 100%;
@@ -314,7 +322,7 @@ footer {
 
 .footerNav img {
   width: 48px;
-}
+} */
 
 /* MainPage/mainPage.css */
 .modal {

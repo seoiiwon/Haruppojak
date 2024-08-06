@@ -1,19 +1,3 @@
-// 페이지 연결
-// function fetchTodos() {
-//   fetch("/haru/main", {
-//     method: "GET",
-//   })
-//     .then((response) => response.json())
-//     .then((data) => {
-//       const todoListContainer = document.getElementById("todoListContainer");
-//       data.todos.forEach((todo) => {
-//         const todoItem = createTodoElement(todo);
-//         todoListContainer.appendChild(todoItem);
-//       });
-//     })
-//     .catch((error) => console.error("Error fetching todos:", error));
-// }
-
 // todo 수정 및 삭제
 document.addEventListener("DOMContentLoaded", function () {
   document.querySelectorAll(".optionBtn").forEach((button) => {
@@ -160,6 +144,19 @@ function handleDateClick(clickedDate) {
   }
 }
 
+// container 수정
+function containerHeight() {
+  var container = document.querySelector(".container");
+  var maxHeight = container.scrollHeight;
+  var viewportHeight = window.innerHeight;
+
+  if (maxHeight < viewportHeight) {
+    container.style.height = "100%";
+  } else {
+    container.style.height = "max-content";
+  }
+}
+
 // 날짜 투두 불러오기
 function fetchTodosForDate(date) {
   const formattedDate = `${date.getFullYear()}-${String(
@@ -173,12 +170,14 @@ function fetchTodosForDate(date) {
     .then((html) => {
       const todoListContainer = document.getElementById("todoListContainer");
       const tempElement = document.createElement("div");
+      const container = document.querySelector(".contaier");
       tempElement.innerHTML = html;
 
       const newTodoList = tempElement.querySelector("#todoListContainer");
       if (newTodoList) {
         todoListContainer.innerHTML = newTodoList.innerHTML;
       }
+      containerHeight();
     })
     .catch((error) => console.error("Error fetching todos:", error));
 }

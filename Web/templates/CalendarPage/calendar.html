@@ -1,88 +1,122 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Calendar Page</title>
-    <link rel="stylesheet" href="../../static/css/Calendarpage/calendar.css" />
-    <link rel="stylesheet" href="../../static/css/tabbar.css" />
-  </head>
 
-  <body>
-    <div class="container">
-        <header>
-            <!-- 캘린더 월간통계 -->
-            <h1>월간통계</h1>
-            <div class="calendarHeader">
-                <button class="prevMonth">&lt;</button>
-                <div class="yearMonth">
-                    <span class="year"></span>
-                    <span class="month"></span>
-                </div>
-                <button class="nextMonth">&gt;</button>
-                <button class="calendarPic">
-                    <img src="/static/img/calendar.png">
-                </button>
-            </div>
-        </header>
-        <section class="stats">
-            <div>
-                <p>뽀짝한 날</p>
-                <p>9일</p>
-            </div>
-            <div>
-                <p>뽀짝퍼센트</p>
-                <p>2%</p>
-            </div>
-            <div>
-                <p>완벽 뽀짝한 날</p>
-                <p>5일</p>
-            </div>
-        </section>
-        <section class="calendarBody">
-          <!-- 섹션 2 : 달력 요일 및 날짜 표시-->
-          <div class="calendarWeekdays">
-            <div class="weekday">일</div>
-            <div class="weekday">월</div>
-            <div class="weekday">화</div>
-            <div class="weekday">수</div>
-            <div class="weekday">목</div>
-            <div class="weekday">금</div>
-            <div class="weekday">토</div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calendar Page</title>
+  <link rel="stylesheet" href="../../static/css/Calendarpage/calendar.css" />
+  <link rel="stylesheet" href="../../static/css/tabbar.css" />
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <!-- 캘린더 헤더 -->
+      <h1>월간통계</h1>
+      <div class="calendarHeader">
+        <div class="calendarMonthWrapper">
+          <button class="prevMonth">
+            <img src="../../static/img/CalendarPage/leftIcon.svg">
+            <!-- <img src="{{ url_for('static', path='img/CalendarPage/leftIcon.svg') }}"> -->
+          </button>
+          <div class="yearMonth">
+            <span class="year"></span>
+            <span class="month"></span>
           </div>
-          <div class="calendarDays">
-            <!-- 날짜 동적 추가 -->
-          </div>
-        </section>
-      </main>
-      <section class="todo-list">
-        <h2>2024년 7월 11일 뽀짝리스트</h2>
-        <ul>
-            <li><input type="checkbox" checked> 밥먹기</li>
-            <li><input type="checkbox"> 밥먹기</li>
-            <li><input type="checkbox" checked> 밥먹기</li>
-        </ul>
-    </section>
-      <footer>
-        <div class="tabbar">
-          <a class="tab" href="/haru/main">
-            <img src="../../static/img/tabbar/홈-off.png" alt="Home" />
-          </a>
-          <a class="tab" href="/calendar">
-            <img src="../../static/img/tabbar/캘린더-off.png" alt="Calendar" />
-          </a>
-          <a class="tab" href="/diary/write">
-            <img src="../../static/img/tabbar/일기-off.png" alt="Diary" />
-          </a>
-          <a class="tab" href="/haru/mypage">
-            <img
-              src="../../static/img/tabbar/마이페이지-off.png"
-              alt="MyPage"
-            />
-          </a>
+          <button class="nextMonth">
+            <img src="../../static/img/CalendarPage/rightIcon.svg">
+            <!-- <img src="{{ url_for('static', path='img/CalendarPage/rightIcon.svg') }}"> -->
+          </button>
         </div>
-      </footer>
-    </div>
-    <script src="../../static/js/CalendarPage/calendar.js"></script>
-  </body>
+      </div>
+    </header>
+    <section class="stats">
+      <!-- 섹션 1 : 뽀짝 통계 -->
+      <div>
+        <div>뽀짝한 날</div>
+        <p><span class="ppojakSpan">{{ }}</span>일</p>
+      </div>
+      <div>
+        <div>뽀짝퍼센트</div>
+        <p><span class="ppojakSpan">{{ }}</span>%</p>
+      </div>
+      <div>
+        <div>완벽 뽀짝한 날</div>
+        <p><span class="ppojakSpan">{{ }}</span>일</p>
+      </div>
+    </section>
+    <section class="calendarBody">
+      <!-- 섹션 2 : 달력 요일 및 날짜 표시-->
+      <div class="calendarWeekdays">
+        <div class="weekday">일</div>
+        <div class="weekday">월</div>
+        <div class="weekday">화</div>
+        <div class="weekday">수</div>
+        <div class="weekday">목</div>
+        <div class="weekday">금</div>
+        <div class="weekday">토</div>
+      </div>
+      <div class="calendarDays">
+        <!-- 날짜 들어옴 -->
+      </div>
+    </section>
+    </main>
+    <section class="todoList">
+      <!-- 섹션 3 : todo리스트 불러오기 -->
+      <h2>{{}}년 {{}}월 {{}}일 뽀짝리스트</h2>
+      <ul id="todoListContainer">
+        <!-- /haru/intro에서 작성한 ToDo 항목 불러오는 곳 -->
+        {% for todolist in todos %}
+        <li class="todoListContainer" name="{{ todolist.id }}">
+          <div class="todoWrapperBig">
+            <div class="todoWrapperSmall">
+              {% if todolist.check == 1 %}
+              <img src="{{ url_for('static', path='img/MainPage/checkboxBlack.svg') }}" class="todoCheck"
+                data-checked="1" onclick="">
+              {% else %}
+              <img src="{{ url_for('static', path='img/MainPage/checkboxWhite.svg') }}" class="todoCheck"
+                data-checked="0" onclick="2">
+              {% endif %}
+              <div class="todoText">{{ todolist.todo }}</div>
+            </div>
+            <div class="todoWrapperBtn">
+              <button class="optionBtn" data-id="{{ todolist.id }}">
+                <img src="{{ url_for('static', path='img/MainPage/moreTodo.svg')}}" alt="더보기">
+              </button>
+              <div class="options" style="display: none;">
+                <button class="editTodo" data-id="{{ todolist.id }}"><img
+                    src="{{ url_for('static', path='img/MainPage/editTodo.svg')}}" alt="수정"></button>
+                <button class="deleteTodo" data-id="{{ todolist.id }}"><img
+                    src="{{ url_for('static', path='img/MainPage/deleteTodo.svg')}}" alt="삭제">
+                </button>
+              </div>
+            </div>
+          </div>
+          <hr>
+        </li>
+        {% endfor %}
+      </ul>
+    </section>
+
+    <footer>
+      <div class="tabbar">
+        <a class="tab" href="/haru/main">
+          <img src="../../static/img/tabbar/홈-off.png" alt="Home" />
+        </a>
+        <a class="tab" href="/calendar">
+          <img src="../../static/img/tabbar/캘린더-off.png" alt="Calendar" />
+        </a>
+        <a class="tab" href="/diary/write">
+          <img src="../../static/img/tabbar/일기-off.png" alt="Diary" />
+        </a>
+        <a class="tab" href="/haru/mypage">
+          <img src="../../static/img/tabbar/마이페이지-off.png" alt="MyPage" />
+        </a>
+      </div>
+    </footer>
+  </div>
+  <script src="../../static/js/CalendarPage/calendar.js"></script>
+</body>
+
 </html>

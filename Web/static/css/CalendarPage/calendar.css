@@ -8,8 +8,8 @@
 
 body {
   font-family: "Pretendard-Regular";
-  background-color: white;
-  /* text-align: center; */
+  background-color: #2f4858;
+  text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -23,7 +23,7 @@ body {
   width: 100%;
   max-width: 800px;
   background-color: white;
-  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   margin: auto;
   padding-bottom: 15vh;
 }
@@ -33,63 +33,87 @@ body {
     width: 100%;
   }
 }
-.logoTitle {
-  font-size: 24px;
-  height: 50px;
-  width: auto;
-}
-/* 헤더 스타일 */
+
+/* .container {
+  width: 375px;
+  background-color: #fff;
+  overflow: hidden;
+  position: relative;
+
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+} */
+
 /* header {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+} */
+
+/* 헤더 스타일 */
+header {
   padding: 1rem;
+  margin: 1rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+}
+
+h1 {
+  display: flex;
+  justify-content: flex-start;
+  font-size: 1.5em;
+  width: 100%;
 }
 
 .calendarHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
   font-size: 20px;
   width: 100%;
 }
 
+.calendarMonthWrapper {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
 .calendarHeader button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: none;
   background-color: white;
   font-size: 18px;
   cursor: pointer;
   margin: 0.25rem;
+}
+
+.yearMonth {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 7.5rem;
+}
+
+.year {
+  width: 4.5rem;
+}
+
+.month {
+  display: flex;
+  justify-content: end;
+  width: 2.5rem;
+}
+/* .year,
+.month {
+  padding: 0.25rem;
 } */
 
-.container {
-  width: 375px;
-  background-color: #fff;
-  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
-  /* border-radius: 10px; */
-  overflow: hidden;
-  position: relative;
-}
-
-header {
-  padding: 10px;
-  /* text-align: center; */
-  /* border-bottom: 1px solid #ddd; */
-}
-
-h1 {
-  font-size: 1.5em;
-}
-button{
-  border-style: none;
-  background-color: transparent;
-}
-
-li {
-  margin-bottom: 2vh;
-}
-
+/* 섹션 1 */
 .stats {
   display: flex; /* 자식 요소들을 수평으로 배치 */
   justify-content: space-around; /* 자식 요소들 사이에 공간을 균등하게 배치 */
@@ -105,23 +129,14 @@ li {
   font-size: 1.2rem;
 }
 
-.yearMonth {
-  flex-direction: row;
-  align-items: center;
-  width: 8rem;
+.stats div p {
+  font-size: 0.75rem;
+  color: #006e80;
 }
 
-.year,
-.month {
-  padding: 0.25rem;
-}
-
-.calendarPic {
-  margin-left: auto;
-}
-
-.calendarPic img {
-  width: 20px;
+.ppojakSpan {
+  font-size: 2rem;
+  font-weight: bold;
 }
 
 /* 섹션 2 */
@@ -139,7 +154,7 @@ li {
 .day {
   width: calc(100% / 7);
   text-align: center;
-  padding: 8px 0;
+  padding: 0.5rem 0;
 }
 
 .weekday {
@@ -148,10 +163,21 @@ li {
 }
 
 .day {
-  margin: 4px 0;
-  border-radius: 4px;
+  margin: 0.25rem 0;
+  border-radius: 1rem;
   cursor: pointer;
   transition: background-color 0.3s;
+  position: relative;
+}
+
+.day::before {
+  content: "";
+  padding-top: 100%;
+}
+
+.day > div {
+  aspect-ratio: 1;
+  padding: 0;
 }
 
 .day:hover {
@@ -168,13 +194,14 @@ li {
   color: #000000;
 }
 
+/* 섹션 3 */
 .todo-list {
-  padding: 7px;
-  border-top: 1px solid #ddd;
+  padding: 1rem;
+  margin: 1rem;
 }
 
-.todo-list h2 {
-  margin: 10px 0;
+/* .todo-list h2 {
+  margin: 1rem 0;
   display: block;
   font-size: 1.2em;
   margin-block-start: 0.83em;
@@ -184,8 +211,19 @@ li {
   font-weight: bold;
   unicode-bidi: isolate;
   padding-left: 0.7rem;
+} */
+
+li {
+  list-style: none;
+  margin-bottom: 2vh;
 }
 
 .todo-list li input[type="checkbox"] {
   margin-right: 10px;
+}
+
+hr {
+  border-style: dashed;
+  border-width: 0.75px;
+  border-color: #2f4858;
 }

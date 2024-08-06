@@ -100,8 +100,9 @@ document.addEventListener("DOMContentLoaded", function () {
     for (let i = 1; i <= daysInMonth; i++) {
       const day = document.createElement("div");
       day.classList.add("day");
-      day.textContent = i;
-
+      const innerDiv = document.createElement("div");
+      innerDiv.textContent = i;
+      day.appendChild(innerDiv);
       if (
         i === new Date().getDate() &&
         month === currentMonth &&
