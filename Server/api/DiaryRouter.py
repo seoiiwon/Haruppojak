@@ -4,7 +4,7 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from Server.crud.DiaryCrud import *
 from Server.crud.MainCrud import *
-from Server.crud.CalendarCrud import ppojakDay
+# from Server.crud.CalendarCrud import ppojakDay
 from Server.schemas.DiarySchema import *
 from Server.schemas import AuthSchema
 from sqlalchemy import desc, func
@@ -112,13 +112,12 @@ async def diaryclosehtml(request: Request):
         return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
     
 @router.get("/haru/calendar", response_class=HTMLResponse)
-async def getCalendar(request : Request, db : Session=Depends(get_db)):
+async def getCalendar(request : Request):
     token = request.cookies.get("access_token")
     if token:
-        currentUser = getCurrentUser(token, db)
-        # ppojakDay(currentUser, month, todo : TodoListModel.TodoList ,db : Session)
+        # ppojakDayCount = ppojakDay(currentUser = getCurrentUser(token, db), month=month, db=db)
         return templates_calendar.TemplateResponse(name="calendar.html", request=request)
     else:
-        return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
+        return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)    
 
 DiaryRouter = router

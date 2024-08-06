@@ -14,13 +14,13 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // 각 모달의 닫기 버튼 클릭 시
-  document.querySelectorAll('.close').forEach(function (span) {
-    span.addEventListener('click', function () {
-      var modalId = this.getAttribute('data-modal-id');
-      var modal = document.getElementById(modalId);
-      modal.style.display = 'none';
-    });
-  });
+  // document.querySelectorAll('.close').forEach(function (span) {
+  //   span.addEventListener('click', function () {
+  //     var modalId = this.getAttribute('data-modal-id');
+  //     var modal = document.getElementById(modalId);
+  //     modal.style.display = 'none';
+  //   });
+  // });
 
   // 모달 외부 클릭 시
   window.addEventListener('click', function (event) {

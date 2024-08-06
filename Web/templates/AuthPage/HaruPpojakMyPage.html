@@ -13,7 +13,7 @@
     <div class="container">
         <h1 class="HaruPpojakLogo">마이페이지</h1>
         <main>
-            <section>
+            <section class="section1">
                 <!-- 섹션 1 : 유저 프로필 및 유저 코멘트 -->
                 <div class="UserProfile">
                     <img class="UserImg" src="{{ url_for('static', path='img/haruppojakLogoRabbit.svg') }}" alt="">
@@ -31,7 +31,7 @@
                     <div class="UserComment">{{ currentUser.userProfileComment }}</div>
                 </div>
             </section>
-            <section>
+            <section class="section2">
                 <!-- 섹션 2 : 프로필 관리, 공유 -->
                 <form action="" class="ProfileOpBtn">
                     <input class="SetBtn" type="button" value="프로필 관리">
