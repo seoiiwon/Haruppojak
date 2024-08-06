@@ -278,6 +278,53 @@ document.addEventListener("DOMContentLoaded", (event) => {
   }
 });
 
+function changeCheck(currentState, element) {
+  let newState = currentState === 0 ? 1 : 0;
+  const checkboxImage = element;
+  const todoId = checkboxImage.getAttribute("data-id");
+
+  if (newState) {
+    checkboxImage.src = "../../static/img/MainPage/checkboxBlack.svg";
+    checkboxImage.dataset.checked = true;
+  } else {
+    checkboxImage.src = "../../static/img/MainPage/checkboxWhite.svg";
+    checkboxImage.dataset.checked = false;
+  }
+
+  const checkboxState = checkboxImage.dataset.checked;
+  fetch(`/todo/check/${todoId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      id: parseInt(todoId),
+      todocheck: checkboxState,
+    }),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        return response.json().then((error) => {
+          throw new Error(error.detail || "Unknown error");
+        });
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log("Success:", data);
+    })
+    .catch((error) => {
+      console.error("There was a problem with the fetch operation:", error);
+    });
+}
+
+// document.querySelectorAll(".todoCheck").forEach((img) => {
+//   checkbox.addEventListener("click", function () {
+//     const currentState = parseInt(this.dataset.checked);
+//     changeCheck(currentState, this);
+//   });
+// });
+
 // 추천 뽀짝 숨기기
 function hiddenRecommendTodo(element) {
   if (!element) {

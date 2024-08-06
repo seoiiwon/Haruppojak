@@ -108,10 +108,16 @@ async def delete_existing_todo(
 
 
 @router.put("/todo/check/{todo_id}", response_model=TodoListSchema.TodoCheck)
-async def check_existing_todo(
-    todo_id: int, todo: TodoListSchema.TodoCheck, db: Session = Depends(get_db)
-):
-    return check_todo(db=db, todo_id=todo_id, todo_check=todo)
+async def update_todo_check(todo_id: int, todo_check: TodoCheck, db: Session = Depends(get_db), current_user: int = Depends(getCurrentUser)):
+    db_todo = db.query(TodoListModel.TodoList).filter(
+        TodoListModel.TodoList.id == todo_id, TodoListModel.TodoList.user_id == current_user).first()
+    if db_todo:
+        db_todo.check = todo_check.todocheck
+        db.commit()
+        db.refresh(db_todo)
+        return JSONResponse(status_code=200, content={"message": "Todo updated successfully"})
+    else:
+        raise HTTPException(status_code=404, detail="Todo not found")
 
 
 Mainrouter = router
