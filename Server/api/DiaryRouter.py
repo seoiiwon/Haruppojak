@@ -43,10 +43,11 @@ async def writediaryhtml(request: Request, db: Session = Depends(get_db)):
         target_date = datetime.now().strftime('%Y-%m-%d')
         usertodoall=db.query(TodoList).filter(TodoList.user_id == userid,TodoList.date.like(f'{target_date}%')).all()
         if not usertodoall:
-            return templates_diary.TemplateResponse(name="writeDiary.html", context={"request": request, "usertodo":usertodoall})
-        return templates_diary.TemplateResponse(name="writeDiary.html", context={"request": request})
+            return templates_diary.TemplateResponse(name="writeDiary.html", request=request)
+        return templates_diary.TemplateResponse(name="writeDiary.html", context={"request": request, "usertodo":usertodoall})
     else:
         return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
+
 
 @router.post("/diary/write", status_code=status.HTTP_201_CREATED)  # 다이어리 작성
 async def writediarys(writediary: CreateDiarySchema, currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser), db: Session = Depends(get_db)):

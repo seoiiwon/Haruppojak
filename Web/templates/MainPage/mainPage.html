@@ -42,10 +42,10 @@
               <div class="todoWrapperSmall">
                 {% if todolist.check == 1 %}
                 <img src="{{ url_for('static', path='img/MainPage/checkboxBlack.svg') }}" class="todoCheck"
-                  data-checked="1" onclick="">
+                  data-checked="1" onclick="changeCheck(1)">
                 {% else %}
                 <img src="{{ url_for('static', path='img/MainPage/checkboxWhite.svg') }}" class="todoCheck"
-                  data-checked="0" onclick="">
+                  data-checked="0" onclick="changeCheck(0)">
                 {% endif %}
                 <div class="todoText">{{ todolist.todo }}</div>
               </div>
