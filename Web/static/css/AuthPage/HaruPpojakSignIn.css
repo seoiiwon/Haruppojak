@@ -43,8 +43,14 @@ body{
     left : 50%;
     transform: translate(-50%, -50%);
 }
-.HPIcon{
-    color: #FFF23A;
+.HPIcon {
+    width: 40%;
+    height: 40%;
+    margin: 2vh auto;
+}
+.ppojakLogo {
+    width: 100%;
+    height: 100%;
 }
 .HPTitle{
     color: white;
