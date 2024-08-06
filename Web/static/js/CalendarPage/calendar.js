@@ -1,3 +1,8 @@
+function fetchCalendar() {
+  fetch(`/haru/calendar/${month}`, {
+    method: "GET",
+  });
+}
 // 연도 및 월 표시
 document.addEventListener("DOMContentLoaded", function () {
   const daysContainer = document.querySelector(".calendarDays");

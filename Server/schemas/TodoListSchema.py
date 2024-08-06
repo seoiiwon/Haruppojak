@@ -23,7 +23,7 @@ class TodoUpdate(BaseModel):
 
 class TodoCheck(BaseModel):
     id: int
-    user_id: int
+    # user_id: int
     todocheck: bool
 
 

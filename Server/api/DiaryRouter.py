@@ -37,8 +37,6 @@ async def getCalendar(request: Request):
     else:
         return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", context={"request": request})
 
-    
-
 
 @router.get("/diary", response_class=HTMLResponse)  # 초기 다이어리 페이지
 async def getIntroPage(request: Request):
@@ -48,6 +46,7 @@ async def getIntroPage(request: Request):
     else:
         return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
 
+
 @router.get("/diary/write", response_class=HTMLResponse)  # 다이어리 작성 페이지
 async def writediaryhtml(request: Request, db: Session = Depends(get_db)):
     token = request.cookies.get("access_token")
@@ -55,7 +54,6 @@ async def writediaryhtml(request: Request, db: Session = Depends(get_db)):
         return templates_diary.TemplateResponse(name="writeDiary.html", context={"request": request})
     else:
         return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
-    
 
 
 @router.post("/diary/write", status_code=status.HTTP_201_CREATED)  # 다이어리 작성
@@ -63,12 +61,15 @@ async def writediarys(writediary: CreateDiarySchema, currentUser: AuthSchema.Use
     userid = currentUser.id
     writediary.id = userid
     target_date = datetime.now().strftime('%Y-%m-%d')
-    latest_diary = db.query(UserDiary).filter(UserDiary.Diaryuserid == userid,UserDiary.Date.like(f'{target_date}%')).first()
+    latest_diary = db.query(UserDiary).filter(
+        UserDiary.Diaryuserid == userid, UserDiary.Date.like(f'{target_date}%')).first()
     if latest_diary:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="뽀짝일기는 하루에 한 번만 작성할 수 있습니다. 내일 또 만나요 !")
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                            detail="뽀짝일기는 하루에 한 번만 작성할 수 있습니다. 내일 또 만나요 !")
     reply = Diaryreply(writediary)
     writediary.response = reply
     CreateDiary(db=db, diary=writediary, reply=reply, diaryuserid=userid)
+
 
 @router.get("/diary/reply", response_class=HTMLResponse)  # 다이어리 답장 페이지
 async def diary_reply(request: Request, db: Session = Depends(get_db)):
@@ -76,7 +77,8 @@ async def diary_reply(request: Request, db: Session = Depends(get_db)):
     if token:
         currentUser = getCurrentUser(token, db)
         userid = currentUser.id
-        latest_diary = db.query(UserDiary).filter(UserDiary.Diaryuserid == userid).order_by(desc(UserDiary.Date)).first()
+        latest_diary = db.query(UserDiary).filter(
+            UserDiary.Diaryuserid == userid).order_by(desc(UserDiary.Date)).first()
         if latest_diary is None:
             return templates_diary.TemplateResponse(name="reply.html", context={"request": request, "reply": "최근 일기가 없습니다."})
         return templates_diary.TemplateResponse(name="reply.html", context={"request": request, "reply": latest_diary.Response})
@@ -120,8 +122,8 @@ async def diaryclosehtml(request: Request):
         return templates_diary.TemplateResponse(name="closeApp.html", request=request)
     else:
         return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
-    
-    
+
+
 @router.get("/diary/todos", response_class=JSONResponse)
 async def read_todos_by_date(date: str = Query(...), db: Session = Depends(get_db), currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser)):
     try:
@@ -131,10 +133,9 @@ async def read_todos_by_date(date: str = Query(...), db: Session = Depends(get_d
         raise HTTPException(status_code=400, detail="Invalid date format")
 
     todos = get_todos_by_date(db, currentUser.id, target_date)
-    todo_list = [{"text": todo.todo, "completed": todo.check} for todo in todos]
+    todo_list = [{"text": todo.todo, "completed": todo.check}
+                 for todo in todos]
     print(f"Fetched todos: {todo_list}")  # 디버그용 로그
     return JSONResponse(content={"todos": todo_list})
-
-DiaryRouter = router
 
 DiaryRouter = router
