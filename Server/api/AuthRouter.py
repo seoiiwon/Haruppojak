@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Request, status, HTTPException, security, UploadFile, File
+from fastapi import APIRouter, Depends, Request, status, HTTPException, security, UploadFile, File, Form
 from fastapi.responses import HTMLResponse, Response, RedirectResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
@@ -124,9 +124,6 @@ async def postUserSignIn(response: Response, loginForm: security.OAuth2PasswordR
     return {"access_token": accessToken, "token_type": "bearer"}
 
 
-@router.post("/auth/photo", status_code=status.HTTP_204_NO_CONTENT)
-async def postUserPhoto(db: Session = Depends(get_db), ):
-    pass
 
 
 # @router.post("/haru/intro", status_code=status.HTTP_204_NO_CONTENT)
@@ -152,6 +149,34 @@ async def get_upload_image(request: Request, currentUser: UserInfoSchema = Depen
     )
 
 UPLOAD_DIR = Path('Web/static/img/ProofShot')
+from PIL import Image, ImageDraw, ImageFont
+import io
+
+@router.post('/haru/saveImageWithComment')
+async def save_image_with_comment(
+    image: UploadFile = File(...),
+    comment: str = Form(...),
+    currentUser :  UserInfoSchema = Depends(getCurrentUser)
+):
+    image_bytes = await image.read()
+    image_stream = io.BytesIO(image_bytes)
+    img = Image.open(image_stream)
+
+    draw = ImageDraw.Draw(img)
+    font = ImageFont.load_default()
+    text_position = (10, img.height - 30)  
+    draw.text(text_position, comment, fill='white', font=font)
+    user_id = str(currentUser.id)
+    now = datetime.now().strftime('%Y%m%d')
+    file_name = f"{user_id}_{now}.png"
+    image_url = f"/static/img/ProofShot/{user_id}/{file_name}"
+    img.save(image_url)
+    
+    return JSONResponse(content={'downloadUrl': image_url})
+
+# @app.get('/static/img/ProofShot/{filename}')
+# async def get_image(filename: str):
+#     return FileResponse(os.path.join(UPLOAD_FOLDER, filename))
 
 @router.post("/haru/upload/imgFile")
 async def upload_image(image: UploadFile = File(...), currentUser :  UserInfoSchema = Depends(getCurrentUser), db: Session = Depends(get_db)):

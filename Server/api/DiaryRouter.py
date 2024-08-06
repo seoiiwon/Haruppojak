@@ -20,11 +20,25 @@ router = APIRouter()
 
 template_diary = os.path.join(os.path.dirname(__file__), "../../Web/templates/DiaryPage")
 template_auth = os.path.join(os.path.dirname(__file__), "../../Web/templates/AuthPage")
-template_calendar = os.path.join(os.path.dirname(__file__), "../../Web/templates/CalendarPage")
+# template_calendar = os.path.join(os.path.dirname(__file__), "../../Web/templates/CalendarPage")
 
 templates_diary = Jinja2Templates(directory=template_diary)
 templates_auth = Jinja2Templates(directory=template_auth)
+
+template_calendar = os.path.join(os.path.dirname(__file__), "../../Web/templates/CalendarPage")
 templates_calendar = Jinja2Templates(directory=template_calendar)
+
+    
+@router.get("/haru/calendar", response_class=HTMLResponse)
+async def getCalendar(request: Request):
+    token = request.cookies.get("access_token")
+    if token:
+        return templates_calendar.TemplateResponse(name="calendar.html", context={"request": request})
+    else:
+        return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", context={"request": request})
+
+    
+
 
 @router.get("/diary", response_class=HTMLResponse)  # 초기 다이어리 페이지
 async def getIntroPage(request: Request):
@@ -42,13 +56,6 @@ async def writediaryhtml(request: Request, db: Session = Depends(get_db)):
     else:
         return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
     
-@router.get("/haru/calendar", response_class=HTMLResponse)
-async def getCalendar(request : Request):
-    token = request.cookies.get("access_token")
-    if token:
-        return templates_calendar.TemplateResponse(name="calendar.html", request=request)
-    else:
-        return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)    
 
 
 @router.post("/diary/write", status_code=status.HTTP_201_CREATED)  # 다이어리 작성
@@ -76,35 +83,35 @@ async def diary_reply(request: Request, db: Session = Depends(get_db)):
     else:
         return templates_auth.TemplateResponse("HaruPpojakSignIn.html", {"request": request})
 
-@router.get("/diary/calendar", response_class=HTMLResponse)
-async def diary_calendar_html(request: Request, db: Session = Depends(get_db)):
-    token = request.cookies.get("access_token")
-    if token:
-        currentUser = getCurrentUser(token, db)
-        userid = currentUser.id
-        diaries = checkdiary(db, userid)
-        diaries = [diary_to_dict(diary) for diary in diaries]  # UserDiary 객체를 사전으로 변환
-        return templates_diary.TemplateResponse("diaryCalendar.html", {"request": request, "diaries": diaries})
-    else:
-        return templates_auth.TemplateResponse("HaruPpojakSignIn.html", {"request": request})
+# @router.get("/diary/calendar", response_class=HTMLResponse)
+# async def diary_calendar_html(request: Request, db: Session = Depends(get_db)):
+#     token = request.cookies.get("access_token")
+#     if token:
+#         currentUser = getCurrentUser(token, db)
+#         userid = currentUser.id
+#         diaries = checkdiary(db, userid)
+#         diaries = [diary_to_dict(diary) for diary in diaries]  # UserDiary 객체를 사전으로 변환
+#         return templates_diary.TemplateResponse("diaryCalendar.html", {"request": request, "diaries": diaries})
+#     else:
+#         return templates_auth.TemplateResponse("HaruPpojakSignIn.html", {"request": request})
 
-@router.get("/diary/calendar/{date}", response_class=HTMLResponse)
-async def get_diary_by_date(request: Request, date: str, db: Session = Depends(get_db)):
-    token = request.cookies.get("access_token")
-    if token:
-        currentUser = getCurrentUser(token, db)
-        userid = currentUser.id
-        target_date = datetime.strptime(date, '%Y-%m-%d').date()
-        target_date_str = target_date.strftime('%Y-%m-%d')
+# @router.get("/diary/calendar/{date}", response_class=HTMLResponse)
+# async def get_diary_by_date(request: Request, date: str, db: Session = Depends(get_db)):
+#     token = request.cookies.get("access_token")
+#     if token:
+#         currentUser = getCurrentUser(token, db)
+#         userid = currentUser.id
+#         target_date = datetime.strptime(date, '%Y-%m-%d').date()
+#         target_date_str = target_date.strftime('%Y-%m-%d')
 
-        diary = db.query(UserDiary).filter(UserDiary.Diaryuserid == userid,UserDiary.Date.like(f'{target_date_str}%')).first()
+#         diary = db.query(UserDiary).filter(UserDiary.Diaryuserid == userid,UserDiary.Date.like(f'{target_date_str}%')).first()
 
-        if not diary:
-            return templates_diary.TemplateResponse(name="writeDiary.html", context={"request": request})
+#         if not diary:
+#             return templates_diary.TemplateResponse(name="writeDiary.html", context={"request": request})
             
-        return templates_diary.TemplateResponse("calendarInnerDiary.html", {"request": request,"diary": diary})
-    else:
-        return templates_auth.TemplateResponse("HaruPpojakSignIn.html", {"request": request})
+#         return templates_diary.TemplateResponse("calendarInnerDiary.html", {"request": request,"diary": diary})
+#     else:
+#         return templates_auth.TemplateResponse("HaruPpojakSignIn.html", {"request": request})
 
 @router.get("/diary/close", response_class=HTMLResponse)  # 앱 종료
 async def diaryclosehtml(request: Request):

@@ -3,12 +3,25 @@ let stream;
 async function loadAndPlay() {
   const video = document.getElementById('userCam');
   try {
-    stream = await getDeviceStream({
-      video: { width: { ideal: 1280 }, height: { ideal: 720 } },
+    // 후면 카메라를 우선적으로 찾기
+    const devices = await navigator.mediaDevices.enumerateDevices();
+    const videoDevices = devices.filter(device => device.kind === 'videoinput');
+    
+    const backCamera = videoDevices.find(device => device.label.toLowerCase().includes('back') || device.label.toLowerCase().includes('rear')) || videoDevices[0];
+
+    const constraints = {
+      video: {
+        deviceId: backCamera.deviceId ? { exact: backCamera.deviceId } : undefined,
+        facingMode: { ideal: 'environment' },
+        width: { ideal: 1280 },
+        height: { ideal: 720 },
+      },
       audio: false,
-    });
+    };
+
+    stream = await getDeviceStream(constraints);
     video.srcObject = stream;
-    video.play(); // video.play() 호출로 비디오 재생 시작
+    video.play(); // 비디오 재생 시작
   } catch (error) {
     console.error('Error accessing camera: ', error);
   }
@@ -43,7 +56,7 @@ async function capture() {
   const ctx = canvas.getContext('2d');
   ctx.scale(-1, 1);
   ctx.drawImage(video, -canvas.width, 0, canvas.width, canvas.height);
-  
+
   const imgBlob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/png')); // 캡처된 이미지 Blob
 
   const formData = new FormData();

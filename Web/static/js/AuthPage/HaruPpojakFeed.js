@@ -1,39 +1,26 @@
-document
-  .getElementById('commentForm')
-  .addEventListener('submit', async function (event) {
-    event.preventDefault(); // 폼 제출 기본 동작 방지
+document.getElementById('commentForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const comment = document.getElementById('feedComment').value;
 
-    const commentInput = document.getElementById('feedComment');
-    const comment = commentInput.value;
+  // 텍스트 입력 후 Polaroid 캡처
+  html2canvas(document.getElementById('polaroidWrapper')).then(canvas => {
+      const imgBlob = canvas.toBlob(blob => {
+          const formData = new FormData();
+          formData.append('image', blob, 'polaroid_image.png');
+          formData.append('comment', comment);
 
-    const proofshot = {
-      photoComment: comment,
-    };
-
-    try {
-      const response = await fetch('/haru/upload/comment', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(proofshot),
-      });
-
-      if (response.ok) {
-        const responseData = await response.json();
-        console.log('Comment uploaded successfully:', responseData);
-        window.location.href = '/haru/main'; // 성공 시 이동할 페이지
-      } else {
-        console.error(
-          'Failed to upload comment:',
-          response.status,
-          response.statusText
-        );
-      }
-    } catch (error) {
-      console.error('Error uploading comment:', error);
-    }
+          fetch('/haru/saveImageWithComment', {
+              method: 'POST',
+              body: formData,
+          })
+          .then(response => response.json())
+          .then(data => {
+              window.location.href = data.downloadUrl;
+          })
+          .catch(error => console.error('Error:', error));
+      }, 'image/png');
   });
+});
 
 // 엔터키 입력 시 폼 제출
 document
@@ -42,6 +29,7 @@ document
     if (event.key === 'Enter') {
       event.preventDefault();
       document.getElementById('commentForm').submit();
+      window.location.href = "/haru/main";
     }
   });
 

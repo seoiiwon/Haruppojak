@@ -9,3 +9,5 @@ pyjwt
 python-jose
 python-dotenv
 openai
+pillow 
+python-multipart
