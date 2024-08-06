@@ -1,34 +1,30 @@
-document.addEventListener('DOMContentLoaded', function () {
-  const diaryContainer = document.querySelector('.innerDiary-container');
-  const diary = JSON.parse('{{ diary | tojson | safe }}'); // 서버에서 전달된 일기 데이터
+document.addEventListener("DOMContentLoaded", function () {
+  const diaryContainer = document.querySelector(".innerDiary-container");
+  const diary = JSON.parse("{{ diary | tojson | safe }}"); // 서버에서 전달된 일기 데이터
 
   diaryContainer.innerHTML = diary.Diarycontent;
-  diaryContainer.setAttribute('data-date', diary.Date);
-
-  document.getElementById('show-reply').addEventListener('click', function () {
-    showReply();
-  });
+  diaryContainer.setAttribute("data-date", diary.Date);
 });
 
-// 모달 관련 함수
-function closeReplyModal() {
-  document.getElementById('replyModal').style.display = 'none';
-}
+document.addEventListener("DOMContentLoaded", function () {
+  const modal = document.getElementById("myModal");
+  const openModalButton = document.getElementById("show-reply");
+  const closeModalButton = document.querySelector("#myModal .close");
 
-function showReply() {
-  const date = document
-    .querySelector('.innerDiary-container')
-    .getAttribute('data-date');
-  fetch(`/diary/reply/${date}`)
-    .then((response) => response.text())
-    .then((data) => {
-      const modal = document.getElementById('replyModal');
-      modal.querySelector('.modal-body').innerHTML = data;
-      modal.style.display = 'block';
-    });
-}
+  // 요소가 존재하는지 확인
+  if (!modal) {
+    console.error("Modal element not found");
+    return;
+  }
+  if (!openModalButton) {
+    console.error("Open modal button not found");
+    return;
+  }
+  if (!closeModalButton) {
+    console.error("Close modal button not found");
+    return;
+  }
 
-function goToCalendar() {
   // 모달 열기
   openModalButton.onclick = function () {
     modal.style.display = "block";
@@ -45,13 +41,16 @@ function goToCalendar() {
       modal.style.display = "none";
     }
   };
-};
+});
 
-// Function to navigate back to reply.html
 function goBack() {
   window.history.back();
 }
 
 function closeApp() {
-  window.location.href = '../close';
+  window.location.href = "/diary/close";
+  setTimeout(function() {
+    window.location.href = "/haru/main";
+  }, 2000); 
 }
+

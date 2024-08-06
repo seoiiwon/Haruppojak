@@ -35,7 +35,7 @@ body {
 
 .frame-image {
   position: absolute;
-  top: calc(50% - 40px);
+  top: 50%;
   left: 50%;
   width: 335px;
   height: auto;
@@ -44,17 +44,16 @@ body {
 
 .title {
   position: absolute;
-  top: calc(50% - 320px);
+  top: calc(50% - 280px);
   left: calc(50% - 122px);
-  margin-top: 2px;
-  font-size: 22px;
+  font-size: 24px;
   font-weight: bold;
   color: #333;
 }
 
 .innerDiary-container {
   position: absolute;
-  top: calc(58% - 40px);
+  top: 58%;
   left: 50%;
   width: 251px;
   height: 400px;
@@ -72,24 +71,18 @@ body {
 #go-back {
   position: absolute;
   bottom: calc(50% - 280px);
-  left: calc(50% - 122px);
+  left: calc(50.5% - 122px);
 }
 
 #show-reply {
   position: absolute;
-  bottom: calc(50% - 240px);
-  left: calc(50% - 128px);
-}
-
-#go-calendar {
-  position: absolute;
-  bottom: calc(50% - 240px);
+  bottom: calc(50% - 280px);
   left: calc(50% - 30px);
 }
 
 #close-app {
   position: absolute;
-  bottom: calc(50% - 240px);
+  bottom: calc(50% - 280px);
   left: calc(50% + 76px);
 }
 
@@ -107,6 +100,7 @@ body {
 }
 
 .modal-content {
+  border-radius: 15px;
   background-color: #fefefe;
   margin: 15% auto;
   padding: 20px;

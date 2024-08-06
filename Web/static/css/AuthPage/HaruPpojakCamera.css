@@ -51,6 +51,7 @@ body {
 
 /* 비디오 스타일 */
 #userCam {
+  transform: scaleX(-1);
   width: 100%;
   height: 80vh;
   object-fit: cover;
