@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', path='css/AuthPage/HaruPpojakMyPage.css') }}">
     <script src="{{ url_for('static', path='js/AuthPage/HaruPpojakMyPage.js') }}" defer></script>
+    <link rel="stylesheet" href="../../static/css/tabbar.css" />
     <title>My Page</title>
 </head>
 
@@ -38,18 +39,36 @@
                     <input class="ShareBtn" type="button" value="프로필 공유">
                 </form>
             </section>
-            <section>
+            <section class="section3">
                 <div class="UserHighlight">
                     <div class="ProofShot">
-                        <img class="Thumbnail" src="{{ url_for('static', path='img/AuthPage/hangyodong.jpg') }}" alt="">
+                        <img class="Thumbnail" src="{{ url_for('static', path='img/haruppojakLogoRabbit.svg') }}" alt="">
                         <div class="PSTitle">뽀짝 인증 사진</div>
                     </div>
                     <div class="AddPS"></div>
                 </div>
             </section>
-            <section>
-                <div class="UserFeed"></div>
+            <section class="section4">
+                {% for image_url in image_urls %}
+                    <div class="image-container">
+                        <img src="{{ url_for('static', path='img/ProofShot/'+ image_url) }}" alt="User Image">
+                    </div>
+                {% endfor %}            
             </section>
+            <div class="tabbar" style="position: fixed; bottom: 0;">
+                <a class="tab" href="/haru/main">
+                  <img src="../../static/img/tabbar/홈-off.png" alt="Home" />
+                </a>
+                <a class="tab" href="/haru/calendar">
+                  <img src="../../static/img/tabbar/캘린더-off.png" alt="Calendar" />
+                </a>
+                <a class="tab" href="/diary/write">
+                  <img src="../../static/img/tabbar/일기-off.png" alt="Diary" />
+                </a>
+                <a class="tab" href="/haru/mypage">
+                  <img src="../../static/img/tabbar/마이페이지-off.png" alt="MyPage" />
+                </a>
+              </div>
         </main>
     </div>
 </body>

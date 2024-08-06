@@ -28,11 +28,20 @@
         <div class="modal" id="modal">
           <div class="modal-content">
             <span class="close-button" onclick="closeModal()">&times;</span>
-            <p>
-              오늘의 뽀짝 Todo를 확인하세요 ! {% for TodoList in usertodo %}
-            </p>
-
-            <p>{{ TodoList.todo }} {% endfor %}</p>
+            <p>오늘의 뽀짝 Todolist를 확인하세요 !</p>
+            <ul id="todo-list">
+              {% for TodoList in usertodo %}
+              <li class="subjects">
+                {% if TodoList.check == 0 %}
+                <p>☆ {{ TodoList.todo }}</p>
+                {% else %}
+                <p>★ {{ TodoList.todo }}</p>
+                {% endif %}
+              </li>
+              {% else %}
+              <li>오늘의 뽀짝 TodoList가 없습니다.</li>
+              {% endfor %}
+            </ul>
           </div>
         </div>
         <textarea
@@ -52,7 +61,7 @@
           <a class="tab" href="/haru/main">
             <img src="../../static/img/tabbar/홈-off.png" alt="Home" />
           </a>
-          <a class="tab" href="/haru/calendar">
+          <a class="tab" href="/calendar">
             <img src="../../static/img/tabbar/캘린더-off.png" alt="Calendar" />
           </a>
           <a class="tab" href="/diary/write">

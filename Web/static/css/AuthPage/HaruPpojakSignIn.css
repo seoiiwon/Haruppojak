@@ -26,6 +26,7 @@ body{
     background-color: #2F4858;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin: 0 auto;
+    padding-bottom: 20vh;
 }
 
 /* 미디어 쿼리: 화면이 800px 이하일 때 */
@@ -54,7 +55,7 @@ body{
 }
 .HPTitle{
     color: white;
-    margin-bottom: 5vh;
+    margin-bottom: 4vh;
 }
 
 /* 하루뽀짝 로그인 폼 */
