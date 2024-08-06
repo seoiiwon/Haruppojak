@@ -38,15 +38,17 @@ async def getIntroPage(request: Request):
 async def writediaryhtml(request: Request, db: Session = Depends(get_db)):
     token = request.cookies.get("access_token")
     if token:
-        currentUser = getCurrentUser(token, db)
-        userid = currentUser.id
-        target_date = datetime.now().strftime('%Y-%m-%d')
-        usertodoall=db.query(TodoList).filter(TodoList.user_id == userid,TodoList.date.like(f'{target_date}%')).all()
-        if not usertodoall:
-            return templates_diary.TemplateResponse(name="writeDiary.html", request=request)
-        return templates_diary.TemplateResponse(name="writeDiary.html", context={"request": request, "usertodo":usertodoall})
+        return templates_diary.TemplateResponse(name="writeDiary.html", context={"request": request})
     else:
         return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
+    
+@router.get("/haru/calendar", response_class=HTMLResponse)
+async def getCalendar(request : Request):
+    token = request.cookies.get("access_token")
+    if token:
+        return templates_calendar.TemplateResponse(name="calendar.html", request=request)
+    else:
+        return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)    
 
 
 @router.post("/diary/write", status_code=status.HTTP_201_CREATED)  # 다이어리 작성
@@ -112,13 +114,20 @@ async def diaryclosehtml(request: Request):
     else:
         return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)
     
-@router.get("/haru/calendar", response_class=HTMLResponse)
-async def getCalendar(request : Request):
-    token = request.cookies.get("access_token")
-    if token:
-        # ppojakDayCount = ppojakDay(currentUser = getCurrentUser(token, db), month=month, db=db)
-        return templates_calendar.TemplateResponse(name="calendar.html", request=request)
-    else:
-        return templates_auth.TemplateResponse(name="HaruPpojakSignIn.html", request=request)    
+    
+@router.get("/diary/todos", response_class=JSONResponse)
+async def read_todos_by_date(date: str = Query(...), db: Session = Depends(get_db), currentUser: AuthSchema.UserInfoSchema = Depends(getCurrentUser)):
+    try:
+        target_date = datetime.now()
+        print(f"Fetching todos for date: {target_date}")  # 디버그용 로그
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Invalid date format")
+
+    todos = get_todos_by_date(db, currentUser.id, target_date)
+    todo_list = [{"text": todo.todo, "completed": todo.check} for todo in todos]
+    print(f"Fetched todos: {todo_list}")  # 디버그용 로그
+    return JSONResponse(content={"todos": todo_list})
+
+DiaryRouter = router
 
 DiaryRouter = router

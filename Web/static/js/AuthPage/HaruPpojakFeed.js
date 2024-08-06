@@ -44,3 +44,4 @@ document
       document.getElementById('commentForm').submit();
     }
   });
+
