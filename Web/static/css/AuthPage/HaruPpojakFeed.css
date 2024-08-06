@@ -67,17 +67,17 @@ body {
 
 #feedComment {
   width: 100%;
-  padding: 0;
+  padding: 0 0 0 4px;
   border: none;
   outline: none;
   background: none;
-  color: black; /* 입력 텍스트 색상 */
-  font-size: 16px; /* 입력 텍스트 크기 */
+  color: black;
+  font-size: 14px;
 }
 
 a {
   margin-top: 20px;
   color: #999999;
   font-size: 12px;
-  text-decoration: none;
+  font-weight: 200;
 }
