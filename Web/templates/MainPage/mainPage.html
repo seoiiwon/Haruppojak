@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Main Page</title>
   <link rel="stylesheet" href="{{ url_for('static', path='css/MainPage/mainPage.css') }}">
-  <link rel="stylesheet" href="../../static/css/tabbar.css" />
-</head>
+  <link rel="stylesheet" href="{{ url_for('static', path='css/tabbar.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', path='css/MainPage/mainPageModal.css')}}" </head>
 
 <body>
   <div class="container">
@@ -97,22 +97,35 @@
         </ul>
       </section>
       <section class="challenges">
-        <!-- 섹션 3 : 뽀짝챌 이게대체뭐지???-->
+        <!-- 섹션 3 : 뽀짝챌 -->
         <div class="description">
           <span class="challengeDes1">현재 참여중인 뽀짝챌 </span>
+          <div id="moreChallenge">
+            <img src="{{ url_for('static', path='img/MainPage/moreTodo.svg')}}">
+          </div>
         </div>
         <div class="challengeList">
           {% for challenge in joinedChallenge %}
           <div class="challengeItem">
-            <div class="challengeBox">
+            <div class="challengeBox" data-challenge-id="{{ challenge.id }}"
+              data-challenge-challenger="{{ challenge.challenger }}"
+              data-challenge-owner="{{ challenge.challengeOwner }}"
+              data-challenge-reward="{{ challenge.challengeReward }}"
+              data-challenge-comment="{{ challenge.challengeComment }}">
               <img src="{{ url_for('static', path='img/ChallengeImg/' ~ challenge.challengeThumbnail1) }}" alt="">
             </div>
             <div class="challengeTitle">{{ challenge.challengeTitle }}</div>
+            <div id="myModal-{{ challenge.id }}" class="modal">
+              <div class="modal-content">
+                <div id="modalText-{{ challenge.id }}"></div>
+                <div class="participation">뽀짝챌 참여하기</div>
+              </div>
+            </div>
           </div>
           {% endfor %}
-          <div id="challengeBoxMore" class="challengeBox">
+          <!-- <div id="challengeBoxMore" class="challengeBox">
             <div>챌린지 더보기</div>
-          </div>
+          </div> -->
         </div>
         <div class="dots"></div>
       </section>
@@ -134,16 +147,7 @@
       </a>
     </div>
 
-    <!-- Modal -->
-    <div id="modal" class="modal">
-      <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <div id="modalText"></div>
-      </div>
-    </div>
-    </main>
   </div>
-
   <script src="{{ url_for('static', path='js/MainPage/mainPage.js') }}">
   </script>
   <script src="{{ url_for('static', path='js/MainPage/mainPageModal.js') }}">
